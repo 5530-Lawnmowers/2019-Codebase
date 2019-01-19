@@ -31,12 +31,12 @@ public class Helpers {
   
   //Shuffleboard Helpers
   /**
-   * Creates a simple widget.
-   * @param tabName the <code>String</code> name of the shuffleboard
-   * @param widgetName the <code>String</code> name of the widget
-   * @param widgetType the <code>String</code> type of the widget
-   * @param defaultValue the <code>double</code> default value of the widget
-   * 
+   * Creates a {@code SimpleWidget}.
+   * @param tabName the name of the shuffleboard
+   * @param widgetName the name of the widget
+   * @param widgetType the type of the widget
+   * @param defaultValue the default value of the widget
+   * @return the {@code SimpleWidget} created
    */
   public static SimpleWidget createSimpleWidget(String tabName, String widgetName, String widgetType, Object defaultValue){
     SimpleWidget widget = Shuffleboard.getTab(tabName)
@@ -47,13 +47,24 @@ public class Helpers {
   }
 
   /**
-   * Creates a complex widget.
+   * Creates a {@code ComplexWidget}.
+   * @param tabName the anme of the shuffleboard
+   * @param widgetName the name of the widget
+   * @param sendable the object that sends data for the widget
    */
   public static void createComplexWidget(String tabName, String widgetName, Sendable sendable){
     Shuffleboard.getTab(tabName)
       .add(widgetName, sendable);
   }
 
+  //TODO: Check if getSimpleWidget, getWidgetValue, setWidgetValue work with ComplexWidgets
+  /**
+   * Finds the simple widget that matches the description
+   * @param tabname the shuffleboard the widget is located
+   * @param widgetName the name of the widget
+   * @return the {@code SimpleWidget} matching the shuffleboard and name given
+   * @throws IllegalStateException if the widget could not be found
+   */
   private static SimpleWidget getSimpleWidget(String tabName, String widgetName){
     int indexOfWidget = Shuffleboard.getTab(tabName)
       .getComponents()
@@ -66,6 +77,14 @@ public class Helpers {
     throw new IllegalStateException();
   }
 
+  /**
+   * Returns an {@code Object} of the value in the named widget.
+   * @param tabName the shuffleboard the widget is located
+   * @param widgetName the name of the widget
+   * @return the value of the widget
+   * @throws ClassCastException if the widget does not contain a {@code boolean}, 
+   * {@code double}, or {@code String}
+   */
   public static Object getWidgetValue(String tabName, String widgetName){
     SimpleWidget widget = getSimpleWidget(tabName, widgetName);
     if(widget.getEntry().getValue().isBoolean()){
@@ -79,6 +98,14 @@ public class Helpers {
     }
   }
 
+  /**
+   * Sets the value of a widget to the specfied value.
+   * @param tabName the shuffleboard the widget is located
+   * @param widgetName the name of the widget
+   * @param value the new value for the widget
+   * @throws ClassCastException if the type of the specified value is not the same as that of the widget,
+   * or the widget does not have type {@code boolean}, {@code double}, or {@code String}.
+   */
   public static void setWidgetValue(String tabName, String widgetName, Object value){
     SimpleWidget widget = getSimpleWidget(tabName, widgetName);
     if(widget.getEntry().getValue().isBoolean()){
@@ -106,34 +133,54 @@ public class Helpers {
   }
 
   // Pigeon Helpers
+  /**
+   * Returns the number of degrees the gyroscope has turned in the compass plane. Numbers do not wrap around
+   * below 0 or above 360, and will continue to climb or decline.
+   * @return the number of degrees turned from the last reset
+   */
   public static double getPigeonYaw(){
     double[] output = new double[3];
     pigeon.getYawPitchRoll(output);
     return output[0];
   }
 
+  /**
+   * Returns the current heading of the gyroscope in the compass plane. Ranges from 0 to 360.
+   * @return the heading of the gyroscope
+   */
   public static double getPigeonCompassHeading(){
     if(getPigeonYaw() < 0) {return getPigeonYaw() % 360.0 + 360.0;}
     return getPigeonYaw() % 360.0;
 
   }
 
+  /**
+   * Resets the gyroscope so the current heading is 0. {@code getPigeonYaw()} is also reset to 0.
+   */
   public static void resetPigeon(){
     pigeon.setYaw(0);
   }
 
   // TODO: Fix calibratePigeon() helper
+  /**
+   * Calibrates the gyroscope by taking a sequence of measurements and taking the average to be the offset
+   * from 0.
+   */
   public static void calibratePigeon(){
 
   }
 
   // TODO: Fix getPigeonRate() helper
+  /**
+   * Returns the rate at which the gyroscope is rotating in [INSERT UNITS HERE]
+   * @return the angular velocity
+   */
   public static double getPigeonRate(){
     return 0;
   }
 
   
-
+//TODO: ?????
   public static void pigeonPIDWrite(){
   }
 
