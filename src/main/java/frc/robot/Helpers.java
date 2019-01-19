@@ -19,6 +19,10 @@ import edu.wpi.first.wpilibj.Sendable;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.sensors.PigeonIMU;
 
+/**
+ * Contains helpers for widgets and gyroscopes
+ */
+
 public class Helpers {
 
   //// HELPER VARIABLES
@@ -48,7 +52,7 @@ public class Helpers {
 
   /**
    * Creates a {@code ComplexWidget}.
-   * @param tabName the anme of the shuffleboard
+   * @param tabName the name of the shuffleboard
    * @param widgetName the name of the widget
    * @param sendable the object that sends data for the widget
    */
@@ -187,6 +191,9 @@ public class Helpers {
   
 }
 
+/**
+ * This class wraps the gyroscope as a sendable for widget purposes.
+ */
 class PigeonWrapper extends GyroBase{
 
   PIDSourceType pidSourceType = PIDSourceType.kDisplacement;
@@ -229,4 +236,9 @@ class PigeonWrapper extends GyroBase{
     
     return Helpers.getPigeonRate();
   }
+
+}
+
+class Pneumatics {
+
 }
