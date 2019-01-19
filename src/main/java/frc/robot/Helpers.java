@@ -12,8 +12,6 @@ import frc.robot.commands.*;
 import edu.wpi.first.wpilibj.shuffleboard.*;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.PIDOutput;
-import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.GyroBase;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Sendable;
@@ -26,12 +24,21 @@ public class Helpers {
   //// HELPER VARIABLES
   public static WPI_TalonSRX pigeonTalon = new WPI_TalonSRX(3);
   public static PigeonIMU pigeon = new PigeonIMU(pigeonTalon);
+  static PigeonWrapper pigeonWrapper = new PigeonWrapper();
+  static PIDController pigeonTurnController = new PIDController(0, 0, 0, pigeonWrapper, pigeonTalon);
   
-
   //// HELPER FUNCTIONS
   
   //Shuffleboard Helpers
-  public static SimpleWidget createWidget(String tabName, String widgetName, String widgetType, double defaultValue){
+  /**
+   * Creates a simple widget.
+   * @param tabName the <code>String</code> name of the shuffleboard
+   * @param widgetName the <code>String</code> name of the widget
+   * @param widgetType the <code>String</code> type of the widget
+   * @param defaultValue the <code>double</code> default value of the widget
+   * 
+   */
+  public static SimpleWidget createSimpleWidget(String tabName, String widgetName, String widgetType, Object defaultValue){
     SimpleWidget widget = Shuffleboard.getTab(tabName)
       .add(widgetName, defaultValue)
       .withWidget(widgetType);
@@ -39,12 +46,15 @@ public class Helpers {
     return widget;
   }
 
+  /**
+   * Creates a complex widget.
+   */
   public static void createComplexWidget(String tabName, String widgetName, Sendable sendable){
     Shuffleboard.getTab(tabName)
       .add(widgetName, sendable);
   }
 
-  private static SimpleWidget getWidget(String tabName, String widgetName){
+  private static SimpleWidget getSimpleWidget(String tabName, String widgetName){
     int indexOfWidget = Shuffleboard.getTab(tabName)
       .getComponents()
       .size();
@@ -56,29 +66,43 @@ public class Helpers {
     throw new IllegalStateException();
   }
 
-  public static NetworkTableEntry getWidgetEntry(String tabName, String widgetName){
-    SimpleWidget widget = getWidget(tabName, widgetName);
-    return widget.getEntry();
+  public static Object getWidgetValue(String tabName, String widgetName){
+    SimpleWidget widget = getSimpleWidget(tabName, widgetName);
+    if(widget.getEntry().getValue().isBoolean()){
+      return widget.getEntry().getBoolean(false);
+    } else if(widget.getEntry().getValue().isDouble()){
+      return widget.getEntry().getDouble(0);
+    } else if(widget.getEntry().getValue().isString()){
+      return widget.getEntry().getString("");
+    } else{
+      throw new ClassCastException();
+    }
   }
 
-  public static double d_getWidget(String tabName, String widgetName){
-    SimpleWidget widget = getWidget(tabName, widgetName);
-    return widget.getEntry().getDouble(69);
-  }
-
-  public static boolean b_getWidget(String tabName, String widgetName){
-    SimpleWidget widget = getWidget(tabName, widgetName);
-    return widget.getEntry().getBoolean(false);
-  }
-
-  public static void d_setWidget(String tabName, String widgetName, double value){
-    SimpleWidget widget = getWidget(tabName, widgetName);
-    widget.getEntry().setDouble(value);
-  }
-
-  public static void b_setWidget(String tabName, String widgetName, boolean value){
-    SimpleWidget widget = getWidget(tabName, widgetName);
-    widget.getEntry().setBoolean(value);
+  public static void setWidgetValue(String tabName, String widgetName, Object value){
+    SimpleWidget widget = getSimpleWidget(tabName, widgetName);
+    if(widget.getEntry().getValue().isBoolean()){
+      try {
+        widget.getEntry().setBoolean((boolean) value);
+      } catch (Exception e) {
+        System.out.println("Did not get expected type of Boolean: " + e);
+      }
+      
+    } else if(widget.getEntry().getValue().isDouble()){
+      try {
+        widget.getEntry().setDouble(((Number) value).doubleValue());
+      } catch (Exception e) {
+        System.out.println("Did not get expected type of Number: " + e);
+      }
+    } else if(widget.getEntry().getValue().isString()){
+      try {
+        widget.getEntry().setString((String) value);
+      } catch (Exception e) {
+        System.out.println("Did not get expected type of String: " + e);
+      }
+    } else{
+      throw new ClassCastException();
+    }
   }
 
   // Pigeon Helpers
@@ -98,16 +122,15 @@ public class Helpers {
     pigeon.setYaw(0);
   }
 
+  // TODO: Fix calibratePigeon() helper
   public static void calibratePigeon(){
 
   }
 
+  // TODO: Fix getPigeonRate() helper
   public static double getPigeonRate(){
     return 0;
   }
-
-  static pigeonWrapper pigeonWrapper = new pigeonWrapper();
-  static PIDController pigeonTurnController = new PIDController(0, 0, 0, pigeonWrapper, pigeonTalon);
 
   
 
@@ -117,7 +140,7 @@ public class Helpers {
   
 }
 
-class pigeonWrapper extends GyroBase{
+class PigeonWrapper extends GyroBase{
 
   PIDSourceType pidSourceType = PIDSourceType.kDisplacement;
 
@@ -151,13 +174,12 @@ class pigeonWrapper extends GyroBase{
 
   @Override
   public void calibrate() {
-    // TODO : Fix calibratePigeon() helper
     Helpers.calibratePigeon();
   }
 
   @Override
   public double getRate() {
-    // TODO: Fix getPigeonRate() helper
+    
     return Helpers.getPigeonRate();
   }
 }

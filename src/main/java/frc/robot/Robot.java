@@ -7,11 +7,9 @@
 
 package frc.robot;
 
-import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.Sendable;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.FrontElevator;
 
@@ -23,16 +21,16 @@ public class Robot extends TimedRobot {
   public static Drivetrain drivetrain = new Drivetrain();
 
   // Declare Commands
-  
-  // Creating Shuffleboard Objects
 
 
   @Override
   public void robotInit() {
     oi = new OI();
+    // Creating Shuffleboard Objects
     Helpers.createComplexWidget("PID Control", "PIDController", Helpers.pigeonTurnController);
     Helpers.createComplexWidget("PID Control", "TalonView", Helpers.pigeonTalon);
     Helpers.createComplexWidget("PID Control", "PigeonIMU", Helpers.pigeonWrapper);
+    Helpers.createSimpleWidget("Test Tab", "Test", "kBooleanBox", 10);
   }
 
 
@@ -66,14 +64,23 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     Helpers.resetPigeon();
+    try {
+      Helpers.setWidgetValue("Test Tab", "Test", "hi");
+    } catch (Exception e) {
+      System.out.println("Widget type not supported: " + e);
+    }
+    
+
+
+
+
+
   }
 
 
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
-    System.out.println(Helpers.getPigeonYaw());
-    
     
   }
 
