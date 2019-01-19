@@ -7,9 +7,12 @@
 
 package frc.robot;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.Sendable;
+import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.FrontElevator;
 
 public class Robot extends TimedRobot {
@@ -17,6 +20,7 @@ public class Robot extends TimedRobot {
 
   // Declare Subsystems
   public static FrontElevator frontElevator = new FrontElevator();
+  public static Drivetrain drivetrain = new Drivetrain();
 
   // Declare Commands
   
@@ -26,6 +30,9 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     oi = new OI();
+    Helpers.createComplexWidget("PID Control", "PIDController", Helpers.pigeonTurnController);
+    Helpers.createComplexWidget("PID Control", "TalonView", Helpers.pigeonTalon);
+    Helpers.createComplexWidget("PID Control", "PigeonIMU", Helpers.pigeonWrapper);
   }
 
 
@@ -58,13 +65,16 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-
+    Helpers.resetPigeon();
   }
 
 
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
+    System.out.println(Helpers.getPigeonYaw());
+    
+    
   }
 
 
