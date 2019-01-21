@@ -33,7 +33,6 @@ public class Helpers {
   static NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
   public static PIDController pigeonPIDController1 = new PIDController(0, 0, 0, pigeonWrapper, Drivetrain.frontRightTalonSRX);
   public static PIDController pigeonPIDController2 = new PIDController(0, 0, 0, pigeonWrapper, Drivetrain.frontLeftTalonSRX);
-  public static PIDController pigeonPIDController3;
   public static PIDController limelightPIDController;
 
 
@@ -198,11 +197,9 @@ public class Helpers {
   public static void pigeonPIDWrite(int controllerID, double absoluteTolerance, double setpoint){
     pigeonPIDController1.setInputRange(0, 360);
     pigeonPIDController2.setInputRange(0, 360);
-    pigeonPIDController3.setInputRange(0, 360);
     pigeonPIDController1.setContinuous();
     pigeonPIDController2.setContinuous();
-    pigeonPIDController3.setContinuous();
-    
+
     switch(controllerID){
       case 1:
         pigeonPIDController1.setSetpoint(setpoint);
@@ -212,10 +209,6 @@ public class Helpers {
       case 2:
         pigeonPIDController2.setSetpoint(setpoint);
         pigeonPIDController2.enable();
-        break;
-      case 3:
-        pigeonPIDController3.setSetpoint(setpoint);
-        pigeonPIDController3.enable();
         break;
       default:
        System.out.println("Controller with ID " + controllerID + " does not exist (When Enabling)");
@@ -240,11 +233,6 @@ public class Helpers {
           pigeonPIDController2.disable();
         }
         break;
-      case 3:
-        if(pigeonPIDController3 != null){
-          pigeonPIDController3.disable();
-       }
-       break;
       default:
         System.out.println("Controller with ID " + controllerID + " does not exist (When Disabling)");
         break;

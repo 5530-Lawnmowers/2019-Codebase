@@ -31,7 +31,7 @@ public class Robot extends TimedRobot {
     Helpers.createComplexWidget("PIDControl", "Right PIDController", Helpers.pigeonPIDController1);
     Helpers.createComplexWidget("PIDControl", "Left PIDController", Helpers.pigeonPIDController2);
     Helpers.createComplexWidget("PIDControl", "FRTalon", Drivetrain.frontRightTalonSRX);
-    Helpers.createComplexWidget("PIDControl", "FRTalon", Drivetrain.frontLeftTalonSRX);
+    Helpers.createComplexWidget("PIDControl", "FLTalon", Drivetrain.frontLeftTalonSRX);
   }
 
 
