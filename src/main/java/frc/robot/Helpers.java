@@ -188,7 +188,7 @@ public class Helpers {
   }
 
   /**
-   * Sets the setpoint in degrees to turn to with PID
+   * Sets the setpoint in degrees to turn to with PID with the gyro.
    * @param talon The talon to control with PID
    * @param controllerID The id of the PIDController to use
    * @param absoluteTolerance The tolerance range to finish the PID
@@ -197,7 +197,6 @@ public class Helpers {
   public static void pigeonPIDWrite(WPI_TalonSRX talon, int controllerID, double absoluteTolerance, double setpoint){
     switch(controllerID){
       case 1:
-
         pigeonPIDController1 = new PIDController(0, 0, 0, pigeonWrapper, talon);
         pigeonPIDController1.setSetpoint(setpoint);
         pigeonPIDController1.setAbsoluteTolerance(absoluteTolerance);
@@ -227,12 +226,12 @@ public class Helpers {
           pigeonPIDController1.disable();
         }
       case 2:
-        if(pigeonPIDController1 != null){
-          pigeonPIDController1.disable();
+        if(pigeonPIDController2 != null){
+          pigeonPIDController2.disable();
         }
       case 3:
-        if(pigeonPIDController1 != null){
-          pigeonPIDController1.disable();
+        if(pigeonPIDController3 != null){
+          pigeonPIDController3.disable();
        }
       default:
         System.out.println("Controller with ID " + controllerID + " does not exist");
@@ -243,7 +242,7 @@ public class Helpers {
   // Limelight Helpers------------------------------------------------------------------------------------
   
   /**
-   * 
+   * Sets the setpoint to stop using PID with Limelight.
    * @param talon The talon to control with PID
    * @param setpoint The point to be set for the PIDController to use
    */
@@ -312,14 +311,16 @@ class PigeonWrapper extends GyroBase{
 
 }
 
-
+/**
+ * Wraps the Limelight as a sendable for widget and PID purposes
+ */
 class LimelightWrapper implements PIDSource{
 
   PIDSourceType pidSourceType = PIDSourceType.kDisplacement;
   double pidSourceValue;
 
   /**
-   * 
+   * Constructor. Sets the value from the limelight to use for PID.
    * @param sourceValue The value get from the limelight and use as the PIDSource value
    * <ul>
    * <li>"tx": Horizontal offset from crosshair to target(-27 degrees to 27 degrees)<br>
@@ -336,6 +337,7 @@ class LimelightWrapper implements PIDSource{
     }
   }
 
+  //PIDSource Interface
   @Override
   public PIDSourceType getPIDSourceType() {
     return pidSourceType;
