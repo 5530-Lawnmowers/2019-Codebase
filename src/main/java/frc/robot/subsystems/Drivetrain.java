@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class Drivetrain extends Subsystem {
 
-  public static WPI_TalonSRX main  = new WPI_TalonSRX(3);
+  public static WPI_TalonSRX frontRighTalonSRX  = new WPI_TalonSRX(3);
 
   
 	

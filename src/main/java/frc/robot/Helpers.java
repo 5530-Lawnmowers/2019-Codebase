@@ -8,7 +8,7 @@
 package frc.robot;
 
 import frc.robot.commands.*;
-
+import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj.shuffleboard.*;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.PIDController;
@@ -29,11 +29,13 @@ public class Helpers {
   public static WPI_TalonSRX pigeonTalon = new WPI_TalonSRX(3);
   public static PigeonIMU pigeon = new PigeonIMU(pigeonTalon);
   static PigeonWrapper pigeonWrapper = new PigeonWrapper();
-  static PIDController pigeonTurnController = new PIDController(0, 0, 0, pigeonWrapper, pigeonTalon);
+  static PIDController pigeonPIDController1;
+  static PIDController pigeonPIDController2;
+  static PIDController pigeonPIDController3;
   
   //// HELPER FUNCTIONS
   
-  //Shuffleboard Helpers
+  //Shuffleboard Helpers---------------------------------------------------------------------------------------------
   /**
    * Creates a {@code SimpleWidget}.
    * @param tabName the name of the shuffleboard
@@ -61,7 +63,6 @@ public class Helpers {
       .add(widgetName, sendable);
   }
 
-  //TODO: Check if getSimpleWidget, getWidgetValue, setWidgetValue work with ComplexWidgets
   /**
    * Finds the simple widget that matches the description
    * @param tabname the shuffleboard the widget is located
@@ -136,7 +137,7 @@ public class Helpers {
     }
   }
 
-  // Pigeon Helpers
+  // Pigeon Helpers-----------------------------------------------------------------------------------------
   /**
    * Returns the number of degrees the gyroscope has turned in the compass plane. Numbers do not wrap around
    * below 0 or above 360, and will continue to climb or decline.
@@ -183,16 +184,62 @@ public class Helpers {
     return 0;
   }
 
-  
-//TODO: ?????
-  public static void pigeonPIDWrite(){
+  /**
+   * Sets the setpoint in degrees to turn to with PID
+   * @param talon The talon to control with PID
+   * @param controllerID The id of the PIDController to use
+   * @param setpoint The point to be set for the PIDController to use
+   */
+  public static void pigeonPIDWrite(WPI_TalonSRX talon, int controllerID, double setpoint){
+
+    switch(controllerID){
+      case 1:
+        pigeonPIDController1 = new PIDController(0, 0, 0, pigeonWrapper, talon);
+        pigeonPIDController1.setSetpoint(setpoint);
+        pigeonPIDController1.enable();
+      case 2:
+        pigeonPIDController2 = new PIDController(0, 0, 0, pigeonWrapper, talon);
+        pigeonPIDController2.setSetpoint(setpoint);
+        pigeonPIDController2.enable();
+      case 3:
+        pigeonPIDController3 = new PIDController(0, 0, 0, pigeonWrapper, talon);
+        pigeonPIDController3.setSetpoint(setpoint);
+        pigeonPIDController3.enable();
+      default:
+       System.out.println("Controller with ID " + controllerID + " does not exist");
+    }
+
+  }
+
+  /**
+   * Disables the pigeonPIDController
+   * @param controllerID The ID of the PIDController to use
+   */
+  public static void disablePigeonPIDController(int controllerID){
+    switch(controllerID){
+      case 1:
+        if(pigeonPIDController1 != null){
+          pigeonPIDController1.disable();
+        }
+      case 2:
+        if(pigeonPIDController1 != null){
+          pigeonPIDController1.disable();
+        }
+      case 3:
+        if(pigeonPIDController1 != null){
+          pigeonPIDController1.disable();
+       }
+      default:
+        System.out.println("Controller with ID " + controllerID + " does not exist");
+    }
+
   }
 
   
 }
 
 /**
- * This class wraps the gyroscope as a sendable for widget purposes.
+ * This class wraps the gyroscope as a sendable for widget purposes and PID.
  */
 class PigeonWrapper extends GyroBase{
 
