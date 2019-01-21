@@ -8,7 +8,6 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.shuffleboard.*;
-import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.GyroBase;
 import edu.wpi.first.wpilibj.PIDSourceType;

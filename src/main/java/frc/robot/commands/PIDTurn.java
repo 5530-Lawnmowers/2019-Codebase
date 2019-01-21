@@ -6,12 +6,9 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot.commands;
-import frc.robot.subsystems.*;
 import frc.robot.*;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.PIDOutput;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
