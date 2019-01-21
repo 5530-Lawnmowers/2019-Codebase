@@ -28,11 +28,11 @@ public class Helpers {
   public static WPI_TalonSRX pigeonTalon = new WPI_TalonSRX(3);
   public static PigeonIMU pigeon = new PigeonIMU(pigeonTalon);
   static PigeonWrapper pigeonWrapper = new PigeonWrapper();
-  static LimelightWrapper limelightWrapper = new LimelightWrapper("tx");
+  //static LimelightWrapper limelightWrapper = new LimelightWrapper("tx");
   static NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
-  public static PIDController pigeonPIDController1;
-  public static PIDController pigeonPIDController2;
-  public static PIDController pigeonPIDController3;
+  public static PIDController pigeonPIDController1 = new PIDController(0, 0, 0, pigeonWrapper, pigeonTalon);
+  public static PIDController pigeonPIDController2 = new PIDController(0, 0, 0, pigeonWrapper, pigeonTalon);
+  public static PIDController pigeonPIDController3 = new PIDController(0, 0, 0, pigeonWrapper, pigeonTalon);
   public static PIDController limelightPIDController;
 
   
@@ -201,16 +201,20 @@ public class Helpers {
         pigeonPIDController1.setSetpoint(setpoint);
         pigeonPIDController1.setAbsoluteTolerance(absoluteTolerance);
         pigeonPIDController1.enable();
+        break;
       case 2:
         pigeonPIDController2 = new PIDController(0, 0, 0, pigeonWrapper, talon);
         pigeonPIDController2.setSetpoint(setpoint);
         pigeonPIDController2.enable();
+        break;
       case 3:
         pigeonPIDController3 = new PIDController(0, 0, 0, pigeonWrapper, talon);
         pigeonPIDController3.setSetpoint(setpoint);
         pigeonPIDController3.enable();
+        break;
       default:
-       System.out.println("Controller with ID " + controllerID + " does not exist");
+       System.out.println("Controller with ID " + controllerID + " does not exist (When Enabling)");
+       break;
     }
 
   }
@@ -225,16 +229,20 @@ public class Helpers {
         if(pigeonPIDController1 != null){
           pigeonPIDController1.disable();
         }
+        break;
       case 2:
         if(pigeonPIDController2 != null){
           pigeonPIDController2.disable();
         }
+        break;
       case 3:
         if(pigeonPIDController3 != null){
           pigeonPIDController3.disable();
        }
+       break;
       default:
-        System.out.println("Controller with ID " + controllerID + " does not exist");
+        System.out.println("Controller with ID " + controllerID + " does not exist (When Disabling)");
+        break;
     }
 
   }
@@ -248,10 +256,10 @@ public class Helpers {
    */
   public static void limelightPIDWrite(WPI_TalonSRX talon, double setpoint){
     
-    limelightPIDController = new PIDController(0, 0, 0, limelightWrapper, talon);
+    //limelightPIDController = new PIDController(0, 0, 0, limelightWrapper, talon);
 
-    limelightPIDController.setSetpoint(setpoint);
-    limelightPIDController.enable();
+    //limelightPIDController.setSetpoint(setpoint);
+    //limelightPIDController.enable();
   }
 
   /**
