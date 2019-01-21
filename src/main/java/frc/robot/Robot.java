@@ -27,6 +27,7 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     oi = new OI();
     // Creating Shuffleboard Objects
+    Helpers.createComplexWidget("PIDControl", "Gyro", Helpers.pigeonWrapper);
     Helpers.createComplexWidget("PIDControl", "Right PIDController", Helpers.pigeonPIDController1);
     Helpers.createComplexWidget("PIDControl", "Left PIDController", Helpers.pigeonPIDController2);
     Helpers.createComplexWidget("PIDControl", "FRTalon", Drivetrain.frontRightTalonSRX);
@@ -64,17 +65,6 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     Helpers.resetPigeon();
-    try {
-      Helpers.setWidgetValue("Test Tab", "Test", "hi");
-    } catch (Exception e) {
-      System.out.println("Widget type not supported: " + e);
-    }
-    
-
-
-
-
-
   }
 
 

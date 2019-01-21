@@ -8,6 +8,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.shuffleboard.*;
+import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.GyroBase;
 import edu.wpi.first.wpilibj.PIDSourceType;
@@ -30,9 +31,9 @@ public class Helpers {
   static PigeonWrapper pigeonWrapper = new PigeonWrapper();
   //static LimelightWrapper limelightWrapper = new LimelightWrapper("tx");
   static NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
-  public static PIDController pigeonPIDController1 = new PIDController(0, 0, 0, pigeonWrapper, pigeonTalon);
-  public static PIDController pigeonPIDController2 = new PIDController(0, 0, 0, pigeonWrapper, pigeonTalon);
-  public static PIDController pigeonPIDController3 = new PIDController(0, 0, 0, pigeonWrapper, pigeonTalon);
+  public static PIDController pigeonPIDController1 = new PIDController(0, 0, 0, pigeonWrapper, Drivetrain.frontRightTalonSRX);
+  public static PIDController pigeonPIDController2 = new PIDController(0, 0, 0, pigeonWrapper, Drivetrain.frontLeftTalonSRX);
+  public static PIDController pigeonPIDController3;
   public static PIDController limelightPIDController;
 
   
@@ -194,21 +195,18 @@ public class Helpers {
    * @param absoluteTolerance The tolerance range to finish the PID
    * @param setpoint The point to be set for the PIDController to use
    */
-  public static void pigeonPIDWrite(WPI_TalonSRX talon, int controllerID, double absoluteTolerance, double setpoint){
+  public static void pigeonPIDWrite(int controllerID, double absoluteTolerance, double setpoint){
     switch(controllerID){
       case 1:
-        pigeonPIDController1 = new PIDController(0, 0, 0, pigeonWrapper, talon);
         pigeonPIDController1.setSetpoint(setpoint);
         pigeonPIDController1.setAbsoluteTolerance(absoluteTolerance);
         pigeonPIDController1.enable();
         break;
       case 2:
-        pigeonPIDController2 = new PIDController(0, 0, 0, pigeonWrapper, talon);
         pigeonPIDController2.setSetpoint(setpoint);
         pigeonPIDController2.enable();
         break;
       case 3:
-        pigeonPIDController3 = new PIDController(0, 0, 0, pigeonWrapper, talon);
         pigeonPIDController3.setSetpoint(setpoint);
         pigeonPIDController3.enable();
         break;
@@ -287,7 +285,7 @@ class PigeonWrapper extends GyroBase{
 
   @Override
   public double pidGet() {
-      return Helpers.getPigeonYaw();
+      return Helpers.getPigeonCompassHeading();
   }
 
   @Override

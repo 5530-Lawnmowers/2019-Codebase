@@ -26,8 +26,9 @@ public class PIDTurn extends Command{
   protected void initialize() {
     Drivetrain.backRightTalonSRX.follow(Drivetrain.frontRightTalonSRX);
     Drivetrain.backLeftTalonSRX.follow(Drivetrain.frontLeftTalonSRX);
-    Helpers.pigeonPIDWrite(Drivetrain.frontRightTalonSRX, 1, 1, 90);
-    Helpers.pigeonPIDWrite(Drivetrain.frontLeftTalonSRX, 2, 1, 90);
+    Helpers.resetPigeon();
+    Helpers.pigeonPIDWrite(1, 1, 90);
+    Helpers.pigeonPIDWrite(2, 1, 90);
   }
 
   @Override
