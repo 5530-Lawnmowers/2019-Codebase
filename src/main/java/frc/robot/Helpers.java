@@ -7,14 +7,14 @@
 
 package frc.robot;
 
-import frc.robot.commands.*;
-import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj.shuffleboard.*;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.GyroBase;
 import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.Sendable;
+import edu.wpi.first.networktables.*;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.sensors.PigeonIMU;
@@ -29,9 +29,13 @@ public class Helpers {
   public static WPI_TalonSRX pigeonTalon = new WPI_TalonSRX(3);
   public static PigeonIMU pigeon = new PigeonIMU(pigeonTalon);
   static PigeonWrapper pigeonWrapper = new PigeonWrapper();
+  static LimelightWrapper limelightWrapper = new LimelightWrapper("tx");
+  static NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
   static PIDController pigeonPIDController1;
   static PIDController pigeonPIDController2;
   static PIDController pigeonPIDController3;
+  static PIDController limelightPIDController;
+
   
   //// HELPER FUNCTIONS
   
@@ -235,6 +239,27 @@ public class Helpers {
 
   }
 
+  // Limelight Helpers------------------------------------------------------------------------------------
+  
+  /**
+   * 
+   * @param talon The talon to control with PID
+   * @param setpoint The point to be set for the PIDController to use
+   */
+  public static void limelightPIDWrite(WPI_TalonSRX talon, double setpoint){
+    
+    limelightPIDController = new PIDController(0, 0, 0, limelightWrapper, talon);
+
+    limelightPIDController.setSetpoint(setpoint);
+    limelightPIDController.enable();
+  }
+
+  /**
+   * Disable limelight PIDController
+   */
+  public static void disableLimelightPIDController(){
+    limelightPIDController.disable();
+  }
   
 }
 
@@ -284,6 +309,46 @@ class PigeonWrapper extends GyroBase{
     return Helpers.getPigeonRate();
   }
 
+}
+
+
+class LimelightWrapper implements PIDSource{
+
+  PIDSourceType pidSourceType = PIDSourceType.kDisplacement;
+  double pidSourceValue;
+
+  /**
+   * 
+   * @param sourceValue The value get from the limelight and use as the PIDSource value
+   * <ul>
+   * <li>"tx": Horizontal offset from crosshair to target(-27 degrees to 27 degrees)<br>
+   * <li>"ty": Vertical offset from crosshair to target (-20.5 degrees to 20.5 degrees)<br>
+   * <li>"ta": Target area (0% of the image to 100% of the image)
+   * </ul>
+   */
+  LimelightWrapper(String sourceValue){
+    if(sourceValue == "ta" || sourceValue == "tx" || sourceValue == "tx"){
+      pidSourceValue = Helpers.table.getEntry(sourceValue).getDouble(0.0);
+    } else {
+      System.out.println("Invalid Limelight value. Setting to default of 'tx'");
+      pidSourceValue = Helpers.table.getEntry("tx").getDouble(0.0);
+    }
+  }
+
+  @Override
+  public PIDSourceType getPIDSourceType() {
+    return pidSourceType;
+  }
+
+  @Override
+  public double pidGet() {
+    return pidSourceValue;
+  }
+
+  @Override
+  public void setPIDSourceType(PIDSourceType pidSource) {
+    pidSourceType = pidSource;
+  }
 }
 
 class Pneumatics {
