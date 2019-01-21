@@ -6,7 +6,9 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot.commands;
-import frc.robot.*;
+import frc.robot.Helpers;
+import frc.robot.Robot;
+import frc.robot.subsystems.*;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -22,6 +24,10 @@ public class PIDTurn extends Command{
 
   @Override
   protected void initialize() {
+    Drivetrain.backRightTalonSRX.follow(Drivetrain.frontRightTalonSRX);
+    Drivetrain.backLeftTalonSRX.follow(Drivetrain.frontLeftTalonSRX);
+    Helpers.pigeonPIDWrite(Drivetrain.frontRightTalonSRX, 1, 1, 90);
+    Helpers.pigeonPIDWrite(Drivetrain.frontLeftTalonSRX, 2, 1, 90);
   }
 
   @Override
@@ -30,15 +36,18 @@ public class PIDTurn extends Command{
 
   @Override
   protected boolean isFinished() {
-    return false;
+    return Helpers.pigeonPIDController1.onTarget();
   }
 
   @Override
   protected void end() {
-    
+    Helpers.disablePigeonPIDController(1);
+    Helpers.disablePigeonPIDController(2);
   }
 
   @Override
   protected void interrupted() {
+    Helpers.disablePigeonPIDController(1);
+    Helpers.disablePigeonPIDController(2);
   }
 }

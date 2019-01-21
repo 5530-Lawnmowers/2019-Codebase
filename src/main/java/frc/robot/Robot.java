@@ -27,10 +27,10 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     oi = new OI();
     // Creating Shuffleboard Objects
-    Helpers.createComplexWidget("PID Control", "PIDController", Helpers.pigeonTurnController);
-    Helpers.createComplexWidget("PID Control", "TalonView", Helpers.pigeonTalon);
-    Helpers.createComplexWidget("PID Control", "PigeonIMU", Helpers.pigeonWrapper);
-    Helpers.createSimpleWidget("Test Tab", "Test", "kBooleanBox", 10);
+    Helpers.createComplexWidget("PIDControl", "Right PIDController", Helpers.pigeonPIDController1);
+    Helpers.createComplexWidget("PIDControl", "Left PIDController", Helpers.pigeonPIDController2);
+    Helpers.createComplexWidget("PIDControl", "FRTalon", Drivetrain.frontRightTalonSRX);
+    Helpers.createComplexWidget("PIDControl", "FRTalon", Drivetrain.frontLeftTalonSRX);
   }
 
 

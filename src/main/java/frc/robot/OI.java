@@ -7,6 +7,11 @@
 
 package frc.robot;
 
+import frc.robot.commands.*;
+
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.Button;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -20,6 +25,17 @@ public class OI {
   // number it is.
   // Joystick stick = new Joystick(port);
   // Button button = new JoystickButton(stick, buttonNumber);
+
+  Joystick stick = new Joystick(0);
+  public static Button[] buttons = new Button[12];
+
+  OI() {
+    for(int i=1; i <= 12; i++) {
+      buttons[i-1] = new JoystickButton(stick, i);
+    }
+    buttons[0].whenPressed(new PIDTurn());
+  }
+
 
   // There are a few additional built in buttons you can use. Additionally,
   // by subclassing Button you can create custom triggers and bind those to

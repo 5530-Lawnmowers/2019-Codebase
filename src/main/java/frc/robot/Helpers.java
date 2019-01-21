@@ -30,10 +30,10 @@ public class Helpers {
   static PigeonWrapper pigeonWrapper = new PigeonWrapper();
   static LimelightWrapper limelightWrapper = new LimelightWrapper("tx");
   static NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
-  static PIDController pigeonPIDController1;
-  static PIDController pigeonPIDController2;
-  static PIDController pigeonPIDController3;
-  static PIDController limelightPIDController;
+  public static PIDController pigeonPIDController1;
+  public static PIDController pigeonPIDController2;
+  public static PIDController pigeonPIDController3;
+  public static PIDController limelightPIDController;
 
   
   //// HELPER FUNCTIONS
@@ -191,14 +191,16 @@ public class Helpers {
    * Sets the setpoint in degrees to turn to with PID
    * @param talon The talon to control with PID
    * @param controllerID The id of the PIDController to use
+   * @param absoluteTolerance The tolerance range to finish the PID
    * @param setpoint The point to be set for the PIDController to use
    */
-  public static void pigeonPIDWrite(WPI_TalonSRX talon, int controllerID, double setpoint){
-
+  public static void pigeonPIDWrite(WPI_TalonSRX talon, int controllerID, double absoluteTolerance, double setpoint){
     switch(controllerID){
       case 1:
+
         pigeonPIDController1 = new PIDController(0, 0, 0, pigeonWrapper, talon);
         pigeonPIDController1.setSetpoint(setpoint);
+        pigeonPIDController1.setAbsoluteTolerance(absoluteTolerance);
         pigeonPIDController1.enable();
       case 2:
         pigeonPIDController2 = new PIDController(0, 0, 0, pigeonWrapper, talon);
