@@ -36,7 +36,7 @@ public class Helpers {
   public static PIDController pigeonPIDController3;
   public static PIDController limelightPIDController;
 
-  
+
   //// HELPER FUNCTIONS
   
   //Shuffleboard Helpers---------------------------------------------------------------------------------------------
@@ -189,13 +189,20 @@ public class Helpers {
   }
 
   /**
-   * Sets the setpoint in degrees to turn to with PID with the gyro.
+   * Sets the setpoint in degrees to turn to with PID with the gyro. PID controllers are continous.
    * @param talon The talon to control with PID
    * @param controllerID The id of the PIDController to use
    * @param absoluteTolerance The tolerance range to finish the PID
    * @param setpoint The point to be set for the PIDController to use
    */
   public static void pigeonPIDWrite(int controllerID, double absoluteTolerance, double setpoint){
+    pigeonPIDController1.setInputRange(0, 360);
+    pigeonPIDController2.setInputRange(0, 360);
+    pigeonPIDController3.setInputRange(0, 360);
+    pigeonPIDController1.setContinuous();
+    pigeonPIDController2.setContinuous();
+    pigeonPIDController3.setContinuous();
+    
     switch(controllerID){
       case 1:
         pigeonPIDController1.setSetpoint(setpoint);
