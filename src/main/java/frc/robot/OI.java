@@ -33,7 +33,8 @@ public class OI {
     for(int i=1; i <= 12; i++) {
       buttons[i-1] = new JoystickButton(stick, i);
     }
-    buttons[0].whenPressed(new PIDTurn());
+    buttons[0].toggleWhenPressed(new PIDTurn());
+    buttons[1].toggleWhenPressed(new PIDLimelight());
   }
 
 

@@ -18,6 +18,7 @@ import edu.wpi.first.networktables.*;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.sensors.PigeonIMU;
+import com.ctre.phoenix.motorcontrol.ControlMode;
 
 /**
  * Contains helpers for widgets and gyroscopes
@@ -25,16 +26,22 @@ import com.ctre.phoenix.sensors.PigeonIMU;
 
 public class Helpers {
 
+  public static void initializeRobot(){
+    Drivetrain.frontRightTalonSRX.setInverted(true);
+    Drivetrain.backRightTalonSRX.setInverted(true);
+    Drivetrain.backRightTalonSRX.set(ControlMode.Follower, RobotMap.FR);
+    Drivetrain.backLeftTalonSRX.set(ControlMode.Follower, RobotMap.FL);
+  }
+
   //// HELPER VARIABLES
-  public static WPI_TalonSRX pigeonTalon = new WPI_TalonSRX(3);
-  public static PigeonIMU pigeon = new PigeonIMU(pigeonTalon);
+  public static PigeonIMU pigeon = new PigeonIMU(15);
   static PigeonWrapper pigeonWrapper = new PigeonWrapper();
-  //static LimelightWrapper limelightWrapper = new LimelightWrapper("tx");
-  static NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
-  public static PIDController pigeonPIDController1 = new PIDController(0, 0, 0, pigeonWrapper, Drivetrain.frontRightTalonSRX);
-  public static PIDController pigeonPIDController2 = new PIDController(0, 0, 0, pigeonWrapper, Drivetrain.frontLeftTalonSRX);
-  public static PIDController pigeonPIDController3;
-  public static PIDController limelightPIDController;
+  static LimelightWrapper limelightWrapper = new LimelightWrapper("tx");
+  public static NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+  public static PIDController pigeonPIDController1 = new PIDController(0, 0, 0, pigeonWrapper, Drivetrain.frontLeftTalonSRX);
+  public static PIDController pigeonPIDController2 = new PIDController(0, 0, 0, pigeonWrapper, Drivetrain.frontRightTalonSRX);
+  public static PIDController limelightPIDController1 = new PIDController(0, 0, 0, limelightWrapper, Drivetrain.frontRightTalonSRX);
+  public static PIDController limelightPIDController2 = new PIDController(0, 0, 0, limelightWrapper, Drivetrain.frontLeftTalonSRX);
 
 
   //// HELPER FUNCTIONS
@@ -44,14 +51,12 @@ public class Helpers {
    * Creates a {@code SimpleWidget}.
    * @param tabName the name of the shuffleboard
    * @param widgetName the name of the widget
-   * @param widgetType the type of the widget
    * @param defaultValue the default value of the widget
    * @return the {@code SimpleWidget} created
    */
-  public static SimpleWidget createSimpleWidget(String tabName, String widgetName, String widgetType, Object defaultValue){
+  public static SimpleWidget createSimpleWidget(String tabName, String widgetName, Object defaultValue){
     SimpleWidget widget = Shuffleboard.getTab(tabName)
-      .add(widgetName, defaultValue)
-      .withWidget(widgetType);
+      .add(widgetName, defaultValue);
     Shuffleboard.update();
     return widget;
   }
@@ -158,8 +163,8 @@ public class Helpers {
    * @return the heading of the gyroscope
    */
   public static double getPigeonCompassHeading(){
-    if(getPigeonYaw() < 0) {return getPigeonYaw() % 360.0 + 360.0;}
-    return getPigeonYaw() % 360.0;
+    if(getPigeonYaw() < 0) {return 360 - (getPigeonYaw() % 360.0 + 360.0);}
+    return 360 - (getPigeonYaw() % 360.0);
 
   }
 
@@ -188,67 +193,65 @@ public class Helpers {
     return 0;
   }
 
-  /**
-   * Sets the setpoint in degrees to turn to with PID with the gyro. PID controllers are continous.
-   * @param talon The talon to control with PID
-   * @param controllerID The id of the PIDController to use
-   * @param absoluteTolerance The tolerance range to finish the PID
-   * @param setpoint The point to be set for the PIDController to use
-   */
-  public static void pigeonPIDWrite(int controllerID, double absoluteTolerance, double setpoint){
+
+  public static void setupPigeon(){
     pigeonPIDController1.setInputRange(0, 360);
     pigeonPIDController2.setInputRange(0, 360);
-    pigeonPIDController3.setInputRange(0, 360);
-    pigeonPIDController1.setContinuous();
-    pigeonPIDController2.setContinuous();
-    pigeonPIDController3.setContinuous();
+    pigeonPIDController1.setContinuous(true);
+    pigeonPIDController2.setContinuous(true);
+  }
+
+  /**
+   * Sets the setpoint in degrees to turn to with PID with the gyro. PID controllers are continous.
+   * @param absoluteTolerance The tolerance range to finish the PID
+   * @param pidSlot The PID coefficient slot to use.
+   * @param setpoint The point to be set for the PIDController to use
+   */
+  public static void pigeonPIDWrite(double absoluteTolerance, int pidSlot, double setpoint){
+    setupPigeon();
+
+    Drivetrain.frontRightTalonSRX.setInverted(false);
+    Drivetrain.backRightTalonSRX.setInverted(false);
+
+    pigeonPIDController1.setPID(RobotMap.pidSlots[pidSlot][0], RobotMap.pidSlots[pidSlot][1], RobotMap.pidSlots[pidSlot][2]);
+    pigeonPIDController2.setPID(RobotMap.pidSlots[pidSlot][0], RobotMap.pidSlots[pidSlot][1], RobotMap.pidSlots[pidSlot][2]);
+    pigeonPIDController1.setSetpoint(setpoint);
+    pigeonPIDController2.setSetpoint(setpoint);
+    pigeonPIDController1.setAbsoluteTolerance(absoluteTolerance);
+    pigeonPIDController2.setAbsoluteTolerance(absoluteTolerance);
+    pigeonPIDController1.enable();
+    pigeonPIDController2.enable();
+
+  }
+
+
+  /**
+   * Sets the setpoint in degrees to turn to with PID with the gyro. PID controllers are continous. 
+   * Uses Shuffleboard values for PID.
+   * @param absoluteTolerance The tolerance range to finish the PID
+   */
+  public static void pigeonPIDShuffleboard(double absoluteTolerance){
+    setupPigeon();
     
-    switch(controllerID){
-      case 1:
-        pigeonPIDController1.setSetpoint(setpoint);
-        pigeonPIDController1.setAbsoluteTolerance(absoluteTolerance);
-        pigeonPIDController1.enable();
-        break;
-      case 2:
-        pigeonPIDController2.setSetpoint(setpoint);
-        pigeonPIDController2.enable();
-        break;
-      case 3:
-        pigeonPIDController3.setSetpoint(setpoint);
-        pigeonPIDController3.enable();
-        break;
-      default:
-       System.out.println("Controller with ID " + controllerID + " does not exist (When Enabling)");
-       break;
-    }
+    Drivetrain.frontRightTalonSRX.setInverted(false);
+    Drivetrain.backRightTalonSRX.setInverted(false);
+
+    pigeonPIDController1.setPercentTolerance(absoluteTolerance);
+    pigeonPIDController2.setPercentTolerance(absoluteTolerance);
+    pigeonPIDController1.enable();
+    pigeonPIDController2.enable();
 
   }
 
   /**
    * Disables the pigeonPIDController
-   * @param controllerID The ID of the PIDController to use
    */
-  public static void disablePigeonPIDController(int controllerID){
-    switch(controllerID){
-      case 1:
-        if(pigeonPIDController1 != null){
-          pigeonPIDController1.disable();
-        }
-        break;
-      case 2:
-        if(pigeonPIDController2 != null){
-          pigeonPIDController2.disable();
-        }
-        break;
-      case 3:
-        if(pigeonPIDController3 != null){
-          pigeonPIDController3.disable();
-       }
-       break;
-      default:
-        System.out.println("Controller with ID " + controllerID + " does not exist (When Disabling)");
-        break;
-    }
+  public static void disablePigeonPIDController(){
+    pigeonPIDController1.disable();
+    pigeonPIDController2.disable();
+    Drivetrain.frontRightTalonSRX.setInverted(false);
+    Drivetrain.backRightTalonSRX.setInverted(false);
+
 
   }
 
@@ -256,22 +259,36 @@ public class Helpers {
   
   /**
    * Sets the setpoint to stop using PID with Limelight.
-   * @param talon The talon to control with PID
    * @param setpoint The point to be set for the PIDController to use
    */
-  public static void limelightPIDWrite(WPI_TalonSRX talon, double setpoint){
-    
-    //limelightPIDController = new PIDController(0, 0, 0, limelightWrapper, talon);
+  public static void limelightPIDWrite(double setpoint){
 
-    //limelightPIDController.setSetpoint(setpoint);
-    //limelightPIDController.enable();
+    limelightPIDController1.setSetpoint(setpoint);
+    limelightPIDController2.setSetpoint(setpoint);
+    limelightPIDController1.enable();
+    limelightPIDController2.enable();
   }
 
   /**
    * Disable limelight PIDController
    */
   public static void disableLimelightPIDController(){
-    limelightPIDController.disable();
+    limelightPIDController1.disable();
+    limelightPIDController2.disable();
+    //System.out.println("Tried to disable limelight.");
+  }
+
+  public static double getLimelightValue(String sourceValue){
+    double output;
+    Helpers.table = NetworkTableInstance.getDefault().getTable("limelight");
+    if (sourceValue == "ta" || sourceValue == "tx" || sourceValue == "tx" || sourceValue == "tx0" || sourceValue == "tv"){
+      output = Helpers.table.getEntry(sourceValue).getDouble(0.0);
+    } else {
+      System.out.println("Invalid Limelight value. Setting to default of 'tx'");
+      output = Helpers.table.getEntry("tx").getDouble(0.0);
+    }
+
+    return output;
   }
   
 }
@@ -330,7 +347,7 @@ class PigeonWrapper extends GyroBase{
 class LimelightWrapper implements PIDSource{
 
   PIDSourceType pidSourceType = PIDSourceType.kDisplacement;
-  double pidSourceValue;
+  String pidSourceValue;
 
   /**
    * Constructor. Sets the value from the limelight to use for PID.
@@ -342,12 +359,7 @@ class LimelightWrapper implements PIDSource{
    * </ul>
    */
   LimelightWrapper(String sourceValue){
-    if(sourceValue == "ta" || sourceValue == "tx" || sourceValue == "tx"){
-      pidSourceValue = Helpers.table.getEntry(sourceValue).getDouble(0.0);
-    } else {
-      System.out.println("Invalid Limelight value. Setting to default of 'tx'");
-      pidSourceValue = Helpers.table.getEntry("tx").getDouble(0.0);
-    }
+    pidSourceValue = sourceValue;
   }
 
   //PIDSource Interface
@@ -358,7 +370,7 @@ class LimelightWrapper implements PIDSource{
 
   @Override
   public double pidGet() {
-    return pidSourceValue;
+    return -Helpers.getLimelightValue(pidSourceValue);
   }
 
   @Override

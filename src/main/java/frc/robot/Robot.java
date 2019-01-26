@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.FrontElevator;
 
@@ -26,12 +27,15 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     oi = new OI();
+    Helpers.initializeRobot();
     // Creating Shuffleboard Objects
     Helpers.createComplexWidget("PIDControl", "Gyro", Helpers.pigeonWrapper);
-    Helpers.createComplexWidget("PIDControl", "Right PIDController", Helpers.pigeonPIDController1);
-    Helpers.createComplexWidget("PIDControl", "Left PIDController", Helpers.pigeonPIDController2);
-    Helpers.createComplexWidget("PIDControl", "FRTalon", Drivetrain.frontRightTalonSRX);
-    Helpers.createComplexWidget("PIDControl", "FRTalon", Drivetrain.frontLeftTalonSRX);
+    Helpers.createComplexWidget("PIDControl", "PIDController1", Helpers.pigeonPIDController1);
+    Helpers.createComplexWidget("PIDControl", "PIDController2", Helpers.pigeonPIDController2);
+    Helpers.createComplexWidget("Limelight", "FRTalon", Drivetrain.frontRightTalonSRX);
+    Helpers.createComplexWidget("Limelight", "FLTalon", Drivetrain.frontLeftTalonSRX);
+    Helpers.createComplexWidget("Limelight", "PID1", Helpers.limelightPIDController1);
+    Helpers.createComplexWidget("Limelight", "PID2", Helpers.limelightPIDController2);
   }
 
 
@@ -71,6 +75,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
+    System.out.println(Helpers.getLimelightValue("tx"));
     
   }
 

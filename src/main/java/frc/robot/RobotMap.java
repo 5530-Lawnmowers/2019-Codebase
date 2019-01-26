@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import frc.robot.Helpers;
+
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
  * to a variable name. This provides flexibility changing wiring, makes checking
@@ -18,4 +20,11 @@ public class RobotMap {
 	public static int FL = 2; 
 	public static int BR = 3;
 	public static int BL = 4;
+
+	// PID Slots
+	private static double[] pidSlot1 = {0.004, 1e-20, 0};
+	private static double[] pidSlot2 = {0, 0, 0};
+	private static double[] pidSlot3 = {0, 0, 0};
+	public static double[][] pidSlots = {pidSlot1, pidSlot2, pidSlot3};
+
 }

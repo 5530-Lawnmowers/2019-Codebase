@@ -6,46 +6,46 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot.commands;
+
 import frc.robot.Helpers;
 import frc.robot.Robot;
-import frc.robot.subsystems.*;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class PIDTurn extends Command{
-  
-  int counter;
-
-  public PIDTurn() {
+public class PIDLimelight extends Command {
+  public PIDLimelight() {
     requires(Robot.drivetrain);
-
+    // Use requires() here to declare subsystem dependencies
+    // eg. requires(chassis);
   }
 
+  // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    counter = 0;
-    Helpers.resetPigeon();
-    Helpers.pigeonPIDShuffleboard(1);
+    Helpers.limelightPIDWrite(0);
   }
 
+  // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if(Helpers.pigeonPIDController1.onTarget()) counter ++; 
-    else counter = 0;
   }
 
+  // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return counter >= 25;
+    return false;
   }
 
+  // Called once after isFinished returns true
   @Override
   protected void end() {
-    Helpers.disablePigeonPIDController();
+    Helpers.disableLimelightPIDController();
   }
 
+  // Called when another command which requires one or more of the same
+  // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    Helpers.disablePigeonPIDController();
+    Helpers.disableLimelightPIDController();
   }
 }
