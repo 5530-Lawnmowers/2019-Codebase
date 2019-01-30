@@ -5,6 +5,8 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
+
+
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -17,16 +19,14 @@ public class m_Pneumatics extends Subsystem {
   // here. Call these from Commands.
   Compressor compressor = new Compressor(0);
   DoubleSolenoid solenoid1 = new DoubleSolenoid(1, 2);
-  DoubleSolenoid solenoid2 = new DoubleSolenoid(3, 4);
+  DoubleSolenoid solenoid2 = new DoubleSolenoid(4, 5);
   BuiltInAccelerometer accelerometer = new BuiltInAccelerometer();
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
   }
-  public double getSpeed(){
-    return Math.abs(accelerometer.getX()) + Math.abs(accelerometer.getY());
-  }
+
   public void power(boolean on){
     compressor.setClosedLoopControl(on);
   }
