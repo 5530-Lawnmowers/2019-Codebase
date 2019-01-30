@@ -16,11 +16,12 @@ import frc.robot.Helpers;
  * floating around.
  */
 public class RobotMap {
-	public double kHLspeed = .75;
+	public static double kHLspeed = .75;
   public static int FR = 1; 
 	public static int FL = 2; 
 	public static int BR = 3;
 	public static int BL = 4;
+
 
 	// PID Slots
 	private static double[] pidSlot1 = {0.004, 1e-20, 0};

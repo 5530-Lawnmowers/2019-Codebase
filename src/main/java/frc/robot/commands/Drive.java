@@ -4,7 +4,20 @@
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
+//This is the code for switching drive trains
+//TODO define constant kHLspeed
+/* if(RobotMap.kHLspeed >= Robot.m_pneumatics.getSpeed()){
+      SmartDashboard.putBoolean("low", false);
+      Robot.m_pneumatics.High();
+      SmartDashboard.updateValues();
 
+    }
+    else{
+    SmartDashboard.putBoolean("low", true); 
+    SmartDashboard.updateValues();
+    Robot.m_pneumatics.Low();
+    Robot.cosmetics.on();
+    }*/
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
