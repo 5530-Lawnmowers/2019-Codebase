@@ -18,6 +18,7 @@ import frc.robot.triggers.Profile;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motion.*;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 // import com.ctre.phoenix.motion.TrajectoryPoint.TrajectoryDuration;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
@@ -150,8 +151,6 @@ public class MPHelper{
 			rightPoint.velocity = -convertVelocity(profile[0][1][i]);
 			leftPoint.position = convertToTicks(profile[1][0][i]);
 			leftPoint.velocity = convertVelocity(profile[1][1][i]);
-			Drivetrain.frontRightTalonSRX.configMotionProfileTrajectoryPeriod(0, 0);
-			Drivetrain.frontLeftTalonSRX.configMotionProfileTrajectoryPeriod(0, 0);
 			//TODO: Check this profile Slot Select
 			rightPoint.profileSlotSelect0 = 3;
 			rightPoint.headingDeg = 0;
@@ -184,6 +183,10 @@ public class MPHelper{
     }
     
     public void startMotionProfile() {
+			Drivetrain.frontRightTalonSRX.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
+			Drivetrain.frontLeftTalonSRX.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
+			Drivetrain.frontRightTalonSRX.configMotionProfileTrajectoryPeriod(10, 30);
+			Drivetrain.frontLeftTalonSRX.configMotionProfileTrajectoryPeriod(10, 30);
     		_bStart = true;
     }
     
