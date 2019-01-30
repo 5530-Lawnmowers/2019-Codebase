@@ -16,9 +16,9 @@ import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.networktables.*;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.sensors.PigeonIMU;
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
 
 /**
  * Contains helpers for widgets and gyroscopes
@@ -31,6 +31,8 @@ public class Helpers {
     Drivetrain.backRightTalonSRX.setInverted(true);
     Drivetrain.backRightTalonSRX.set(ControlMode.Follower, RobotMap.FR);
     Drivetrain.backLeftTalonSRX.set(ControlMode.Follower, RobotMap.FL);
+    Drivetrain.frontRightTalonSRX.configRemoteFeedbackFilter(Helpers.pigeon.getDeviceID(), RemoteSensorSource.GadgeteerPigeon_Yaw, 0);
+    Drivetrain.frontLeftTalonSRX.configRemoteFeedbackFilter(Helpers.pigeon.getDeviceID(), RemoteSensorSource.GadgeteerPigeon_Yaw, 0);
   }
 
   //// HELPER VARIABLES
