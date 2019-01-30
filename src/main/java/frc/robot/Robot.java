@@ -8,11 +8,13 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.FrontElevator;
+import frc.robot.subsystems.m_Pneumatics;
 
 public class Robot extends TimedRobot {
   public static OI oi;
@@ -20,12 +22,14 @@ public class Robot extends TimedRobot {
   // Declare Subsystems
   public static FrontElevator frontElevator = new FrontElevator();
   public static Drivetrain drivetrain = new Drivetrain();
+  public static m_Pneumatics m_pneumatics = new m_Pneumatics();
 
   // Declare Commands
 
 
   @Override
   public void robotInit() {
+    Robot.m_pneumatics.power(true);
     oi = new OI();
     Helpers.initializeRobot();
     // Creating Shuffleboard Objects
@@ -82,5 +86,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void testPeriodic() {
+    
   }
 }
