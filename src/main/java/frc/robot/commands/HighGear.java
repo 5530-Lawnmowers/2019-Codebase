@@ -8,15 +8,13 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
-import frc.robot.subsystems.m_Pneumatics;
 
 public class HighGear extends Command {
   public HighGear() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.m_pneumatics);
+    requires(Robot.pneumatics);
   }
 
   // Called just before this Command runs the first time
@@ -28,7 +26,7 @@ public class HighGear extends Command {
   @Override
   protected void execute() {
     
-    Robot.m_pneumatics.High();
+    Robot.pneumatics.High();
 
   }
 
