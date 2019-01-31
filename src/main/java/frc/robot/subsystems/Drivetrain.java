@@ -10,6 +10,7 @@ package frc.robot.subsystems;
 import frc.robot.RobotMap;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.sensors.PigeonIMU;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -22,6 +23,9 @@ public class Drivetrain extends Subsystem {
   public static WPI_TalonSRX frontLeftTalonSRX  = new WPI_TalonSRX(RobotMap.FL);
   public static WPI_TalonSRX backRightTalonSRX  = new WPI_TalonSRX(RobotMap.BR);
   public static WPI_TalonSRX backLeftTalonSRX  = new WPI_TalonSRX(RobotMap.BL);
+
+  public static PigeonIMU pigeon = new PigeonIMU(15);
+
   
 
   

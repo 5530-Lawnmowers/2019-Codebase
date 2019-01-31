@@ -9,6 +9,9 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
 
 import frc.robot.Helpers.*;
 import frc.robot.subsystems.Drivetrain;
@@ -30,15 +33,32 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     Robot.pneumatics.power(true);
     oi = new OI();
-    MainHelpers.initializeRobot();
     // Creating Shuffleboard Objects
-    MainHelpers.createComplexWidget("PIDControl", "Gyro", MainHelpers.pigeonWrapper);
-    MainHelpers.createComplexWidget("PIDControl", "PIDController1", MainHelpers.pigeonPIDController1);
-    MainHelpers.createComplexWidget("PIDControl", "PIDController2", MainHelpers.pigeonPIDController2);
-    MainHelpers.createComplexWidget("Limelight", "FRTalon", Drivetrain.frontRightTalonSRX);
-    MainHelpers.createComplexWidget("Limelight", "FLTalon", Drivetrain.frontLeftTalonSRX);
-    MainHelpers.createComplexWidget("Limelight", "PID1", MainHelpers.limelightPIDController1);
-    MainHelpers.createComplexWidget("Limelight", "PID2", MainHelpers.limelightPIDController2);
+    ShuffleboardHelpers.createComplexWidget("PIDControl", "Gyro", PigeonHelpers.pigeonWrapper);
+    ShuffleboardHelpers.createComplexWidget("PIDControl", "PIDController1", PigeonHelpers.pigeonPIDController1);
+    ShuffleboardHelpers.createComplexWidget("PIDControl", "PIDController2", PigeonHelpers.pigeonPIDController2);
+    ShuffleboardHelpers.createComplexWidget("Limelight", "FRTalon", Drivetrain.frontRightTalonSRX);
+    ShuffleboardHelpers.createComplexWidget("Limelight", "FLTalon", Drivetrain.frontLeftTalonSRX);
+    ShuffleboardHelpers.createComplexWidget("Limelight", "PID1", LimelightHelpers.limelightPIDController1);
+    ShuffleboardHelpers.createComplexWidget("Limelight", "PID2", LimelightHelpers.limelightPIDController2);
+
+    //Initializing Stuff
+    Drivetrain.backLeftTalonSRX.configFactoryDefault();
+    Drivetrain.backRightTalonSRX.configFactoryDefault();
+    Drivetrain.frontLeftTalonSRX.configFactoryDefault();
+    Drivetrain.frontRightTalonSRX.configFactoryDefault();
+    Drivetrain.pigeon.configFactoryDefault();
+
+    Drivetrain.frontLeftTalonSRX.setNeutralMode(NeutralMode.Brake);
+    Drivetrain.frontRightTalonSRX.setNeutralMode(NeutralMode.Brake);
+    Drivetrain.backLeftTalonSRX.setNeutralMode(NeutralMode.Brake);
+    Drivetrain.backRightTalonSRX.setNeutralMode(NeutralMode.Brake);
+    Drivetrain.frontRightTalonSRX.setInverted(true);
+    Drivetrain.backRightTalonSRX.setInverted(true);
+    Drivetrain.backRightTalonSRX.set(ControlMode.Follower, RobotMap.FR);
+    Drivetrain.backLeftTalonSRX.set(ControlMode.Follower, RobotMap.FL);
+    Drivetrain.frontRightTalonSRX.configRemoteFeedbackFilter(Drivetrain.pigeon.getDeviceID(), RemoteSensorSource.GadgeteerPigeon_Yaw, 0);
+    Drivetrain.frontLeftTalonSRX.configRemoteFeedbackFilter(Drivetrain.pigeon.getDeviceID(), RemoteSensorSource.GadgeteerPigeon_Yaw, 0);
   }
 
 
@@ -71,14 +91,14 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    MainHelpers.resetPigeon();
+    PigeonHelpers.resetPigeon();
   }
 
 
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
-    System.out.println(MainHelpers.getLimelightValue("tx"));
+    System.out.println(LimelightHelpers.getLimelightValue("tx"));
     
   }
 
