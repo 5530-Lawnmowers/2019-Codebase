@@ -8,12 +8,12 @@ import java.util.List;
 import java.util.Scanner;
 import edu.wpi.first.wpilibj.Filesystem;
 
-public class CsvHelper {
+public class CSVHelper {
 
     //Column 1: Left Velocity, Column 2: Left Distance, Column 3: Right Velocity, Column 4: Right Distance
     public List<List<String>> data;
 
-    public CsvHelper(String fileName) {
+    public CSVHelper(String fileName) {
 
         File file = new File(Filesystem.getDeployDirectory(), fileName);
 

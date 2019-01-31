@@ -22,7 +22,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 public class MPHelper{
 	
 	private MotionProfileStatus _status = new MotionProfileStatus();
-	private CsvHelper _profile;
+	private CSVHelper _profile;
 	private int _state = 0;
 	private int _loopTimeout = -1;
 	private boolean _bStart = false;
@@ -43,7 +43,7 @@ public class MPHelper{
     		Drivetrain.frontRightTalonSRX.changeMotionControlFramePeriod(5);
     		Drivetrain.frontLeftTalonSRX.changeMotionControlFramePeriod(5);
     		_notifier.startPeriodic(0.005);
-    		_profile = new CsvHelper(filename);
+    		_profile = new CSVHelper(filename);
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     }
@@ -128,7 +128,7 @@ public class MPHelper{
     	return 1024 * (inchesPerSecond / (60 * Math.PI));
     }
     
-    private void startFilling (CsvHelper profile, int totalCnt) {
+    private void startFilling (CSVHelper profile, int totalCnt) {
     		TrajectoryPoint rightPoint = new TrajectoryPoint();
     		TrajectoryPoint leftPoint = new TrajectoryPoint();
     		if (_status.hasUnderrun) {
