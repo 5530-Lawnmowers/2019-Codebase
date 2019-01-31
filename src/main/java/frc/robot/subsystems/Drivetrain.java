@@ -7,7 +7,6 @@
 
 package frc.robot.subsystems;
 
-import frc.robot.Helpers;
 import frc.robot.RobotMap;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;

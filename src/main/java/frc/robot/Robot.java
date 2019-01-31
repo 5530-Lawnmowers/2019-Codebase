@@ -8,9 +8,9 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
+import frc.robot.Helpers.*;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.FrontElevator;
 
@@ -27,15 +27,15 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     oi = new OI();
-    Helpers.initializeRobot();
+    MainHelpers.initializeRobot();
     // Creating Shuffleboard Objects
-    Helpers.createComplexWidget("PIDControl", "Gyro", Helpers.pigeonWrapper);
-    Helpers.createComplexWidget("PIDControl", "PIDController1", Helpers.pigeonPIDController1);
-    Helpers.createComplexWidget("PIDControl", "PIDController2", Helpers.pigeonPIDController2);
-    Helpers.createComplexWidget("Limelight", "FRTalon", Drivetrain.frontRightTalonSRX);
-    Helpers.createComplexWidget("Limelight", "FLTalon", Drivetrain.frontLeftTalonSRX);
-    Helpers.createComplexWidget("Limelight", "PID1", Helpers.limelightPIDController1);
-    Helpers.createComplexWidget("Limelight", "PID2", Helpers.limelightPIDController2);
+    MainHelpers.createComplexWidget("PIDControl", "Gyro", MainHelpers.pigeonWrapper);
+    MainHelpers.createComplexWidget("PIDControl", "PIDController1", MainHelpers.pigeonPIDController1);
+    MainHelpers.createComplexWidget("PIDControl", "PIDController2", MainHelpers.pigeonPIDController2);
+    MainHelpers.createComplexWidget("Limelight", "FRTalon", Drivetrain.frontRightTalonSRX);
+    MainHelpers.createComplexWidget("Limelight", "FLTalon", Drivetrain.frontLeftTalonSRX);
+    MainHelpers.createComplexWidget("Limelight", "PID1", MainHelpers.limelightPIDController1);
+    MainHelpers.createComplexWidget("Limelight", "PID2", MainHelpers.limelightPIDController2);
   }
 
 
@@ -68,14 +68,14 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    Helpers.resetPigeon();
+    MainHelpers.resetPigeon();
   }
 
 
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
-    System.out.println(Helpers.getLimelightValue("tx"));
+    System.out.println(MainHelpers.getLimelightValue("tx"));
     
   }
 

@@ -5,10 +5,12 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot;
+package frc.robot.Helpers;
+
+import frc.robot.subsystems.Drivetrain;
+import frc.robot.*;
 
 import edu.wpi.first.wpilibj.shuffleboard.*;
-import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.GyroBase;
 import edu.wpi.first.wpilibj.PIDSourceType;
@@ -24,20 +26,20 @@ import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
  * Contains helpers for widgets and gyroscopes
  */
 
-public class Helpers {
+public class MainHelpers {
 
   public static void initializeRobot(){
     Drivetrain.frontRightTalonSRX.setInverted(true);
     Drivetrain.backRightTalonSRX.setInverted(true);
     Drivetrain.backRightTalonSRX.set(ControlMode.Follower, RobotMap.FR);
     Drivetrain.backLeftTalonSRX.set(ControlMode.Follower, RobotMap.FL);
-    Drivetrain.frontRightTalonSRX.configRemoteFeedbackFilter(Helpers.pigeon.getDeviceID(), RemoteSensorSource.GadgeteerPigeon_Yaw, 0);
-    Drivetrain.frontLeftTalonSRX.configRemoteFeedbackFilter(Helpers.pigeon.getDeviceID(), RemoteSensorSource.GadgeteerPigeon_Yaw, 0);
+    Drivetrain.frontRightTalonSRX.configRemoteFeedbackFilter(MainHelpers.pigeon.getDeviceID(), RemoteSensorSource.GadgeteerPigeon_Yaw, 0);
+    Drivetrain.frontLeftTalonSRX.configRemoteFeedbackFilter(MainHelpers.pigeon.getDeviceID(), RemoteSensorSource.GadgeteerPigeon_Yaw, 0);
   }
 
   //// HELPER VARIABLES
   public static PigeonIMU pigeon = new PigeonIMU(15);
-  static PigeonWrapper pigeonWrapper = new PigeonWrapper();
+  public static PigeonWrapper pigeonWrapper = new PigeonWrapper();
   static LimelightWrapper limelightWrapper = new LimelightWrapper("tx");
   public static NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
   public static PIDController pigeonPIDController1 = new PIDController(0, 0, 0, pigeonWrapper, Drivetrain.frontLeftTalonSRX);
@@ -282,12 +284,12 @@ public class Helpers {
 
   public static double getLimelightValue(String sourceValue){
     double output;
-    Helpers.table = NetworkTableInstance.getDefault().getTable("limelight");
+    MainHelpers.table = NetworkTableInstance.getDefault().getTable("limelight");
     if (sourceValue == "ta" || sourceValue == "tx" || sourceValue == "tx" || sourceValue == "tx0" || sourceValue == "tv"){
-      output = Helpers.table.getEntry(sourceValue).getDouble(0.0);
+      output = MainHelpers.table.getEntry(sourceValue).getDouble(0.0);
     } else {
       System.out.println("Invalid Limelight value. Setting to default of 'tx'");
-      output = Helpers.table.getEntry("tx").getDouble(0.0);
+      output = MainHelpers.table.getEntry("tx").getDouble(0.0);
     }
 
     return output;
@@ -311,7 +313,7 @@ class PigeonWrapper extends GyroBase{
 
   @Override
   public double pidGet() {
-      return Helpers.getPigeonCompassHeading();
+      return MainHelpers.getPigeonCompassHeading();
   }
 
   @Override
@@ -322,23 +324,23 @@ class PigeonWrapper extends GyroBase{
   //Gyro Interface
   @Override
   public double getAngle() {
-    return Helpers.getPigeonCompassHeading();
+    return MainHelpers.getPigeonCompassHeading();
   }
 
   @Override
   public void reset() {
-    Helpers.resetPigeon();
+    MainHelpers.resetPigeon();
   }
 
   @Override
   public void calibrate() {
-    Helpers.calibratePigeon();
+    MainHelpers.calibratePigeon();
   }
 
   @Override
   public double getRate() {
     
-    return Helpers.getPigeonRate();
+    return MainHelpers.getPigeonRate();
   }
 
 }
@@ -372,7 +374,7 @@ class LimelightWrapper implements PIDSource{
 
   @Override
   public double pidGet() {
-    return -Helpers.getLimelightValue(pidSourceValue);
+    return -MainHelpers.getLimelightValue(pidSourceValue);
   }
 
   @Override

@@ -6,9 +6,8 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot.commands;
-import frc.robot.Helpers;
+import frc.robot.Helpers.*;
 import frc.robot.Robot;
-import frc.robot.subsystems.*;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -24,13 +23,13 @@ public class PIDTurn extends Command{
   @Override
   protected void initialize() {
     counter = 0;
-    Helpers.resetPigeon();
-    Helpers.pigeonPIDShuffleboard(1);
+    MainHelpers.resetPigeon();
+    MainHelpers.pigeonPIDShuffleboard(1);
   }
 
   @Override
   protected void execute() {
-    if(Helpers.pigeonPIDController1.onTarget()) counter ++; 
+    if(MainHelpers.pigeonPIDController1.onTarget()) counter ++; 
     else counter = 0;
   }
 
@@ -41,11 +40,11 @@ public class PIDTurn extends Command{
 
   @Override
   protected void end() {
-    Helpers.disablePigeonPIDController();
+    MainHelpers.disablePigeonPIDController();
   }
 
   @Override
   protected void interrupted() {
-    Helpers.disablePigeonPIDController();
+    MainHelpers.disablePigeonPIDController();
   }
 }

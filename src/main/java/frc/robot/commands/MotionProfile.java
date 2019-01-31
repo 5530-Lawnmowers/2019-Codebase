@@ -8,7 +8,7 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.*;
-import frc.robot.MPHelper;
+import frc.robot.Helpers.*;
 import frc.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -18,7 +18,7 @@ public class MotionProfile extends Command {
   MPHelper mpHelper;
   public MotionProfile() {
     requires(Robot.drivetrain);
-    mpHelper = new MPHelper(new double[1][1][1]);
+    mpHelper = new MPHelper("Output.csv");
   }
 
   // Called just before this Command runs the first time

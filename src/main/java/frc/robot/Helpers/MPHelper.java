@@ -5,16 +5,14 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot;
+package frc.robot.Helpers;
 
 import frc.robot.Robot;
+import frc.robot.Helpers.*;
 import frc.robot.subsystems.*;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.Notifier;
-
-
-import frc.robot.triggers.Profile;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motion.*;
@@ -28,7 +26,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 public class MPHelper{
 	
 	private MotionProfileStatus _status = new MotionProfileStatus();
-	private double [][][] _profile = Profile.rightSwitchProfile5;
+	private CsvHelper _profile;
 	private int _state = 0;
 	private int _loopTimeout = -1;
 	private boolean _bStart = false;
@@ -45,11 +43,11 @@ public class MPHelper{
 	
 	Notifier _notifier = new Notifier(new PeriodicRunnable());
 	
-    public MPHelper(double [][][] profile) {
+    public MPHelper(String filename) {
     		Drivetrain.frontRightTalonSRX.changeMotionControlFramePeriod(5);
     		Drivetrain.frontLeftTalonSRX.changeMotionControlFramePeriod(5);
     		_notifier.startPeriodic(0.005);
-    		_profile = profile;
+    		_profile = new CsvHelper(filename);
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     }
@@ -123,7 +121,7 @@ public class MPHelper{
     }
     
     private void startFilling() {
-    		startFilling(_profile, _profile[0][0].length);
+    		startFilling(_profile, _profile.getLength());
     }
     
     private double convertToTicks(double inches ) {
@@ -134,7 +132,7 @@ public class MPHelper{
     	return 1024 * (inchesPerSecond / (60 * Math.PI));
     }
     
-    private void startFilling (double[][][] profile, int totalCnt) {
+    private void startFilling (CsvHelper profile, int totalCnt) {
     		TrajectoryPoint rightPoint = new TrajectoryPoint();
     		TrajectoryPoint leftPoint = new TrajectoryPoint();
     		if (_status.hasUnderrun) {
@@ -147,10 +145,10 @@ public class MPHelper{
 		Drivetrain.frontRightTalonSRX.clearMotionProfileTrajectories();
 		
 		for (int i = 0; i < totalCnt; ++i) {
-			rightPoint.position = -convertToTicks(profile[0][0][i]);
-			rightPoint.velocity = -convertVelocity(profile[0][1][i]);
-			leftPoint.position = convertToTicks(profile[1][0][i]);
-			leftPoint.velocity = convertVelocity(profile[1][1][i]);
+			rightPoint.position = -convertToTicks(profile.getRightDistance(i));
+			rightPoint.velocity = -convertVelocity(profile.getRightVelocity(i));
+			leftPoint.position = convertToTicks(profile.getLeftDistance(i));
+			leftPoint.velocity = convertVelocity(profile.getLeftVelocity(i));
 			//TODO: Check this profile Slot Select
 			rightPoint.profileSlotSelect0 = 3;
 			rightPoint.headingDeg = 0;
