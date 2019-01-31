@@ -34,10 +34,10 @@ public class Drive extends Command {
   @Override
   protected void execute() {
     if(Lpower >= RobotMap.kHLspeed && Rpower >= RobotMap.kHLspeed){
-      Robot.m_pneumatics.High();
+      Robot.pneumatics.High();
     }
     else {
-      Robot.m_pneumatics.Low();
+      Robot.pneumatics.Low();
     }
   }
 

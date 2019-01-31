@@ -16,7 +16,7 @@ package frc.robot;
  */
 public class RobotMap {
 	public static double kHLspeed = .75;
-  public static int FR = 1; 
+    public static int FR = 1; 
 	public static int FL = 2; 
 	public static int BR = 3;
 	public static int BL = 4;
