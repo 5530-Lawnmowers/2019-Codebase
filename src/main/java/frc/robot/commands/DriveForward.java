@@ -7,13 +7,11 @@
 
 package frc.robot.commands;
 
-import frc.robot.Helpers.MainHelpers;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
@@ -51,7 +49,7 @@ public class DriveForward extends Command {
 												RobotMap.kTimeoutMs);						// Configuration Timeout
 		
 		/* Configure the Pigeon IMU to the other Remote Slot on the Right Talon */
-		Drivetrain.frontRightTalonSRX.configRemoteFeedbackFilter(MainHelpers.pigeon.getDeviceID(),
+		Drivetrain.frontRightTalonSRX.configRemoteFeedbackFilter(Drivetrain.pigeon.getDeviceID(),
 												RemoteSensorSource.Pigeon_Yaw,
 												RobotMap.REMOTE_1,	
 												RobotMap.kTimeoutMs);

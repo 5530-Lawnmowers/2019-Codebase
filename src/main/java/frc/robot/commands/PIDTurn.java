@@ -23,13 +23,13 @@ public class PIDTurn extends Command{
   @Override
   protected void initialize() {
     counter = 0;
-    MainHelpers.resetPigeon();
-    MainHelpers.pigeonPIDShuffleboard(1);
+    PigeonHelpers.resetPigeon();
+    PigeonHelpers.pigeonPIDShuffleboard(1);
   }
 
   @Override
   protected void execute() {
-    if(MainHelpers.pigeonPIDController1.onTarget()) counter ++; 
+    if(PigeonHelpers.pigeonPIDController1.onTarget()) counter ++; 
     else counter = 0;
   }
 
@@ -40,11 +40,11 @@ public class PIDTurn extends Command{
 
   @Override
   protected void end() {
-    MainHelpers.disablePigeonPIDController();
+    PigeonHelpers.disablePigeonPIDController();
   }
 
   @Override
   protected void interrupted() {
-    MainHelpers.disablePigeonPIDController();
+    PigeonHelpers.disablePigeonPIDController();
   }
 }
