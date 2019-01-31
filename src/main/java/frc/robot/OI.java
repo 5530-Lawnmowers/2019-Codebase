@@ -35,8 +35,6 @@ public class OI {
     }
     buttons[0].toggleWhenPressed(new PIDTurn());
     buttons[1].toggleWhenPressed(new PIDLimelight());
-    buttons[2].whenPressed(new LowGear());
-    buttons[3].whenPressed(new HighGear());
   }
 
 
