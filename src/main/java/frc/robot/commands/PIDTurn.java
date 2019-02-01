@@ -6,7 +6,7 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot.commands;
-import frc.robot.Helpers.*;
+import frc.robot.helpers.*;
 import frc.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;

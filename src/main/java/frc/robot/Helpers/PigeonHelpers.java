@@ -1,4 +1,4 @@
-package frc.robot.Helpers;
+package frc.robot.helpers;
 
 import edu.wpi.first.wpilibj.GyroBase;
 import edu.wpi.first.wpilibj.PIDSourceType;

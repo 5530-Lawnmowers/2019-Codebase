@@ -1,4 +1,4 @@
-package frc.robot.Helpers;
+package frc.robot.helpers;
 
 import edu.wpi.first.wpilibj.shuffleboard.*;
 import edu.wpi.first.wpilibj.Sendable;

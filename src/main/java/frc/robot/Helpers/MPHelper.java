@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.Helpers;
+package frc.robot.helpers;
 
 import frc.robot.subsystems.*;
 

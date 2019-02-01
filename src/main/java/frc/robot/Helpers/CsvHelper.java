@@ -1,4 +1,4 @@
-package frc.robot.Helpers;
+package frc.robot.helpers;
 
 import java.io.File;
 import java.io.FileNotFoundException;
