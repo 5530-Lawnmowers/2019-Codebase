@@ -36,6 +36,7 @@ public class OI {
     buttons[0].toggleWhenPressed(new PIDTurn());
     buttons[1].toggleWhenPressed(new PIDLimelight());
     buttons[2].toggleWhenPressed(new DriveForward(100));
+    buttons[3].toggleWhenPressed(new MotionProfile("RightFrontShuttle.csv"));
   }
 
 

@@ -16,9 +16,9 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 
 public class MotionProfile extends Command {
   MPHelper mpHelper;
-  public MotionProfile() {
+  public MotionProfile(String filename) {
     requires(Robot.drivetrain);
-    mpHelper = new MPHelper("Output.csv");
+    mpHelper = new MPHelper(filename);
   }
 
   // Called just before this Command runs the first time
