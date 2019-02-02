@@ -22,6 +22,7 @@ public class MagneticLimit extends Subsystem {
   public double test(){
     return MagnetLimit.getValue();
   }
+  //The magnetic sensor is a analog device and so if there is no magnet 
   public boolean Status(){
     if(MagnetLimit.getValue() >= 560){
       return false;

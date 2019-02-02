@@ -7,8 +7,11 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
@@ -16,17 +19,20 @@ import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
 import frc.robot.helpers.*;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.FrontElevator;
+import frc.robot.subsystems.Lights;
+import frc.robot.subsystems.MagneticLimit;
 import frc.robot.subsystems.Pneumatics;
 
 public class Robot extends TimedRobot {
   public static OI oi;
+  public double value = -.99;
 
   // Declare Subsystems
-  public static Lift lift = new Lift();
   public static FrontElevator frontElevator = new FrontElevator();
   public static Drivetrain drivetrain = new Drivetrain();
   public static MagneticLimit magneticlimit = new MagneticLimit();
   public static Pneumatics pneumatics = new Pneumatics();
+  public static Lights lights = new Lights();
 
   // Declare Commands
 
