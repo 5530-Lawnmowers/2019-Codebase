@@ -41,7 +41,7 @@ public class MPHelper{
 	
     public MPHelper(String filename) {
     		Drivetrain.frontRightTalonSRX.changeMotionControlFramePeriod(5);
-    		Drivetrain.frontLeftTalonSRX.changeMotionControlFramePeriod(5);
+			Drivetrain.frontLeftTalonSRX.changeMotionControlFramePeriod(5);
     		_notifier.startPeriodic(0.005);
     		_profile = new CSVHelper(filename);
         // Use requires() here to declare subsystem dependencies
@@ -76,7 +76,7 @@ public class MPHelper{
     		if (Drivetrain.frontRightTalonSRX.getControlMode() != ControlMode.MotionProfile || Drivetrain.frontRightTalonSRX.getControlMode() != ControlMode.MotionProfile) {
     			System.out.println("NO PASS");
     			_state = 0;
-    			_loopTimeout = -1;
+    			_loopTimeout = kNumLoopsTimeout;
     		} else {
     			switch(_state ) {
     			case 0:
@@ -86,7 +86,7 @@ public class MPHelper{
     					_setValue = SetValueMotionProfile.Disable;
     					startFilling();
     					_state = 1;
-    					_loopTimeout = kNumLoopsTimeout;
+    					_loopTimeout = -1;
     					System.out.println("STATE 0");
     				}
     				break;
@@ -141,20 +141,18 @@ public class MPHelper{
 		Drivetrain.frontRightTalonSRX.clearMotionProfileTrajectories();
 		
 		for (int i = 0; i < totalCnt; ++i) {
-			rightPoint.position = -convertToTicks(profile.getRightDistance(i));
-			rightPoint.velocity = -convertVelocity(profile.getRightVelocity(i));
+			rightPoint.position = convertToTicks(profile.getRightDistance(i));
+			rightPoint.velocity = convertVelocity(profile.getRightVelocity(i));
 			leftPoint.position = convertToTicks(profile.getLeftDistance(i));
 			leftPoint.velocity = convertVelocity(profile.getLeftVelocity(i));
 			//TODO: Check this profile Slot Select
-			rightPoint.profileSlotSelect0 = 3;
+			rightPoint.profileSlotSelect0 = 0;
 			rightPoint.headingDeg = 0;
 			rightPoint.zeroPos = false;
-			rightPoint.profileSlotSelect1 = 0;
 			// rightPoint.timeDur = TrajectoryDuration.Trajectory_Duration_10ms;
-			leftPoint.profileSlotSelect0 = 3;
+			leftPoint.profileSlotSelect0 = 0;
 			leftPoint.headingDeg = 0;
 			leftPoint.zeroPos = false;
-			leftPoint.profileSlotSelect1 = 0;
 			// leftPoint.timeDur = TrajectoryDuration.Trajectory_Duration_10ms;
 			if (i == 0) {
 				rightPoint.zeroPos = true;
@@ -169,7 +167,7 @@ public class MPHelper{
 				rightPoint.isLastPoint = true;
 				leftPoint.isLastPoint = true;
 			}
-			System.out.println("Pusing point: " + rightPoint.velocity + ", " + leftPoint.position);
+			System.out.println("Pusing point: " + rightPoint.velocity + ", " + leftPoint.velocity);
 			
 			Drivetrain.frontRightTalonSRX.pushMotionProfileTrajectory(rightPoint);
 			Drivetrain.frontLeftTalonSRX.pushMotionProfileTrajectory(leftPoint);

@@ -35,7 +35,6 @@ public class Robot extends TimedRobot {
     // Creating Shuffleboard Objects
     ShuffleboardHelpers.createComplexWidget("DriveStraight", "Right Talon", Drivetrain.frontRightTalonSRX);
     ShuffleboardHelpers.createComplexWidget("DriveStraight", "Left Talon", Drivetrain.frontLeftTalonSRX);
-    ShuffleboardHelpers.createSimpleWidget("DriveStraight", "Sense", 0);
 
     //Initializing Stuff
     Drivetrain.backLeftTalonSRX.configFactoryDefault();
@@ -95,8 +94,6 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
-    System.out.println("Left Encoder: "+ Drivetrain.frontLeftTalonSRX.getSelectedSensorPosition());
-    ShuffleboardHelpers.setWidgetValue("DriveStraight", "Sense", Drivetrain.frontRightTalonSRX.getSelectedSensorPosition(RobotMap.PID_TURN));
   }
 
 
