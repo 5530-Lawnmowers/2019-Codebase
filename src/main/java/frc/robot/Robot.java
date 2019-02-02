@@ -22,8 +22,10 @@ public class Robot extends TimedRobot {
   public static OI oi;
 
   // Declare Subsystems
+  public static Lift lift = new Lift();
   public static FrontElevator frontElevator = new FrontElevator();
   public static Drivetrain drivetrain = new Drivetrain();
+  public static MagneticLimit magneticlimit = new MagneticLimit();
   public static Pneumatics pneumatics = new Pneumatics();
 
   // Declare Commands
