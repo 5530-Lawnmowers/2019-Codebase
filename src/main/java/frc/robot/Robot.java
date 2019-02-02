@@ -106,8 +106,11 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
-    System.out.println(LimelightHelpers.getLimelightValue("tx"));
-    
+    //System.out.println(LimelightHelpers.getLimelightValue("tx"));
+    SmartDashboard.putNumber("speed", Robot.drivetrain.driveSpeed());
+    Robot.pneumatics.power(false);
+    SmartDashboard.updateValues();
+
   }
 
 

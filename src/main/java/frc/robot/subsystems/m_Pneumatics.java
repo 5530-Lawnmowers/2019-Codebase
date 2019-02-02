@@ -14,37 +14,28 @@ import edu.wpi.first.wpilibj.*;
 /**
  * Add your docs here.
  */
-public class Pneumatics extends Subsystem {
+public class m_Pneumatics extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
   Compressor compressor = new Compressor(0);
   DoubleSolenoid solenoid1 = new DoubleSolenoid(1, 2);
   DoubleSolenoid solenoid2 = new DoubleSolenoid(4, 5);
   BuiltInAccelerometer accelerometer = new BuiltInAccelerometer();
-  public boolean Gear = false;
-
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
   }
-  
+
   public void power(boolean on){
     compressor.setClosedLoopControl(on);
   }
   public void High(){
     solenoid1.set(DoubleSolenoid.Value.kForward);
     solenoid2.set(DoubleSolenoid.Value.kForward);
-    Gear = true;
-
     }
   public void Low(){
     solenoid1.set(DoubleSolenoid.Value.kReverse);
     solenoid2.set(DoubleSolenoid.Value.kReverse);
-    Gear = false;
-
-  }
-  public boolean getGear(){
-    return Gear;
   }
 }
