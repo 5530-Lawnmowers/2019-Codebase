@@ -44,7 +44,7 @@ public class DriveForward extends Command {
 		Drivetrain.frontLeftTalonSRX.set(ControlMode.PercentOutput, 0);
 		
 		/* Configure the left Talon's selected sensor as local QuadEncoder */
-		Drivetrain.frontLeftTalonSRX.configSelectedFeedbackSensor(	FeedbackDevice.QuadEncoder,				// Local Feedback Source
+		Drivetrain.frontLeftTalonSRX.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,				// Local Feedback Source
 													RobotMap.PID_PRIMARY,					// PID Slot for Source [0, 1]
 													RobotMap.kTimeoutMs);					// Configuration Timeout
 
@@ -63,7 +63,7 @@ public class DriveForward extends Command {
 		/* Setup Sum signal to be used for Distance */
 		Drivetrain.frontRightTalonSRX.configSensorTerm(SensorTerm.Sum0, FeedbackDevice.RemoteSensor0, RobotMap.kTimeoutMs);	// Feedback Device of Remote Talon
 		Drivetrain.frontRightTalonSRX.configSensorTerm(SensorTerm.Sum1, FeedbackDevice.QuadEncoder, RobotMap.kTimeoutMs);	// Quadrature Encoder of current Talon
-		
+
 		/* Configure Sum [Sum of both QuadEncoders] to be used for Primary PID Index */
 		Drivetrain.frontRightTalonSRX.configSelectedFeedbackSensor(	FeedbackDevice.SensorSum, 
 													RobotMap.PID_PRIMARY,
@@ -86,7 +86,7 @@ public class DriveForward extends Command {
 		
 		/* Configure output and sensor direction */
 		Drivetrain.frontLeftTalonSRX.setInverted(false);
-		Drivetrain.frontLeftTalonSRX.setSensorPhase(true);
+		Drivetrain.frontLeftTalonSRX.setSensorPhase(false);
 		Drivetrain.frontRightTalonSRX.setInverted(true);
 		Drivetrain.frontRightTalonSRX.setSensorPhase(true);
 		
@@ -156,7 +156,8 @@ public class DriveForward extends Command {
     if (_firstCall) {
       System.out.println("This is Drive Straight Distance with the Auxiliary PID using the Pigeon yaw.");
       System.out.println("Servo [-6, 6] rotations while also maintaining a straight heading.\n");
-      zeroDistance();
+	  zeroDistance();
+	  zeroSensors();
       
       /* Determine which slot affects which PID */
       Drivetrain.frontRightTalonSRX.selectProfileSlot(RobotMap.kSlot_Distanc, RobotMap.PID_PRIMARY);
@@ -170,7 +171,7 @@ public class DriveForward extends Command {
     /* Configured for Position Closed loop on Quad Encoders' Sum and Auxiliary PID on Pigeon's Yaw */
     Drivetrain.frontRightTalonSRX.set(ControlMode.Position, target_sensorUnits, DemandType.AuxPID, target_turn);
     Drivetrain.frontLeftTalonSRX.follow(Drivetrain.frontRightTalonSRX, FollowerType.AuxOutput1);
-		_firstCall = false;
+	_firstCall = false;
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -182,13 +183,17 @@ public class DriveForward extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
+	Drivetrain.frontRightTalonSRX.set(ControlMode.PercentOutput, 0);
+	Drivetrain.frontLeftTalonSRX.set(ControlMode.PercentOutput, 0);
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-  }
+	Drivetrain.frontRightTalonSRX.set(ControlMode.PercentOutput, 0);
+	Drivetrain.frontLeftTalonSRX.set(ControlMode.PercentOutput, 0);
+}
 
   private double convertToTicks(double inches ) {
     return 1024 * (inches / (6 * Math.PI));

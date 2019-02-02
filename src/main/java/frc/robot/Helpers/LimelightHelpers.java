@@ -10,8 +10,9 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 
 
 public class LimelightHelpers{
+    public static boolean limelightDisabled = false;
+    public static NetworkTable table;
     static LimelightWrapper limelightWrapper = new LimelightWrapper("tx");
-    public static NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
     public static PIDController limelightPIDController1 = new PIDController(0, 0, 0, limelightWrapper, Drivetrain.frontRightTalonSRX);
     public static PIDController limelightPIDController2 = new PIDController(0, 0, 0, limelightWrapper, Drivetrain.frontLeftTalonSRX);
   
@@ -20,23 +21,36 @@ public class LimelightHelpers{
      * @param setpoint The point to be set for the PIDController to use
      */
     public static void limelightPIDWrite(double setpoint){
+        if(limelightDisabled){
+          System.out.println("limelightPIDWrite() failed: Limelight Disabled");
+        } else {
+          limelightPIDController1.setSetpoint(setpoint);
+          limelightPIDController2.setSetpoint(setpoint);
+          limelightPIDController1.enable();
+          limelightPIDController2.enable();
+        }
 
-        limelightPIDController1.setSetpoint(setpoint);
-        limelightPIDController2.setSetpoint(setpoint);
-        limelightPIDController1.enable();
-        limelightPIDController2.enable();
+
     }
 
     /**
      * Disable limelight PIDController
      */
     public static void disableLimelightPIDController(){
+      if(limelightDisabled){
+        System.out.println("disableLimelight() failed: Limelight Disabled");
+      } else {
         limelightPIDController1.disable();
         limelightPIDController2.disable();
+      }
         //System.out.println("Tried to disable limelight.");
     }
 
     public static double getLimelightValue(String sourceValue){
+      if(limelightDisabled){
+        System.out.println("limelightPIDWrite() failed: Limelight Disabled");
+        return 0;
+      } else {
         double output;
         table = NetworkTableInstance.getDefault().getTable("limelight");
         if (sourceValue == "ta" || sourceValue == "tx" || sourceValue == "tx" || sourceValue == "tx0" || sourceValue == "tv"){
@@ -45,8 +59,9 @@ public class LimelightHelpers{
         System.out.println("Invalid Limelight value. Setting to default of 'tx'");
         output = table.getEntry("tx").getDouble(0.0);
         }
-
         return output;
+      }
+
     }
   
 }
@@ -71,7 +86,14 @@ class LimelightWrapper implements PIDSource{
    * </ul>
    */
   LimelightWrapper(String sourceValue){
+    try {
+      LimelightHelpers.table = NetworkTableInstance.getDefault().getTable("limelight");
+    } catch (Exception e) {
+      System.out.println(e);
+    }
+    
     pidSourceValue = sourceValue;
+    
   }
 
   //PIDSource Interface
