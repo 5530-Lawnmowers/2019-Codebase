@@ -8,6 +8,7 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.Robot;
 import frc.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -16,6 +17,8 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
 import com.ctre.phoenix.motorcontrol.SensorTerm;
+import com.ctre.phoenix.motorcontrol.DemandType;
+import com.ctre.phoenix.motorcontrol.FollowerType;
 
 public class DriveForward extends Command {
 
@@ -23,9 +26,12 @@ public class DriveForward extends Command {
   boolean _firstCall = false;
   boolean _state = false;
   double _targetAngle = 0;
+  double distance;
 
 
-  public DriveForward() {
+  public DriveForward(double _distance) {
+    requires(Robot.drivetrain);
+    distance = _distance;
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
   }
@@ -145,6 +151,26 @@ public class DriveForward extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    _targetAngle = Drivetrain.frontRightTalonSRX.getSelectedSensorPosition(1);
+
+    if (_firstCall) {
+      System.out.println("This is Drive Straight Distance with the Auxiliary PID using the Pigeon yaw.");
+      System.out.println("Servo [-6, 6] rotations while also maintaining a straight heading.\n");
+      zeroDistance();
+      
+      /* Determine which slot affects which PID */
+      Drivetrain.frontRightTalonSRX.selectProfileSlot(RobotMap.kSlot_Distanc, RobotMap.PID_PRIMARY);
+      Drivetrain.frontRightTalonSRX.selectProfileSlot(RobotMap.kSlot_Turning, RobotMap.PID_TURN);
+    }
+    
+    /* Calculate targets from gamepad inputs */
+    double target_sensorUnits = convertToTicks(distance);
+    double target_turn = _targetAngle;
+    
+    /* Configured for Position Closed loop on Quad Encoders' Sum and Auxiliary PID on Pigeon's Yaw */
+    Drivetrain.frontRightTalonSRX.set(ControlMode.Position, target_sensorUnits, DemandType.AuxPID, target_turn);
+    Drivetrain.frontLeftTalonSRX.follow(Drivetrain.frontRightTalonSRX, FollowerType.AuxOutput1);
+		_firstCall = false;
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -163,4 +189,24 @@ public class DriveForward extends Command {
   @Override
   protected void interrupted() {
   }
+
+  private double convertToTicks(double inches ) {
+    return 1024 * (inches / (6 * Math.PI));
+  }
+
+  	/** Zero all sensors, both Pigeon and Talons */
+	void zeroSensors() {
+		Drivetrain.frontLeftTalonSRX.getSensorCollection().setQuadraturePosition(0, RobotMap.kTimeoutMs);
+		Drivetrain.frontRightTalonSRX.getSensorCollection().setQuadraturePosition(0, RobotMap.kTimeoutMs);
+		Drivetrain.pigeon.setYaw(0, RobotMap.kTimeoutMs);
+		Drivetrain.pigeon.setAccumZAngle(0, RobotMap.kTimeoutMs);
+		System.out.println("[Quadrature Encoders + Position] All sensors are zeroed.\n");
+  }
+  
+  	/** Zero quadrature encoders on Talon */
+	void zeroDistance(){
+		Drivetrain.frontLeftTalonSRX.getSensorCollection().setQuadraturePosition(0, RobotMap.kTimeoutMs);
+		Drivetrain.frontRightTalonSRX.getSensorCollection().setQuadraturePosition(0, RobotMap.kTimeoutMs);
+		System.out.println("[Quadrature Encoders] All encoders are zeroed.\n");
+	}
 }
