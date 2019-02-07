@@ -10,28 +10,25 @@ package frc.robot.subsystems;
 import frc.robot.RobotMap;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.ctre.phoenix.sensors.PigeonIMU;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.DigitalInput;
 
 /**
  * Add your docs here.
  */
-public class Drivetrain extends Subsystem {
+public class Intake extends Subsystem {
+  // Put methods for controlling this subsystem
+  // here. Call these from Commands.
 
-  public static WPI_TalonSRX frontRightTSRX  = new WPI_TalonSRX(RobotMap.FR);
-  public static WPI_TalonSRX frontLeftTSRX  = new WPI_TalonSRX(RobotMap.FL);
-  public static WPI_TalonSRX backRightTSRX  = new WPI_TalonSRX(RobotMap.BR);
-  public static WPI_TalonSRX backLeftTSRX  = new WPI_TalonSRX(RobotMap.BL);
+  public static WPI_TalonSRX intakeTRSX1 = new WPI_TalonSRX(RobotMap.I1);
+  public static WPI_TalonSRX intakeTRSX2 = new WPI_TalonSRX(RobotMap.I2);
 
-  public static PigeonIMU pigeon = new PigeonIMU(15);
+  public static DigitalInput intakeSwitch = new DigitalInput(RobotMap.IS);
 
-  
-
-  
-	
-	public void initDefaultCommand() {
-		// setDefaultCommand(new MySpecialCommand());
-	
-	}
+  @Override
+  public void initDefaultCommand() {
+    // Set the default command for a subsystem here.
+    // setDefaultCommand(new MySpecialCommand());
+  }
 }

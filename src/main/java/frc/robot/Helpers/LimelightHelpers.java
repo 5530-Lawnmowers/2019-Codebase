@@ -13,8 +13,8 @@ public class LimelightHelpers{
     public static boolean limelightDisabled = false;
     public static NetworkTable table;
     static LimelightWrapper limelightWrapper = new LimelightWrapper("tx");
-    public static PIDController limelightPIDController1 = new PIDController(0, 0, 0, limelightWrapper, Drivetrain.frontRightTalonSRX);
-    public static PIDController limelightPIDController2 = new PIDController(0, 0, 0, limelightWrapper, Drivetrain.frontLeftTalonSRX);
+    public static PIDController limelightPIDController1 = new PIDController(0, 0, 0, limelightWrapper, Drivetrain.frontRightTSRX);
+    public static PIDController limelightPIDController2 = new PIDController(0, 0, 0, limelightWrapper, Drivetrain.frontLeftTSRX);
   
     /**
      * Sets the setpoint to stop using PID with Limelight.

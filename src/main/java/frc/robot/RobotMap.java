@@ -21,6 +21,18 @@ public class RobotMap {
 	public static int BR = 3;
 	public static int BL = 4;
 
+	public static int D1 = 5;
+	public static int D2 = 6;
+	public static int DS = 0;
+
+	public static int E1 = 7;
+	public static int E2 = 8;
+	public static int ES = 1;
+
+	public static int I1 = 9;
+	public static int I2 = 10;
+	public static int IS = 3;
+
 
 	// PID Slots
 	private static double[] pidSlot1 = {0.004, 1e-20, 0};

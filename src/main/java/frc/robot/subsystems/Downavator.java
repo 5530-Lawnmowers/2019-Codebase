@@ -7,14 +7,28 @@
 
 package frc.robot.subsystems;
 
+import frc.robot.RobotMap;
+
+import com.revrobotics.*;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.DigitalInput;
+
 
 /**
  * Add your docs here.
  */
-public class FrontElevator extends Subsystem {
+public class Downavator extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
+
+  //Assigning necessary componenets
+  public static CANSparkMax downavatorSpark1 = new CANSparkMax(RobotMap.D1, CANSparkMaxLowLevel.MotorType.kBrushless);
+  public static CANSparkMax downavatorSpark2 = new CANSparkMax(RobotMap.D2, CANSparkMaxLowLevel.MotorType.kBrushless);
+  public static WPI_TalonSRX downavatorDrive = new WPI_TalonSRX(RobotMap.DD);
+
+  public static DigitalInput downavatorSwitch = new DigitalInput(RobotMap.DS);
 
   @Override
   public void initDefaultCommand() {

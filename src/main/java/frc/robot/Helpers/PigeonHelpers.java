@@ -10,8 +10,8 @@ import frc.robot.RobotMap;
 public class PigeonHelpers{
 
     public static PigeonWrapper pigeonWrapper = new PigeonWrapper();
-    public static PIDController pigeonPIDController1 = new PIDController(0, 0, 0, pigeonWrapper, Drivetrain.frontLeftTalonSRX);
-    public static PIDController pigeonPIDController2 = new PIDController(0, 0, 0, pigeonWrapper, Drivetrain.frontRightTalonSRX);
+    public static PIDController pigeonPIDController1 = new PIDController(0, 0, 0, pigeonWrapper, Drivetrain.frontLeftTSRX);
+    public static PIDController pigeonPIDController2 = new PIDController(0, 0, 0, pigeonWrapper, Drivetrain.frontRightTSRX);
 
 
     /**
@@ -77,8 +77,8 @@ public class PigeonHelpers{
   public static void pigeonPIDWrite(double absoluteTolerance, int pidSlot, double setpoint){
     setupPigeon();
 
-    Drivetrain.frontRightTalonSRX.setInverted(false);
-    Drivetrain.backRightTalonSRX.setInverted(false);
+    Drivetrain.frontRightTSRX.setInverted(false);
+    Drivetrain.backRightTSRX.setInverted(false);
 
     pigeonPIDController1.setPID(RobotMap.pidSlots[pidSlot][0], RobotMap.pidSlots[pidSlot][1], RobotMap.pidSlots[pidSlot][2]);
     pigeonPIDController2.setPID(RobotMap.pidSlots[pidSlot][0], RobotMap.pidSlots[pidSlot][1], RobotMap.pidSlots[pidSlot][2]);
@@ -100,8 +100,8 @@ public class PigeonHelpers{
   public static void pigeonPIDShuffleboard(double absoluteTolerance){
     setupPigeon();
     
-    Drivetrain.frontRightTalonSRX.setInverted(false);
-    Drivetrain.backRightTalonSRX.setInverted(false);
+    Drivetrain.frontRightTSRX.setInverted(false);
+    Drivetrain.backRightTSRX.setInverted(false);
 
     pigeonPIDController1.setPercentTolerance(absoluteTolerance);
     pigeonPIDController2.setPercentTolerance(absoluteTolerance);
@@ -116,8 +116,8 @@ public class PigeonHelpers{
   public static void disablePigeonPIDController(){
     pigeonPIDController1.disable();
     pigeonPIDController2.disable();
-    Drivetrain.frontRightTalonSRX.setInverted(false);
-    Drivetrain.backRightTalonSRX.setInverted(false);
+    Drivetrain.frontRightTSRX.setInverted(false);
+    Drivetrain.backRightTSRX.setInverted(false);
 
 
   }

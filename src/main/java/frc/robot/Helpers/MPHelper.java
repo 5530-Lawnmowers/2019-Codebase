@@ -32,16 +32,16 @@ public class MPHelper{
 	
 	class PeriodicRunnable implements java.lang.Runnable {
 	    public void run() {  
-	    		Drivetrain.frontRightTalonSRX.processMotionProfileBuffer();
-	    		Drivetrain.frontLeftTalonSRX.processMotionProfileBuffer();
+	    		Drivetrain.frontRightTSRX.processMotionProfileBuffer();
+	    		Drivetrain.frontLeftTSRX.processMotionProfileBuffer();
 	    }
 	}
 	
 	Notifier _notifier = new Notifier(new PeriodicRunnable());
 	
     public MPHelper(String filename) {
-    		Drivetrain.frontRightTalonSRX.changeMotionControlFramePeriod(5);
-			Drivetrain.frontLeftTalonSRX.changeMotionControlFramePeriod(5);
+    		Drivetrain.frontRightTSRX.changeMotionControlFramePeriod(5);
+			Drivetrain.frontLeftTSRX.changeMotionControlFramePeriod(5);
     		_notifier.startPeriodic(0.005);
     		_profile = new CSVHelper(filename);
         // Use requires() here to declare subsystem dependencies
@@ -49,8 +49,8 @@ public class MPHelper{
     }
     
     public void reset() {
-    	Drivetrain.frontRightTalonSRX.clearMotionProfileTrajectories();
-		Drivetrain.frontLeftTalonSRX.clearMotionProfileTrajectories();
+    	Drivetrain.frontRightTSRX.clearMotionProfileTrajectories();
+		Drivetrain.frontLeftTSRX.clearMotionProfileTrajectories();
 		_setValue = SetValueMotionProfile.Disable;
 		_loopTimeout = -1;
 		_state = 0;
@@ -59,8 +59,8 @@ public class MPHelper{
     }
     
     public void control() {
-    		Drivetrain.frontRightTalonSRX.getMotionProfileStatus(_status);
-    		Drivetrain.frontLeftTalonSRX.getMotionProfileStatus(_status);
+    		Drivetrain.frontRightTSRX.getMotionProfileStatus(_status);
+    		Drivetrain.frontLeftTSRX.getMotionProfileStatus(_status);
     		
     		if (_loopTimeout < 0) {
     			
@@ -73,7 +73,7 @@ public class MPHelper{
     			}
     		}
     		
-    		if (Drivetrain.frontRightTalonSRX.getControlMode() != ControlMode.MotionProfile || Drivetrain.frontRightTalonSRX.getControlMode() != ControlMode.MotionProfile) {
+    		if (Drivetrain.frontRightTSRX.getControlMode() != ControlMode.MotionProfile || Drivetrain.frontRightTSRX.getControlMode() != ControlMode.MotionProfile) {
     			System.out.println("NO PASS");
     			_state = 0;
     			_loopTimeout = kNumLoopsTimeout;
@@ -133,12 +133,12 @@ public class MPHelper{
     		TrajectoryPoint leftPoint = new TrajectoryPoint();
     		if (_status.hasUnderrun) {
     			System.out.println("Has Underrun");
-    			Drivetrain.frontRightTalonSRX.clearMotionProfileHasUnderrun(0);
-    			Drivetrain.frontLeftTalonSRX.clearMotionProfileHasUnderrun(0);
+    			Drivetrain.frontRightTSRX.clearMotionProfileHasUnderrun(0);
+    			Drivetrain.frontLeftTSRX.clearMotionProfileHasUnderrun(0);
     			
     		}
-		Drivetrain.frontLeftTalonSRX.clearMotionProfileTrajectories();
-		Drivetrain.frontRightTalonSRX.clearMotionProfileTrajectories();
+		Drivetrain.frontLeftTSRX.clearMotionProfileTrajectories();
+		Drivetrain.frontRightTSRX.clearMotionProfileTrajectories();
 		
 		for (int i = 0; i < totalCnt; ++i) {
 			rightPoint.position = convertToTicks(profile.getRightDistance(i));
@@ -169,16 +169,16 @@ public class MPHelper{
 			}
 			System.out.println("Pusing point: " + rightPoint.velocity + ", " + leftPoint.velocity);
 			
-			Drivetrain.frontRightTalonSRX.pushMotionProfileTrajectory(rightPoint);
-			Drivetrain.frontLeftTalonSRX.pushMotionProfileTrajectory(leftPoint);
+			Drivetrain.frontRightTSRX.pushMotionProfileTrajectory(rightPoint);
+			Drivetrain.frontLeftTSRX.pushMotionProfileTrajectory(leftPoint);
 		}
     }
     
     public void startMotionProfile() {
-			Drivetrain.frontRightTalonSRX.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
-			Drivetrain.frontLeftTalonSRX.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
-			Drivetrain.frontRightTalonSRX.configMotionProfileTrajectoryPeriod(10, 30);
-			Drivetrain.frontLeftTalonSRX.configMotionProfileTrajectoryPeriod(10, 30);
+			Drivetrain.frontRightTSRX.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
+			Drivetrain.frontLeftTSRX.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
+			Drivetrain.frontRightTSRX.configMotionProfileTrajectoryPeriod(10, 30);
+			Drivetrain.frontLeftTSRX.configMotionProfileTrajectoryPeriod(10, 30);
     		_bStart = true;
     }
     

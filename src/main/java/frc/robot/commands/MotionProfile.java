@@ -26,10 +26,10 @@ public class MotionProfile extends Command {
   protected void initialize() {
     mpHelper.reset();
     mpHelper.startMotionProfile();
-    Drivetrain.frontRightTalonSRX.config_kP(0, 0.05);
-    Drivetrain.frontLeftTalonSRX.config_kP(0, 0.05);
-    Drivetrain.frontRightTalonSRX.set(ControlMode.MotionProfile, mpHelper.getSetValue().value);
-    Drivetrain.frontLeftTalonSRX.set(ControlMode.MotionProfile, mpHelper.getSetValue().value);
+    Drivetrain.frontRightTSRX.config_kP(0, 0.05);
+    Drivetrain.frontLeftTSRX.config_kP(0, 0.05);
+    Drivetrain.frontRightTSRX.set(ControlMode.MotionProfile, mpHelper.getSetValue().value);
+    Drivetrain.frontLeftTSRX.set(ControlMode.MotionProfile, mpHelper.getSetValue().value);
     mpHelper.control();
   }
 
@@ -37,8 +37,8 @@ public class MotionProfile extends Command {
   @Override
   protected void execute() {
     System.out.println(mpHelper.getSetValue());
-    Drivetrain.frontRightTalonSRX.set(ControlMode.MotionProfile, mpHelper.getSetValue().value);
-		Drivetrain.frontLeftTalonSRX.set(ControlMode.MotionProfile, mpHelper.getSetValue().value);
+    Drivetrain.frontRightTSRX.set(ControlMode.MotionProfile, mpHelper.getSetValue().value);
+		Drivetrain.frontLeftTSRX.set(ControlMode.MotionProfile, mpHelper.getSetValue().value);
     mpHelper.control();
   }
 
@@ -51,15 +51,15 @@ public class MotionProfile extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Drivetrain.frontRightTalonSRX.set(ControlMode.PercentOutput, 0);
-    Drivetrain.frontLeftTalonSRX.set(ControlMode.PercentOutput, 0);
+    Drivetrain.frontRightTSRX.set(ControlMode.PercentOutput, 0);
+    Drivetrain.frontLeftTSRX.set(ControlMode.PercentOutput, 0);
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    Drivetrain.frontRightTalonSRX.set(ControlMode.PercentOutput, 0);
-    Drivetrain.frontLeftTalonSRX.set(ControlMode.PercentOutput, 0);
+    Drivetrain.frontRightTSRX.set(ControlMode.PercentOutput, 0);
+    Drivetrain.frontLeftTSRX.set(ControlMode.PercentOutput, 0);
   }
 }

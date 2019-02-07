@@ -17,13 +17,13 @@ import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
 
 import frc.robot.helpers.*;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.FrontElevator;
+import frc.robot.subsystems.Elevator;
 
 public class Robot extends TimedRobot {
   public static OI oi;
 
   // Declare Subsystems
-  public static FrontElevator frontElevator = new FrontElevator();
+  public static Elevator frontElevator = new Elevator();
   public static Drivetrain drivetrain = new Drivetrain();
 
   // Declare Commands
@@ -33,28 +33,28 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     oi = new OI();
     // Creating Shuffleboard Objects
-    ShuffleboardHelpers.createComplexWidget("DriveStraight", "Right Talon", Drivetrain.frontRightTalonSRX);
-    ShuffleboardHelpers.createComplexWidget("DriveStraight", "Left Talon", Drivetrain.frontLeftTalonSRX);
+    ShuffleboardHelpers.createComplexWidget("DriveStraight", "Right Talon", Drivetrain.frontRightTSRX);
+    ShuffleboardHelpers.createComplexWidget("DriveStraight", "Left Talon", Drivetrain.frontLeftTSRX);
 
     //Initializing Stuff
-    Drivetrain.backLeftTalonSRX.configFactoryDefault();
-    Drivetrain.backRightTalonSRX.configFactoryDefault();
-    Drivetrain.frontLeftTalonSRX.configFactoryDefault();
-    Drivetrain.frontRightTalonSRX.configFactoryDefault();
+    Drivetrain.backLeftTSRX.configFactoryDefault();
+    Drivetrain.backRightTSRX.configFactoryDefault();
+    Drivetrain.frontLeftTSRX.configFactoryDefault();
+    Drivetrain.frontRightTSRX.configFactoryDefault();
     Drivetrain.pigeon.configFactoryDefault();
 
     LimelightHelpers.limelightDisabled = true;
 
-    Drivetrain.frontLeftTalonSRX.setNeutralMode(NeutralMode.Brake);
-    Drivetrain.frontRightTalonSRX.setNeutralMode(NeutralMode.Brake);
-    Drivetrain.backLeftTalonSRX.setNeutralMode(NeutralMode.Brake);
-    Drivetrain.backRightTalonSRX.setNeutralMode(NeutralMode.Brake);
-    Drivetrain.frontRightTalonSRX.setInverted(true);
-    Drivetrain.backRightTalonSRX.setInverted(true);
-    Drivetrain.backRightTalonSRX.set(ControlMode.Follower, RobotMap.FR);
-    Drivetrain.backLeftTalonSRX.set(ControlMode.Follower, RobotMap.FL);
-    Drivetrain.frontRightTalonSRX.configRemoteFeedbackFilter(Drivetrain.pigeon.getDeviceID(), RemoteSensorSource.GadgeteerPigeon_Yaw, 0);
-    Drivetrain.frontLeftTalonSRX.configRemoteFeedbackFilter(Drivetrain.pigeon.getDeviceID(), RemoteSensorSource.GadgeteerPigeon_Yaw, 0);
+    Drivetrain.frontLeftTSRX.setNeutralMode(NeutralMode.Brake);
+    Drivetrain.frontRightTSRX.setNeutralMode(NeutralMode.Brake);
+    Drivetrain.backLeftTSRX.setNeutralMode(NeutralMode.Brake);
+    Drivetrain.backRightTSRX.setNeutralMode(NeutralMode.Brake);
+    Drivetrain.frontRightTSRX.setInverted(true);
+    Drivetrain.backRightTSRX.setInverted(true);
+    Drivetrain.backRightTSRX.set(ControlMode.Follower, RobotMap.FR);
+    Drivetrain.backLeftTSRX.set(ControlMode.Follower, RobotMap.FL);
+    Drivetrain.frontRightTSRX.configRemoteFeedbackFilter(Drivetrain.pigeon.getDeviceID(), RemoteSensorSource.GadgeteerPigeon_Yaw, 0);
+    Drivetrain.frontLeftTSRX.configRemoteFeedbackFilter(Drivetrain.pigeon.getDeviceID(), RemoteSensorSource.GadgeteerPigeon_Yaw, 0);
   }
 
 
