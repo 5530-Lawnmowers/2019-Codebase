@@ -24,13 +24,15 @@ public class RobotMap {
 	public static int D1 = 5;
 	public static int D2 = 6;
 	public static int DS = 0;
+	public static int DD = 7;
 
-	public static int E1 = 7;
-	public static int E2 = 8;
+	public static int E1 = 8;
+	public static int E2 = 9;
 	public static int ES = 1;
 
 	public static int I1 = 9;
 	public static int I2 = 10;
+	public static int A = 11;
 	public static int IS = 3;
 
 

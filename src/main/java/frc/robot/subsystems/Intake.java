@@ -23,6 +23,7 @@ public class Intake extends Subsystem {
 
   public static WPI_TalonSRX intakeTRSX1 = new WPI_TalonSRX(RobotMap.I1);
   public static WPI_TalonSRX intakeTRSX2 = new WPI_TalonSRX(RobotMap.I2);
+  public static WPI_TalonSRX armTRSX1 = new WPI_TalonSRX(RobotMap.A);
 
   public static DigitalInput intakeSwitch = new DigitalInput(RobotMap.IS);
 
