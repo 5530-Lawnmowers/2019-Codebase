@@ -13,6 +13,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.AnalogPotentiometer;
 
 /**
  * Add your docs here.
@@ -26,6 +27,8 @@ public class Intake extends Subsystem {
   public static WPI_TalonSRX armTRSX1 = new WPI_TalonSRX(RobotMap.A);
 
   public static DigitalInput intakeSwitch = new DigitalInput(RobotMap.IS);
+  public static AnalogPotentiometer armPot = new AnalogPotentiometer(RobotMap.AP);
+
 
   @Override
   public void initDefaultCommand() {

@@ -34,6 +34,7 @@ public class RobotMap {
 	public static int I2 = 10;
 	public static int A = 11;
 	public static int IS = 3;
+	public static int AP = 0;
 
 
 	// PID Slots
