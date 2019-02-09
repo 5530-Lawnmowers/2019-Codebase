@@ -28,7 +28,8 @@ public class Downavator extends Subsystem {
   public static CANSparkMax downavatorSpark2 = new CANSparkMax(RobotMap.D2, CANSparkMaxLowLevel.MotorType.kBrushless);
   public static WPI_TalonSRX downavatorDrive = new WPI_TalonSRX(RobotMap.DD);
 
-  public static DigitalInput downavatorSwitch = new DigitalInput(RobotMap.DS);
+  public static DigitalInput downavatorBotSwitch = new DigitalInput(RobotMap.DBS);
+  public static DigitalInput downavatorTopSwitch = new DigitalInput(RobotMap.DTS);
 
   @Override
   public void initDefaultCommand() {
