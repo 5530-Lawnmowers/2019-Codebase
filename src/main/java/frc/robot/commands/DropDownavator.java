@@ -64,7 +64,6 @@ public class DropDownavator extends Command {
       counter = 0;
       state = 2;
     } else if(state == 2){
-      if(state == 0){
         if(Elevator.elevatorSpark1.getEncoder().getPosition() >= ((intitialElevatorPosition + dropDistance) - range) && 
         Elevator.elevatorSpark1.getEncoder().getPosition() <= ((intitialElevatorPosition + dropDistance) + range)){
           counter ++;
@@ -74,7 +73,6 @@ public class DropDownavator extends Command {
         if(counter >= 20){
           state = 3;
         }
-      }
     }
   }
 
