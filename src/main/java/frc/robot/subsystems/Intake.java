@@ -21,6 +21,8 @@ import edu.wpi.first.wpilibj.AnalogPotentiometer;
 public class Intake extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
+  public static int minArmHeight = 0;
+  public static int maxArmHeight = 0;
 
   public static WPI_TalonSRX intakeTRSX1 = new WPI_TalonSRX(RobotMap.I1);
   public static WPI_TalonSRX intakeTRSX2 = new WPI_TalonSRX(RobotMap.I2);
