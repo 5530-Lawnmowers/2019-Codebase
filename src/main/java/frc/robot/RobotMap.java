@@ -43,9 +43,9 @@ public class RobotMap {
 
 
 	// PID Slots
-	private static double[] pidSlot1 = {0.004, 1e-20, 0};
-	private static double[] pidSlot2 = {0, 0, 0};
-	private static double[] pidSlot3 = {0, 0, 0};
+	private static double[] pidSlot1 = {0.004, 1e-20, 0}; //Encoder Drive PID
+	private static double[] pidSlot2 = {0, 0, 0}; //Downavator PID
+	private static double[] pidSlot3 = {0, 0, 0}; //Elevator PID
 	public static double[][] pidSlots = {pidSlot1, pidSlot2, pidSlot3};
 
 	/**
