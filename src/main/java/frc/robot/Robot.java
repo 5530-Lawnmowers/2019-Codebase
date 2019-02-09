@@ -9,15 +9,13 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
 
 import frc.robot.helpers.*;
-import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.*;
 
 public class Robot extends TimedRobot {
   public static OI oi;
@@ -25,6 +23,7 @@ public class Robot extends TimedRobot {
   // Declare Subsystems
   public static Elevator frontElevator = new Elevator();
   public static Drivetrain drivetrain = new Drivetrain();
+  public static Intake intake = new Intake();
 
   // Declare Commands
 

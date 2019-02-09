@@ -8,6 +8,7 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.Intake;
+import frc.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
