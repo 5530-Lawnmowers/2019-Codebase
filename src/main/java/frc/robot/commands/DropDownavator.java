@@ -11,42 +11,77 @@ import com.revrobotics.ControlType;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
-import frc.robot.subsystems.Downavator;
+import frc.robot.RobotMap;
+import frc.robot.subsystems.*;
 
 public class DropDownavator extends Command {
 
-  private double initialPosition;
+  private double initialDownavatorPosition;
+  private double intitialElevatorPosition;
   private double counter;
+  private int state;
   private final double dropDistance = 0;
   private final double range = 0;
 
   public DropDownavator() {
     requires(Robot.downavator);
+    requires(Robot.frontElevator);
     counter = 0;
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    initialPosition = Downavator.downavatorSpark1.getEncoder().getPosition();
-    Downavator.downavatorSpark1.getPIDController().setReference(initialPosition + dropDistance, ControlType.kPosition);
+    state = 0;
+    initialDownavatorPosition = Downavator.downavatorSpark1.getEncoder().getPosition();
+    intitialElevatorPosition = Elevator.elevatorSpark1.getEncoder().getPosition();
+    Downavator.downavatorSpark1.getPIDController().setP(RobotMap.pidSlots[1][0]);
+    Downavator.downavatorSpark1.getPIDController().setI(RobotMap.pidSlots[1][1]);
+    Downavator.downavatorSpark1.getPIDController().setD(RobotMap.pidSlots[1][2]);
+    Elevator.elevatorSpark1.getPIDController().setP(RobotMap.pidSlots[2][0]);
+    Elevator.elevatorSpark1.getPIDController().setI(RobotMap.pidSlots[2][1]);
+    Elevator.elevatorSpark1.getPIDController().setD(RobotMap.pidSlots[2][2]);
+    Downavator.downavatorSpark2.follow(Downavator.downavatorSpark1);
+    Elevator.elevatorSpark2.follow(Elevator.elevatorSpark1);
+    Downavator.downavatorSpark1.getPIDController().setReference(initialDownavatorPosition + dropDistance, ControlType.kPosition);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if(Downavator.downavatorSpark1.getEncoder().getPosition() >= ((initialPosition + dropDistance) - range) && 
-      Downavator.downavatorSpark1.getEncoder().getPosition() <= ((initialPosition + dropDistance) + range)){
+    if(state == 0){
+      if(Downavator.downavatorSpark1.getEncoder().getPosition() >= ((initialDownavatorPosition + dropDistance) - range) && 
+      Downavator.downavatorSpark1.getEncoder().getPosition() <= ((initialDownavatorPosition + dropDistance) + range)){
         counter ++;
       } else {
         counter = 0;
       }
+      if(counter >= 20){
+        state = 1;
+      }
+    } else if(state == 1) {
+      Elevator.elevatorSpark1.getPIDController().setReference(intitialElevatorPosition + dropDistance, ControlType.kPosition);
+      counter = 0;
+      state = 2;
+    } else if(state == 2){
+      if(state == 0){
+        if(Elevator.elevatorSpark1.getEncoder().getPosition() >= ((intitialElevatorPosition + dropDistance) - range) && 
+        Elevator.elevatorSpark1.getEncoder().getPosition() <= ((intitialElevatorPosition + dropDistance) + range)){
+          counter ++;
+        } else {
+          counter = 0;
+        }
+        if(counter >= 20){
+          state = 3;
+        }
+      }
+    }
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return counter >= 20;
+    return state == 3;
 
   }
 
