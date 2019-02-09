@@ -16,8 +16,8 @@ import edu.wpi.first.wpilibj.*;
 public class Lights extends Subsystem {
   Spark leds = new Spark(5);
   private double value = 0;
-  public void setLightValue(){
-    //leds.set(value);
+  public void setLightValue(double amount){
+    leds.set(amount);
   }
   public void FlashFast(){
     value = -.59;
@@ -26,7 +26,7 @@ public class Lights extends Subsystem {
     value = -.9;
   }
   public void test(double amount){
-    leds.set(amount);
+    //leds.set(amount);
   }
   public void SlowRainbow(){
     value = -.45;

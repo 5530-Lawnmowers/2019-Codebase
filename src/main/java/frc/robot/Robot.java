@@ -35,6 +35,7 @@ public class Robot extends TimedRobot {
   public static Lights lights = new Lights();
 
   // Declare Commands
+  public int count = -1;
 
 
   @Override
@@ -106,16 +107,26 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
-    //System.out.println(LimelightHelpers.getLimelightValue("tx"));
-    SmartDashboard.putNumber("speed", Robot.drivetrain.driveSpeed());
-    Robot.pneumatics.power(false);
+    SmartDashboard.putNumber("count", value);
     SmartDashboard.updateValues();
+    if(Robot.oi.buttons[5].get()){
+      value += .01;
+      try {
+        Thread.sleep(100);
+        }
+        catch(Exception e){}
+         Robot.lights.setLightValue(value);
+        
+      }
+      
+    }
+    
+   
 
-  }
 
 
   @Override
   public void testPeriodic() {
-    
-  }
+   
+}
 }
