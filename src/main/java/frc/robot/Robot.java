@@ -22,6 +22,7 @@ public class Robot extends TimedRobot {
 
   // Declare Subsystems
   public static Elevator frontElevator = new Elevator();
+  public static Downavator downavator = new Downavator();
   public static Drivetrain drivetrain = new Drivetrain();
   public static Intake intake = new Intake();
 
