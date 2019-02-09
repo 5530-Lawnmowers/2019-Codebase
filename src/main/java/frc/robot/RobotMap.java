@@ -21,21 +21,25 @@ public class RobotMap {
 	public static int BR = 3;
 	public static int BL = 4;
 
-	public static int D1 = 5;
+	public static int D1 = 5; // Downavator #
 	public static int D2 = 6;
-	public static int DBS = 0;
-	public static int DTS = 1;
 	public static int DD = 7;
+	// Digital Inpurt
+	public static int DBS = 0; // Downavator Bottom Switch
+	public static int DTS = 1; // Downavator Top Switch
 
-	public static int E1 = 8;
+	public static int E1 = 8; // Elevator #
 	public static int E2 = 9;
-	public static int ES = 2;
+	// Digital Inpurt
+	public static int ES1 = 1; // Elevator Switch #
+	public static int ES2 = 2;
 
-	public static int I1 = 9;
+	public static int I1 = 9; // Intake #
 	public static int I2 = 10;
-	public static int A = 11;
-	public static int IS = 3;
+	public static int A = 11; // Arm
 	public static int AP = 0;
+	// Digital Inpurt
+	public static int IS = 3; // Intake Switch 
 
 
 	// PID Slots

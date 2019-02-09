@@ -24,7 +24,8 @@ public class Elevator extends Subsystem {
   public static CANSparkMax elevatorSpark1 = new CANSparkMax(RobotMap.E1, CANSparkMaxLowLevel.MotorType.kBrushless);
   public static CANSparkMax elevatorSpark2 = new CANSparkMax(RobotMap.E1, CANSparkMaxLowLevel.MotorType.kBrushless);
   
-  public static DigitalInput elevatorSwitch = new DigitalInput(RobotMap.ES);
+  public static DigitalInput elevatorTopSwitch = new DigitalInput(RobotMap.ES1);
+  public static DigitalInput elevatorBotSwitch = new DigitalInput(RobotMap.ES2);
 
   @Override
   public void initDefaultCommand() {
