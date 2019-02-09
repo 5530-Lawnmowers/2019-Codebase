@@ -7,33 +7,47 @@
 
 package frc.robot.commands;
 
+import com.revrobotics.ControlType;
+
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.subsystems.Downavator;
 
 public class DropDownavator extends Command {
+
+  private double initialPosition;
+  private double counter;
+  private final double dropDistance = 0;
+  private final double range = 0;
+
   public DropDownavator() {
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
     requires(Robot.downavator);
+    counter = 0;
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    
+    initialPosition = Downavator.downavatorSpark1.getEncoder().getPosition();
+    Downavator.downavatorSpark1.getPIDController().setReference(initialPosition + dropDistance, ControlType.kPosition);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Downavator.downavatorSpark1.set(-.5);
+    if(Downavator.downavatorSpark1.getEncoder().getPosition() >= ((initialPosition + dropDistance) - range) && 
+      Downavator.downavatorSpark1.getEncoder().getPosition() <= ((initialPosition + dropDistance) + range)){
+        counter ++;
+      } else {
+        counter = 0;
+      }
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Downavator.downavatorBotSwitch.get();
+    return counter >= 20;
+
   }
 
   // Called once after isFinished returns true
