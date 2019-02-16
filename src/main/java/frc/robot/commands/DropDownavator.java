@@ -20,8 +20,7 @@ public class DropDownavator extends Command {
   private double intitialElevatorPosition;
   private double counter;
   private int state;
-  private final double dropDownavatorDistance = 7.71;
-  private final double dropElevatorDistance = 7.71;  
+  private final double dropDistance = 7.71; 
   private final double range = 0.1;
 
   public DropDownavator() {
@@ -44,7 +43,7 @@ public class DropDownavator extends Command {
     Elevator.elevatorSpark1.getPIDController().setD(RobotMap.pidSlots[2][2]);
     Downavator.downavatorSpark2.follow(Downavator.downavatorSpark1);
     Elevator.elevatorSpark2.follow(Elevator.elevatorSpark1);
-    Downavator.downavatorSpark1.getPIDController().setReference(initialDownavatorPosition + dropDownavatorDistance, ControlType.kPosition);
+    Downavator.downavatorSpark1.getPIDController().setReference(initialDownavatorPosition + dropDistance, ControlType.kPosition);
   }
 
   // Called repeatedly when this Command is scheduled to run
