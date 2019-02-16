@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import frc.robot.RobotMap;
+import frc.robot.commands.*;
 
 import com.revrobotics.*;
 
@@ -22,7 +23,7 @@ public class Elevator extends Subsystem {
   // here. Call these from Commands.
 
   public static CANSparkMax elevatorSpark1 = new CANSparkMax(RobotMap.E1, CANSparkMaxLowLevel.MotorType.kBrushless);
-  public static CANSparkMax elevatorSpark2 = new CANSparkMax(RobotMap.E1, CANSparkMaxLowLevel.MotorType.kBrushless);
+  public static CANSparkMax elevatorSpark2 = new CANSparkMax(RobotMap.E2, CANSparkMaxLowLevel.MotorType.kBrushless);
   
   public static DigitalInput elevatorTopSwitch = new DigitalInput(RobotMap.ES1);
   public static DigitalInput elevatorBotSwitch = new DigitalInput(RobotMap.ES2);
@@ -31,5 +32,6 @@ public class Elevator extends Subsystem {
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
+    setDefaultCommand(new ManualElevator());
   }
 }

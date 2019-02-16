@@ -13,44 +13,125 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.OI;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
 
 public class Drive extends Command {
-  double Rpower = 0;
-  double Lpower = 0;
-  //moter power for the left and right side
-  public Drive() {
-    requires(Robot.drivetrain);
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
-  }
-
-  // Called just before this Command runs the first time
-  @Override
-  protected void initialize() {
-    Drivetrain.frontLeftTSRX.set(0.1);
-  }
-
-  // Called repeatedly when this Command is scheduled to run
-  @Override
-  protected void execute() {
-  }
-
-  // Make this return true when this Command no longer needs to run execute()
-  @Override
-  protected boolean isFinished() {
-    return false;
-  }
-
-  // Called once after isFinished returns true
-  @Override
-  protected void end() {
-    Drivetrain.frontLeftTSRX.set(0);
-  }
-
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
-  @Override
-  protected void interrupted() {
-    Drivetrain.frontLeftTSRX.set(0);
-  }
+  public static double OutputOldR;
+	public static double OutputOldL;
+	
+	public Drive() {
+		super("Drive");
+		requires(Robot.drivetrain);
+	}
+	
+	//A method to limit an input double to the range -1.0 to 1.0
+	public double limit(double prelimNumber){
+		if(prelimNumber >= 1.0){
+			return 1.0;
+					
+		}else if(prelimNumber <= -1.0){
+			
+			return -1.0;
+		}else if(prelimNumber < 1.0 && prelimNumber >-1.0){
+			
+			return prelimNumber;
+		}else{
+			
+			return 0;
+		}
+		
+	}
+	double GetPositionFilteredL(double RawValueReadFromHw){
+		  double FilteredPosition = 0.09516*RawValueReadFromHw+0.9048*OutputOldL;
+		  OutputOldL = FilteredPosition;
+		  return FilteredPosition;
+	} 
+	double GetPositionFilteredR(double RawValueReadFromHw){
+		  double FilteredPosition = 0.09516*RawValueReadFromHw+0.9048*OutputOldR;
+		  OutputOldR = FilteredPosition;
+		  return FilteredPosition;
+	} 
+	
+	//get xAxis value of Xbox joystick; argument is stick side
+	public double getStickHorizontal(char side){
+		if(side == 'r'){
+			return limit(OI.XBController.getX(Hand.kRight));
+		
+		}else if(side == 'l'){
+			return limit(OI.XBController.getX(Hand.kLeft));
+			
+		}else{
+			return 0;
+		}
+	}
+	//get Trigger values; arguement is trigger side
+	public double getTriggerValue(char side){
+		if(side == 'r'){
+			return OI.XBController.getTriggerAxis(Hand.kRight);
+		
+		}else if(side == 'l'){
+			return OI.XBController.getTriggerAxis(Hand.kLeft);
+			
+		}else{
+			return 0;
+			
+		}
+	}
+	//Calculates right speed based on controller output
+		public double XBControllerR(double lStick, double rTrigger, double lTrigger) {
+			//speed of left side = amount Accelerator is pushed down minus
+			//amount Deccelerator is pushed down - lateral input from left Joystick
+			if(rTrigger >= lTrigger){
+				return Math.pow((rTrigger - lTrigger - lStick), 3);
+			}
+			return Math.pow((rTrigger - lTrigger + lStick), 3);
+		}
+		
+		//Calculates left speed based on Controller output
+		public double XBControllerL(double lStick, double rTrigger, double lTrigger){
+			//speed of left side = amount Accelerator is pushed down minus
+			//amount Deccelerator is pushed down + lateral input from left Joystick
+			if(rTrigger >= lTrigger){
+				return Math.pow((rTrigger - lTrigger + lStick), 3);
+			}
+			return Math.pow((rTrigger - lTrigger - lStick), 3);
+		
+		}
+		//Sets the speed for both sides using XBController methods
+		public void setSpeeds(double lStick, double rTrigger, double lTrigger){
+			
+			if (Math.abs(OutputOldR - XBControllerR(lStick, rTrigger, lTrigger)) > .2) 
+				Drivetrain.frontRightTSRX.set(ControlMode.PercentOutput, GetPositionFilteredR((double)XBControllerR(lStick, rTrigger, lTrigger)));
+			else {
+				Drivetrain.frontRightTSRX.set(ControlMode.PercentOutput, (double)XBControllerR(lStick, rTrigger, lTrigger));
+			}
+				if (Math.abs(OutputOldL - XBControllerL(lStick, rTrigger, lTrigger)) > .2) {
+				Drivetrain.frontLeftTSRX.set(ControlMode.PercentOutput, GetPositionFilteredL((double)XBControllerL(lStick, rTrigger, lTrigger)));
+			}
+			else {
+				Drivetrain.frontLeftTSRX.set(ControlMode.PercentOutput, (double)XBControllerL(lStick, rTrigger, lTrigger));
+			}		
+		}
+	
+	protected void initialize() {
+	}
+	//Whenever this command is called, setspeeds is called
+	protected void execute() {
+		setSpeeds(getStickHorizontal('l'), getTriggerValue('r'), getTriggerValue('l'));
+		//SmartDashboard.putNumber("Right Sensor Position", Drivetrain.FREncoder.getDistance());
+		//SmartDashboard.putNumber("Right Sensor Velocity", Drivetrain.FREncoder.getRate());
+	}
+	protected boolean isFinished() {
+		
+		return true; // maybe true?
+	}
+	protected void end() {
+		
+	}
+	protected void interrupted() {
+		
+	}
 }

@@ -7,16 +7,16 @@
 
 package frc.robot.commands;
 
-import frc.robot.helpers.LimelightHelpers;
-import frc.robot.subsystems.Drivetrain;
-import frc.robot.Robot;
-
 import edu.wpi.first.wpilibj.command.Command;
 
-public class PIDLimelight extends Command {
-  int counter;
-  public PIDLimelight() {
-    requires(Robot.drivetrain);
+import frc.robot.OI;
+import frc.robot.Robot;
+import frc.robot.subsystems.*;
+
+
+public class ManualDownavator extends Command {
+  public ManualDownavator() {
+    requires(Robot.downavator);
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
   }
@@ -24,40 +24,39 @@ public class PIDLimelight extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    counter = 0;
-    LimelightHelpers.limelightPIDWrite(0);
+    
+    Downavator.downavatorSpark1.stopMotor();
+    Downavator.downavatorSpark2.stopMotor();
+
+    
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Drivetrain.frontRightTSRX.set(LimelightHelpers.limelightPIDController1.get());
-    Drivetrain.frontLeftTSRX.set(LimelightHelpers.limelightPIDController2.get());
-    if(LimelightHelpers.limelightPIDController1.onTarget()) {
-      counter ++;
+    if(OI.buttons[1].get()){
+      Downavator.downavatorSpark1.set(Math.pow(-OI.stick.getY(), 3));
+      Downavator.downavatorSpark2.set(Math.pow(-OI.stick.getY(), 3));
     } else {
-      counter = 0;
+      Downavator.downavatorSpark1.stopMotor();
+      Downavator.downavatorSpark2.stopMotor();
     }
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return counter > 30;
+    return false;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    LimelightHelpers.disableLimelightPIDController();
-    Drivetrain.frontRightTSRX.stopMotor();
-    Drivetrain.frontLeftTSRX.stopMotor();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    LimelightHelpers.disableLimelightPIDController();
   }
 }
