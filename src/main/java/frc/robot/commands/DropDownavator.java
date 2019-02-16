@@ -20,8 +20,9 @@ public class DropDownavator extends Command {
   private double intitialElevatorPosition;
   private double counter;
   private int state;
-  private final double dropDistance = 0;
-  private final double range = 0;
+  private final double dropDownavatorDistance = 7.71;
+  private final double dropElevatorDistance = 7.71;  
+  private final double range = 0.1;
 
   public DropDownavator() {
     requires(Robot.downavator);
@@ -43,15 +44,15 @@ public class DropDownavator extends Command {
     Elevator.elevatorSpark1.getPIDController().setD(RobotMap.pidSlots[2][2]);
     Downavator.downavatorSpark2.follow(Downavator.downavatorSpark1);
     Elevator.elevatorSpark2.follow(Elevator.elevatorSpark1);
-    Downavator.downavatorSpark1.getPIDController().setReference(initialDownavatorPosition + dropDistance, ControlType.kPosition);
+    Downavator.downavatorSpark1.getPIDController().setReference(initialDownavatorPosition + dropDownavatorDistance, ControlType.kPosition);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
     if(state == 0){
-      if(Downavator.downavatorSpark1.getEncoder().getPosition() >= ((initialDownavatorPosition + dropDistance) - range) && 
-      Downavator.downavatorSpark1.getEncoder().getPosition() <= ((initialDownavatorPosition + dropDistance) + range)){
+      if(Downavator.downavatorSpark1.getEncoder().getPosition() >= ((initialDownavatorPosition + dropDownavatorDistance) - range) && 
+      Downavator.downavatorSpark1.getEncoder().getPosition() <= ((initialDownavatorPosition + dropDownavatorDistance) + range)){
         counter ++;
       } else {
         counter = 0;
@@ -60,12 +61,12 @@ public class DropDownavator extends Command {
         state = 1;
       }
     } else if(state == 1) {
-      Elevator.elevatorSpark1.getPIDController().setReference(intitialElevatorPosition + dropDistance, ControlType.kPosition);
+      Elevator.elevatorSpark1.getPIDController().setReference(intitialElevatorPosition + dropElevatorDistance, ControlType.kPosition);
       counter = 0;
       state = 2;
     } else if(state == 2){
-        if(Elevator.elevatorSpark1.getEncoder().getPosition() >= ((intitialElevatorPosition + dropDistance) - range) && 
-        Elevator.elevatorSpark1.getEncoder().getPosition() <= ((intitialElevatorPosition + dropDistance) + range)){
+        if(Elevator.elevatorSpark1.getEncoder().getPosition() >= ((intitialElevatorPosition + dropElevatorDistance) - range) && 
+        Elevator.elevatorSpark1.getEncoder().getPosition() <= ((intitialElevatorPosition + dropElevatorDistance) + range)){
           counter ++;
         } else {
           counter = 0;

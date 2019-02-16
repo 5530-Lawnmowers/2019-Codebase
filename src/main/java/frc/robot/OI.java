@@ -12,6 +12,7 @@ import frc.robot.commands.*;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.XboxController;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -26,17 +27,17 @@ public class OI {
   // Joystick stick = new Joystick(port);
   // Button button = new JoystickButton(stick, buttonNumber);
 
-  Joystick stick = new Joystick(0);
+  public static Joystick stick = new Joystick(0);
+	public static XboxController XBController = new XboxController(1);
+
   public static Button[] buttons = new Button[12];
 
   OI() {
     for(int i=1; i <= 12; i++) {
       buttons[i-1] = new JoystickButton(stick, i);
     }
-    buttons[0].toggleWhenPressed(new PIDTurn());
-    buttons[1].toggleWhenPressed(new PIDLimelight());
-    buttons[2].toggleWhenPressed(new DriveForward(100));
-    buttons[3].toggleWhenPressed(new MotionProfile("RightFirstShuttle.csv"));
+    buttons[2].toggleWhenPressed(new PickupBall());
+    buttons[3].toggleWhenPressed(new DispenseBall());
   }
 
 

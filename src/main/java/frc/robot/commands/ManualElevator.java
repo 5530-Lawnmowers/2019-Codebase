@@ -7,57 +7,62 @@
 
 package frc.robot.commands;
 
-import frc.robot.helpers.LimelightHelpers;
-import frc.robot.subsystems.Drivetrain;
+import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.subsystems.Elevator;
+import frc.robot.OI;
 import frc.robot.Robot;
 
-import edu.wpi.first.wpilibj.command.Command;
-
-public class PIDLimelight extends Command {
-  int counter;
-  public PIDLimelight() {
-    requires(Robot.drivetrain);
+public class ManualElevator extends Command {
+  public ManualElevator() {
+    super("ManualAscendRobot");
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
+    requires(Robot.frontElevator);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    counter = 0;
-    LimelightHelpers.limelightPIDWrite(0);
+    // Elevator.elevatorSpark2.follow(Elevator.elevatorSpark1);
+    
+    Elevator.elevatorSpark1.stopMotor();
+    Elevator.elevatorSpark2.stopMotor();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Drivetrain.frontRightTSRX.set(LimelightHelpers.limelightPIDController1.get());
-    Drivetrain.frontLeftTSRX.set(LimelightHelpers.limelightPIDController2.get());
-    if(LimelightHelpers.limelightPIDController1.onTarget()) {
-      counter ++;
+    System.out.println(Elevator.elevatorSpark1.get());
+
+    if(OI.buttons[0].get()){
+      Elevator.elevatorSpark1.set(Math.pow(-OI.stick.getY(), 3));
+      Elevator.elevatorSpark2.set(Math.pow(-OI.stick.getY(), 3));
     } else {
-      counter = 0;
+      if( Elevator.elevatorSpark2.getEncoder().getPosition() < -5){
+        Elevator.elevatorSpark1.set(-0.036);
+        Elevator.elevatorSpark2.set(-0.036);
+      } else {
+        Elevator.elevatorSpark1.set(0);
+        Elevator.elevatorSpark2.set(0);
+      }
+
     }
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return counter > 30;
+    return false;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    LimelightHelpers.disableLimelightPIDController();
-    Drivetrain.frontRightTSRX.stopMotor();
-    Drivetrain.frontLeftTSRX.stopMotor();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    LimelightHelpers.disableLimelightPIDController();
   }
 }

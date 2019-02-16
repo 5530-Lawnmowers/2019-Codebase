@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import frc.robot.RobotMap;
+import frc.robot.commands.*;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.sensors.PigeonIMU;
@@ -31,7 +32,8 @@ public class Drivetrain extends Subsystem {
   
 	
 	public void initDefaultCommand() {
-		// setDefaultCommand(new MySpecialCommand());
+    // setDefaultCommand(new MySpecialCommand());
+    setDefaultCommand(new Drive());
 	
 	}
 }

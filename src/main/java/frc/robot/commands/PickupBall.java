@@ -22,8 +22,8 @@ public class PickupBall extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Intake.intakeTRSX1.set(1);
-    Intake.intakeTRSX2.set(1);
+    Intake.intakeTRSX1.set(.6);
+    Intake.intakeTRSX2.set(.6);
   }
 
   // Called repeatedly when this Command is scheduled to run

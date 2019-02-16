@@ -7,16 +7,14 @@
 
 package frc.robot.commands;
 
-import frc.robot.helpers.LimelightHelpers;
-import frc.robot.subsystems.Drivetrain;
-import frc.robot.Robot;
-
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.Robot;
+import frc.robot.subsystems.Intake;
 
-public class PIDLimelight extends Command {
+public class DispenseBall extends Command {
   int counter;
-  public PIDLimelight() {
-    requires(Robot.drivetrain);
+  public DispenseBall() {
+    requires(Robot.intake);
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
   }
@@ -25,39 +23,34 @@ public class PIDLimelight extends Command {
   @Override
   protected void initialize() {
     counter = 0;
-    LimelightHelpers.limelightPIDWrite(0);
+    Intake.intakeTRSX1.set(-0.6);
+    Intake.intakeTRSX2.set(-0.6);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Drivetrain.frontRightTSRX.set(LimelightHelpers.limelightPIDController1.get());
-    Drivetrain.frontLeftTSRX.set(LimelightHelpers.limelightPIDController2.get());
-    if(LimelightHelpers.limelightPIDController1.onTarget()) {
-      counter ++;
-    } else {
-      counter = 0;
-    }
+    counter ++;
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return counter > 30;
+    return counter >= 40;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    LimelightHelpers.disableLimelightPIDController();
-    Drivetrain.frontRightTSRX.stopMotor();
-    Drivetrain.frontLeftTSRX.stopMotor();
+    Intake.intakeTRSX1.stopMotor();
+    Intake.intakeTRSX2.stopMotor();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    LimelightHelpers.disableLimelightPIDController();
+    Intake.intakeTRSX1.stopMotor();
+    Intake.intakeTRSX2.stopMotor();
   }
 }
