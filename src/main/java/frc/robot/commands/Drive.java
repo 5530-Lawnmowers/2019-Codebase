@@ -12,11 +12,13 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
+import frc.robot.subsystems.Downavator;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.OI;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 
 public class Drive extends Command {
   public static double OutputOldR;
@@ -117,10 +119,13 @@ public class Drive extends Command {
 		}
 	
 	protected void initialize() {
+		Drivetrain.frontRightTSRX.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
 	}
 	//Whenever this command is called, setspeeds is called
 	protected void execute() {
 		setSpeeds(getStickHorizontal('l'), getTriggerValue('r'), getTriggerValue('l'));
+		//Drivetrain.frontLeftTSRX.set(.1);
+		//Drivetrain.frontRightTSRX.set(.1);
 		//SmartDashboard.putNumber("Right Sensor Position", Drivetrain.FREncoder.getDistance());
 		//SmartDashboard.putNumber("Right Sensor Velocity", Drivetrain.FREncoder.getRate());
 	}

@@ -26,6 +26,8 @@ public class LimelightHelpers{
         } else {
           limelightPIDController1.setSetpoint(setpoint);
           limelightPIDController2.setSetpoint(setpoint);
+          LimelightHelpers.limelightPIDController1.setPercentTolerance(10);
+          LimelightHelpers.limelightPIDController2.setPercentTolerance(10);
           limelightPIDController1.enable();
           limelightPIDController2.enable();
         }
@@ -75,6 +77,7 @@ class LimelightWrapper implements PIDSource{
 
   PIDSourceType pidSourceType = PIDSourceType.kDisplacement;
   String pidSourceValue;
+  double output;
 
   /**
    * Constructor. Sets the value from the limelight to use for PID.
@@ -91,7 +94,7 @@ class LimelightWrapper implements PIDSource{
     } catch (Exception e) {
       System.out.println(e);
     }
-    
+    output = 0;
     pidSourceValue = sourceValue;
     
   }
@@ -104,7 +107,10 @@ class LimelightWrapper implements PIDSource{
 
   @Override
   public double pidGet() {
-    return LimelightHelpers.getLimelightValue(pidSourceValue);
+    if(LimelightHelpers.table.getEntry("tv").getDouble(0) == 1){
+      output = LimelightHelpers.getLimelightValue(pidSourceValue);
+    }
+    return output;
   }
 
   @Override

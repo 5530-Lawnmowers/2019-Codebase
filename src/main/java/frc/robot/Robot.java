@@ -40,6 +40,8 @@ public class Robot extends TimedRobot {
     ShuffleboardHelpers.createComplexWidget("TestingDT", "BL Talon", Drivetrain.backLeftTSRX);
     ShuffleboardHelpers.createComplexWidget("TestingIN", "Intake 1", Intake.intakeTRSX1);
     ShuffleboardHelpers.createComplexWidget("TestingIN", "Intake 2", Intake.intakeTRSX2);
+    ShuffleboardHelpers.createComplexWidget("TestingLL", "PIDController1", LimelightHelpers.limelightPIDController1);
+    ShuffleboardHelpers.createComplexWidget("TestingLL", "PIDController2", LimelightHelpers.limelightPIDController2);
     ShuffleboardHelpers.createSimpleWidget("TestingIN", "Intake Switch", false);
     ShuffleboardHelpers.createSimpleWidget("TestingEL", "UpEncoder", 0);
     ShuffleboardHelpers.createSimpleWidget("TestingEL", "DownEncoder", 0);
@@ -91,8 +93,6 @@ public class Robot extends TimedRobot {
     Drivetrain.backRightTSRX.setNeutralMode(NeutralMode.Brake);
     Drivetrain.backLeftTSRX.setNeutralMode(NeutralMode.Brake);
     Drivetrain.pigeon.configFactoryDefault();
-
-    LimelightHelpers.limelightDisabled = true;
 
     Elevator.elevatorSpark2.follow(Elevator.elevatorSpark1);
     Downavator.downavatorSpark2.follow(Downavator.downavatorSpark1);

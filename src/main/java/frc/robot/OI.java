@@ -38,6 +38,9 @@ public class OI {
     }
     buttons[2].toggleWhenPressed(new PickupBall());
     buttons[3].toggleWhenPressed(new DispenseBall());
+    buttons[4].toggleWhenPressed(new PIDLimelight());
+    buttons[5].toggleWhenPressed(new DropDownavator());
+    buttons[6].toggleWhenPressed(new LiftRobot());
   }
 
 

@@ -24,6 +24,9 @@ public class PIDLimelight extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    Drivetrain.backRightTSRX.follow(Drivetrain.frontRightTSRX);
+    Drivetrain.backLeftTSRX.follow(Drivetrain.frontLeftTSRX);
+
     counter = 0;
     LimelightHelpers.limelightPIDWrite(0);
   }
@@ -32,7 +35,7 @@ public class PIDLimelight extends Command {
   @Override
   protected void execute() {
     Drivetrain.frontRightTSRX.set(LimelightHelpers.limelightPIDController1.get());
-    Drivetrain.frontLeftTSRX.set(LimelightHelpers.limelightPIDController2.get());
+    Drivetrain.frontLeftTSRX.set(LimelightHelpers.limelightPIDController1.get());
     if(LimelightHelpers.limelightPIDController1.onTarget()) {
       counter ++;
     } else {
