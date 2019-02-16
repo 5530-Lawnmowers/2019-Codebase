@@ -49,7 +49,7 @@ public class DropDownavator extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if(state == 0){
+    if(state == 0){ // Checks if the Downavator is within the designated range using encoder values
       if(Downavator.downavatorSpark1.getEncoder().getPosition() >= ((initialDownavatorPosition + dropDistance) - range) && 
       Downavator.downavatorSpark1.getEncoder().getPosition() <= ((initialDownavatorPosition + dropDistance) + range)){
         counter ++;
@@ -59,11 +59,11 @@ public class DropDownavator extends Command {
       if(counter >= 20){
         state = 1;
       }
-    } else if(state == 1) {
+    } else if(state == 1) { // Sets the PID for the elevator
       Elevator.elevatorSpark1.getPIDController().setReference(intitialElevatorPosition + dropDistance, ControlType.kPosition);
       counter = 0;
       state = 2;
-    } else if(state == 2){
+    } else if(state == 2){ // Checks if the Elevator is within the designated range using encoder values 
         if(Elevator.elevatorSpark1.getEncoder().getPosition() >= ((intitialElevatorPosition + dropDistance) - range) && 
         Elevator.elevatorSpark1.getEncoder().getPosition() <= ((intitialElevatorPosition + dropDistance) + range)){
           counter ++;
@@ -76,14 +76,12 @@ public class DropDownavator extends Command {
     }
   }
 
-  // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
     return state == 3;
 
   }
 
-  // Called once after isFinished returns true
   @Override
   protected void end() {
     Downavator.downavatorSpark1.stopMotor();
