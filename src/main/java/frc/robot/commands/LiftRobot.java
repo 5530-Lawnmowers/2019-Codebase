@@ -25,7 +25,6 @@ public class LiftRobot extends Command {
     requires(Robot.downavator);
     requires(Robot.frontElevator);
     requires(Robot.drivetrain);
-    requires(Robot.intake);
   }
 
   // Called just before this Command runs the first time
@@ -35,8 +34,8 @@ public class LiftRobot extends Command {
     counter = 0;
     Downavator.downavatorSpark2.follow(Downavator.downavatorSpark1);
     Elevator.elevatorSpark2.follow(Elevator.elevatorSpark1);
-    Elevator.elevatorSpark1.set(.25);    
-    Downavator.downavatorSpark1.set(.2);
+    Elevator.elevatorSpark1.set(.3);    
+    Downavator.downavatorSpark1.set(.25);
     
     startDownavatorPosition = Downavator.downavatorSpark1.getEncoder().getPosition(); 
     startElevatorPosition = Elevator.elevatorSpark1.getEncoder().getPosition(); 
@@ -45,11 +44,10 @@ public class LiftRobot extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    // Intake.armTRSX1.set(speed);
     System.out.println("Downavator: " + Downavator.downavatorSpark1.get() + "Elevator: " + Elevator.elevatorSpark1.get());
     switch(state){
       case 0:
-        Elevator.elevatorSpark1.set(0.05 * ((Downavator.downavatorSpark1.getEncoder().getPosition() - startDownavatorPosition) - (Elevator.elevatorSpark1.getEncoder().getPosition() - startElevatorPosition)) + .25);
+        Elevator.elevatorSpark1.set(0.05 * ((Downavator.downavatorSpark1.getEncoder().getPosition() - startDownavatorPosition) - (Elevator.elevatorSpark1.getEncoder().getPosition() - startElevatorPosition)) + .3);
         if (Downavator.downavatorSpark1.getEncoder().getPosition() >= startDownavatorPosition + 28.5) {
           Downavator.downavatorSpark1.set(0.05);
         }
@@ -74,7 +72,7 @@ public class LiftRobot extends Command {
       case 2:
       Downavator.downavatorSpark1.set(.05 - (0.05 * (Downavator.downavatorSpark1.getEncoder().getPosition() - (28.5 + startDownavatorPosition))));
       if( Elevator.elevatorSpark1.getEncoder().getPosition() > (startElevatorPosition - 1)){
-          Elevator.elevatorSpark1.set(-0.2);
+          Elevator.elevatorSpark1.set(-0.3);
         } else {
           Elevator.elevatorSpark1.set(-0.03 - (0.05 * (Elevator.elevatorSpark1.getEncoder().getPosition() - (startElevatorPosition - 1))));
           counter = 0;
@@ -96,17 +94,26 @@ public class LiftRobot extends Command {
         }
         break;
       case 4:
-        Drivetrain.frontLeftTSRX.set(0.05);
-        Drivetrain.frontRightTSRX.set(0.05);
+        Drivetrain.frontLeftTSRX.set(0.1);
+        Drivetrain.frontRightTSRX.set(0.1);
         Downavator.downavatorSpark1.set(-0.25);
         if(!Downavator.downavatorTopSwitch.get()){
           Downavator.downavatorSpark1.stopMotor();
           Drivetrain.frontLeftTSRX.stopMotor();
           Drivetrain.frontRightTSRX.stopMotor();
+          counter = 0;
           state = 5;
           }
         break;
       case 5:
+        Drivetrain.frontRightTSRX.set(0.2);
+        Drivetrain.frontLeftTSRX.set(0.2);
+        counter ++;
+        if( counter >= 25){
+          Drivetrain.frontLeftTSRX.stopMotor();
+          Drivetrain.frontRightTSRX.stopMotor();
+          state = 6;
+        }
         break;
       default:
         break;        
@@ -117,7 +124,7 @@ public class LiftRobot extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return state == 6;
   }
 
   // Called once after isFinished returns true

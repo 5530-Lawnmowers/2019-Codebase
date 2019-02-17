@@ -34,8 +34,6 @@ public class ManualDownavator extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    System.out.println(Downavator.downavatorTopSwitch.get());
-
     if(OI.buttons[1].get()){
       Downavator.downavatorSpark1.set(Math.pow(-OI.stick.getY(), 3));
       Downavator.downavatorSpark2.set(Math.pow(-OI.stick.getY(), 3));

@@ -41,7 +41,9 @@ public class OI {
     buttons[4].toggleWhenPressed(new PIDLimelight());
     buttons[5].toggleWhenPressed(new DropDownavator());
     buttons[6].toggleWhenPressed(new LiftRobot());
-  }
+    buttons[7].toggleWhenPressed(new MoveArm("Top"));
+    buttons[8].toggleWhenPressed(new Climb());  
+}
 
 
   // There are a few additional built in buttons you can use. Additionally,

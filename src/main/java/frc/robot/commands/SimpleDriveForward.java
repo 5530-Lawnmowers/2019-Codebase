@@ -7,62 +7,54 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.subsystems.Elevator;
-import frc.robot.OI;
 import frc.robot.Robot;
 
-public class ManualElevator extends Command {
-  public ManualElevator() {
-    super("ManualAscendRobot");
+import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.subsystems.Drivetrain;
+
+public class SimpleDriveForward extends Command {
+  int counter;
+  int max;
+  public SimpleDriveForward(int time) {
+    requires(Robot.drivetrain);
+    max = time;
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.frontElevator);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    // Elevator.elevatorSpark2.follow(Elevator.elevatorSpark1);
-    
-    Elevator.elevatorSpark1.stopMotor();
-    Elevator.elevatorSpark2.stopMotor();
+    counter = 0;
+    Drivetrain.frontLeftTSRX.set(0.25);
+    Drivetrain.frontRightTSRX.set(0.25);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-
-
-    if(OI.buttons[0].get()){
-      Elevator.elevatorSpark1.set(Math.pow(-OI.stick.getY(), 3));
-      Elevator.elevatorSpark2.set(Math.pow(-OI.stick.getY(), 3));
-    } else {
-      if( Elevator.elevatorSpark2.getEncoder().getPosition() < -5){
-        Elevator.elevatorSpark1.set(-0.036);
-        Elevator.elevatorSpark2.set(-0.036);
-      } else {
-        Elevator.elevatorSpark1.set(0);
-        Elevator.elevatorSpark2.set(0);
-      }
-
-    }
+    counter ++;
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return counter >= max;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Drivetrain.frontLeftTSRX.stopMotor();
+    Drivetrain.frontRightTSRX.stopMotor();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    Drivetrain.frontLeftTSRX.stopMotor();
+    Drivetrain.frontRightTSRX.stopMotor();
+
   }
 }

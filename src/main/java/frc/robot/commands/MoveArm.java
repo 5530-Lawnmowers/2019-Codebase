@@ -18,7 +18,7 @@ public class MoveArm extends Command {
   String position;
 	boolean flag = false;
 	double counter;
-	double maxTime = 175;
+	double maxTime = 200;
   /**
    * 
    * @param _position The position to move the armTRSX1 to: Bot, Top
@@ -39,7 +39,8 @@ public class MoveArm extends Command {
   @Override
   protected void execute() {
 		if (position.equalsIgnoreCase("Top")) {
-			Intake.armTRSX1.set(ControlMode.PercentOutput, .0057*(Intake.armPot.get() - Intake.maxArmHeight) + .16); 
+			Intake.armTRSX1.set(-15 * (Intake.armPot.get() - .97) - 0.06);
+			// Intake.armTRSX1.set(ControlMode.PercentOutput, .0057*(Intake.armPot.get() - Intake.maxArmHeight) + .16); 
 			if(counter < maxTime) counter ++;
 			else flag = true;
 		}else if (position.equalsIgnoreCase("Bot")) {
@@ -52,7 +53,7 @@ public class MoveArm extends Command {
 		}else System.out.println("Incorrect Parameter");
 	}
 	protected boolean isFinished() {
-		return flag;
+		return false;
 	}
 	protected void end() {
 		Intake.armTRSX1.set(0);

@@ -7,45 +7,37 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.subsystems.Elevator;
-import frc.robot.OI;
 import frc.robot.Robot;
+import frc.robot.subsystems.Intake;
+import frc.robot.OI;
 
-public class ManualElevator extends Command {
-  public ManualElevator() {
-    super("ManualAscendRobot");
+import edu.wpi.first.wpilibj.command.Command;
+
+
+public class ManualArm extends Command {
+  public ManualArm() {
+    requires(Robot.intake);
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.frontElevator);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    // Elevator.elevatorSpark2.follow(Elevator.elevatorSpark1);
     
-    Elevator.elevatorSpark1.stopMotor();
-    Elevator.elevatorSpark2.stopMotor();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-
-
-    if(OI.buttons[0].get()){
-      Elevator.elevatorSpark1.set(Math.pow(-OI.stick.getY(), 3));
-      Elevator.elevatorSpark2.set(Math.pow(-OI.stick.getY(), 3));
-    } else {
-      if( Elevator.elevatorSpark2.getEncoder().getPosition() < -5){
-        Elevator.elevatorSpark1.set(-0.036);
-        Elevator.elevatorSpark2.set(-0.036);
+    if( OI.buttons[1].get()){
+      if( Intake.armPot.get() < 0.98){
+        Intake.armTRSX1.set(-OI.stick.getY() * 125 * (Intake.armPot.get() - 0.972));
       } else {
-        Elevator.elevatorSpark1.set(0);
-        Elevator.elevatorSpark2.set(0);
+        Intake.armTRSX1.set(-OI.stick.getY());
       }
-
+    } else {
+      Intake.armTRSX1.stopMotor();
     }
   }
 
