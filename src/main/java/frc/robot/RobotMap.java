@@ -24,22 +24,26 @@ public class RobotMap {
 	public static int D1 = 5; // Downavator #
 	public static int D2 = 6;
 	public static int DD = 7;
-	// Digital Inpurt
+	// Digital Input
 	public static int DBS = 8; // Downavator Bottom Switch
 	public static int DTS = 9; // Downavator Top Switch
 
 	public static int E1 = 8; // Elevator #
 	public static int E2 = 9;
-	// Digital Inpurt
+	// Digital Input
 	public static int ES1 = 6; // Elevator Switch #
 	public static int ES2 = 2;
 
 	public static int I1 = 9; // Intake #
 	public static int I2 = 10;
 	public static int A = 11; // Arm
-	public static int AP = 0;
-	// Digital Inpurt
+	public static int AP = 0; //Arm potentiameter
+	// Digital Input
 	public static int IS = 7; // Intake Switch 
+
+	//IR Sensors
+	public static int IRL = 4; //IR left
+	public static int IRR = 5; //IR right
 
 
 	// PID Slots

@@ -14,6 +14,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.sensors.PigeonIMU;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.DigitalInput;
 
 /**
  * Add your docs here.
@@ -27,6 +28,8 @@ public class Drivetrain extends Subsystem {
 
   public static PigeonIMU pigeon = new PigeonIMU(15);
   
+  public static DigitalInput infraredLeft = new DigitalInput(RobotMap.IRL);
+  public static DigitalInput infraredRight = new DigitalInput(RobotMap.IRR);
 
   
 	
