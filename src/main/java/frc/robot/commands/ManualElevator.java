@@ -32,6 +32,8 @@ public class ManualElevator extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    // System.out.println("Elevator: " + Elevator.elevatorSpark1.get());
+
 
     if(OI.buttons[0].get()){
       Elevator.elevatorSpark1.set(Math.pow(-OI.stick.getY(), 3));
