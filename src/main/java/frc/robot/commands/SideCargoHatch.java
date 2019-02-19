@@ -15,12 +15,23 @@ import frc.robot.subsystems.Drivetrain;
 public class SideCargoHatch extends Command {
     
     boolean left;
+    boolean prior;
+    int targetTape;
+    int currentTape;
 
     /**
      * @param side "L" for left side, "R" for right side
+     * @param count the targeted hatch
      */
-    public SideCargoHatch(String side) {
+    public SideCargoHatch(String side, int count) {
         requires(Robot.drivetrain);
+        prior = false;
+        currentTape = 0;
+
+        //2 tapes per hatch, so the 2n-1th tape is our target.
+        targetTape = count * 2 - 1;
+
+
         if(side.equalsIgnoreCase("L")) {
             left = true;
         } else {
@@ -39,7 +50,21 @@ public class SideCargoHatch extends Command {
 
     @Override
     protected void execute() {
-
+        if(left) {
+            if(Drivetrain.infraredLeft.get() && prior == false) {
+                currentTape++;
+                prior = true;
+            } else if(!Drivetrain.infraredLeft.get() && prior == true) {
+                prior = false;
+            }
+        } else {
+            if(Drivetrain.infraredRight.get() && prior == false) {
+                currentTape++;
+                prior = true;
+            } else if(!Drivetrain.infraredRight.get() && prior == true) {
+                prior = false;
+            }
+        }
     }
 
     /**
@@ -48,11 +73,7 @@ public class SideCargoHatch extends Command {
      */
     @Override
     protected boolean isFinished() {
-        if(left) {
-            return Drivetrain.infraredLeft.get();
-        } else {
-            return Drivetrain.infraredRight.get();
-        }
+        return currentTape == targetTape;
     }
 
     /**
