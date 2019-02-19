@@ -13,6 +13,9 @@ import frc.robot.OI;
 import frc.robot.Robot;
 
 public class ManualElevator extends Command {
+
+  double holdValue;
+
   public ManualElevator() {
     super("ManualAscendRobot");
     // Use requires() here to declare subsystem dependencies
@@ -23,29 +26,23 @@ public class ManualElevator extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    // Elevator.elevatorSpark2.follow(Elevator.elevatorSpark1);
-    
+    Elevator.elevatorSpark2.follow(Elevator.elevatorSpark1);
     Elevator.elevatorSpark1.stopMotor();
-    Elevator.elevatorSpark2.stopMotor();
+    holdValue = Elevator.elevatorSpark1.getEncoder().getPosition();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-
-
     if(OI.buttons[0].get()){
       Elevator.elevatorSpark1.set(Math.pow(-OI.stick.getY(), 3));
-      Elevator.elevatorSpark2.set(Math.pow(-OI.stick.getY(), 3));
+      holdValue = Elevator.elevatorSpark1.getEncoder().getPosition();
     } else {
       if( Elevator.elevatorSpark2.getEncoder().getPosition() < -5){
-        Elevator.elevatorSpark1.set(-0.036);
-        Elevator.elevatorSpark2.set(-0.036);
+        Elevator.elevatorSpark1.set(-0.036 - (0.05 * (Elevator.elevatorSpark1.getEncoder().getPosition() - holdValue)));
       } else {
         Elevator.elevatorSpark1.set(0);
-        Elevator.elevatorSpark2.set(0);
       }
-
     }
   }
 

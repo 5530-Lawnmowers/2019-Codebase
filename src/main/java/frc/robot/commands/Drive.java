@@ -87,9 +87,9 @@ public class Drive extends Command {
 			//speed of left side = amount Accelerator is pushed down minus
 			//amount Deccelerator is pushed down - lateral input from left Joystick
 			if(rTrigger >= lTrigger){
-				return Math.pow((rTrigger - lTrigger - 0.75 * (lStick), 3);
+				return Math.pow(rTrigger - lTrigger - 0.75 * lStick, 3);
 			}
-			return Math.pow((rTrigger - lTrigger + lStick), 3);
+			return Math.pow(rTrigger - lTrigger + 0.75 * lStick, 3);
 		}
 		
 		//Calculates left speed based on Controller output
@@ -97,9 +97,9 @@ public class Drive extends Command {
 			//speed of left side = amount Accelerator is pushed down minus
 			//amount Deccelerator is pushed down + lateral input from left Joystick
 			if(rTrigger >= lTrigger){
-				return Math.pow((rTrigger - lTrigger + lStick), 3);
+				return Math.pow(rTrigger - lTrigger + 0.75 * lStick, 3);
 			}
-			return Math.pow((rTrigger - lTrigger - lStick), 3);
+			return Math.pow(rTrigger - lTrigger - 0.75 * lStick, 3);
 		
 		}
 		//Sets the speed for both sides using XBController methods
