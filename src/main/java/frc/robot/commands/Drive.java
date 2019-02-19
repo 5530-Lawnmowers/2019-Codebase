@@ -23,6 +23,8 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 public class Drive extends Command {
   public static double OutputOldR;
 	public static double OutputOldL;
+	private static final double driveWeight = 0.85;
+	private static final double turnWeight = 0.85;
 	
 	public Drive() {
 		super("Drive");
@@ -87,9 +89,9 @@ public class Drive extends Command {
 			//speed of left side = amount Accelerator is pushed down minus
 			//amount Deccelerator is pushed down - lateral input from left Joystick
 			if(rTrigger >= lTrigger){
-				return Math.pow(rTrigger - lTrigger - 0.75 * lStick, 3);
+				return driveWeight * (rTrigger - lTrigger - turnWeight * lStick);
 			}
-			return Math.pow(rTrigger - lTrigger + 0.75 * lStick, 3);
+			return driveWeight * (rTrigger - lTrigger + turnWeight * lStick);
 		}
 		
 		//Calculates left speed based on Controller output
@@ -97,9 +99,9 @@ public class Drive extends Command {
 			//speed of left side = amount Accelerator is pushed down minus
 			//amount Deccelerator is pushed down + lateral input from left Joystick
 			if(rTrigger >= lTrigger){
-				return Math.pow(rTrigger - lTrigger + 0.75 * lStick, 3);
+				return driveWeight * (rTrigger - lTrigger + turnWeight * lStick);
 			}
-			return Math.pow(rTrigger - lTrigger - 0.75 * lStick, 3);
+			return driveWeight * (rTrigger - lTrigger - turnWeight * lStick);
 		
 		}
 		//Sets the speed for both sides using XBController methods

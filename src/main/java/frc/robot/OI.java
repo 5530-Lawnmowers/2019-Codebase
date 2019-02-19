@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -28,7 +29,10 @@ public class OI {
   // Button button = new JoystickButton(stick, buttonNumber);
 
   public static Joystick stick = new Joystick(0);
-	public static XboxController XBController = new XboxController(1);
+  public static XboxController XBController = new XboxController(1);
+  JoystickButton xba = new JoystickButton(XBController, 1);
+  JoystickButton xbb = new JoystickButton(XBController, 2);
+  JoystickButton xbrb = new JoystickButton(XBController, 6);
 
   public static Button[] buttons = new Button[12];
 
@@ -36,14 +40,19 @@ public class OI {
     for(int i=1; i <= 12; i++) {
       buttons[i-1] = new JoystickButton(stick, i);
     }
-    buttons[2].toggleWhenPressed(new PickupBall());
-    buttons[3].toggleWhenPressed(new DispenseBall());
-    buttons[4].toggleWhenPressed(new PIDLimelight());
-    buttons[5].toggleWhenPressed(new DropDownavator());
-    buttons[6].toggleWhenPressed(new LiftRobot());
-    buttons[7].toggleWhenPressed(new MoveArm("Top"));
-    buttons[8].toggleWhenPressed(new Climb());  
+    buttons[6].toggleWhenPressed(new MoveArm("top"));
+    buttons[8].toggleWhenPressed(new DropDownavator());
+    buttons[10].toggleWhenPressed(new LiftRobot()); 
+
+    xba.toggleWhenPressed(new PickupBall());
+    xbb.toggleWhenPressed(new DispenseBall());
+    xbrb.toggleWhenPressed(new AlignHatch());
 }
+
+
+
+
+
 
 
   // There are a few additional built in buttons you can use. Additionally,

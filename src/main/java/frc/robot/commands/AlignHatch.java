@@ -14,7 +14,7 @@ import frc.robot.subsystems.Drivetrain;
 
 public class AlignHatch extends Command {
 
-  private final double degreeWeight = .001;
+  private final double degreeWeight = .02;
 
   public AlignHatch() {
     // Use requires() here to declare subsystem dependencies
@@ -32,8 +32,8 @@ public class AlignHatch extends Command {
   @Override
   protected void execute() {
     double error = LimelightHelpers.getLimelightValue("tx");
-    Drivetrain.frontRightTSRX.set(.5 - error*degreeWeight);
-    Drivetrain.frontLeftTSRX.set(.5 + error*degreeWeight);
+    Drivetrain.frontRightTSRX.set(.35 - error*degreeWeight);
+    Drivetrain.frontLeftTSRX.set(.35 + error*degreeWeight);
   }
 
   // Make this return true when this Command no longer needs to run execute()
