@@ -80,6 +80,8 @@ public class PigeonHelpers{
     Drivetrain.frontRightTSRX.setInverted(false);
     Drivetrain.backRightTSRX.setInverted(false);
 
+    pigeonPIDController1.setOutputRange(-.35, .35);
+    pigeonPIDController2.setOutputRange(-.35, .35);
     pigeonPIDController1.setPID(RobotMap.pidSlots[pidSlot][0], RobotMap.pidSlots[pidSlot][1], RobotMap.pidSlots[pidSlot][2]);
     pigeonPIDController2.setPID(RobotMap.pidSlots[pidSlot][0], RobotMap.pidSlots[pidSlot][1], RobotMap.pidSlots[pidSlot][2]);
     pigeonPIDController1.setSetpoint(setpoint);
@@ -103,6 +105,8 @@ public class PigeonHelpers{
     Drivetrain.frontRightTSRX.setInverted(false);
     Drivetrain.backRightTSRX.setInverted(false);
 
+    pigeonPIDController1.setOutputRange(-.35, .35);
+    pigeonPIDController2.setOutputRange(-.35, .35);
     pigeonPIDController1.setPercentTolerance(absoluteTolerance);
     pigeonPIDController2.setPercentTolerance(absoluteTolerance);
     pigeonPIDController1.enable();
@@ -118,7 +122,6 @@ public class PigeonHelpers{
     pigeonPIDController2.disable();
     Drivetrain.frontRightTSRX.setInverted(false);
     Drivetrain.backRightTSRX.setInverted(false);
-
 
   }
 }
