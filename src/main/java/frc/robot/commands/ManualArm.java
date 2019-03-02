@@ -8,7 +8,7 @@
 package frc.robot.commands;
 
 import frc.robot.Robot;
-import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Arm;
 import frc.robot.OI;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class ManualArm extends Command {
   public ManualArm() {
-    requires(Robot.intake);
+    requires(Robot.arm);
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
   }
@@ -31,13 +31,13 @@ public class ManualArm extends Command {
   @Override
   protected void execute() {
     if( OI.buttons[1].get()){
-      if( Intake.armPot.get() < 0.98){
-        Intake.armTRSX1.set(-OI.stick.getY() * 125 * (Intake.armPot.get() - 0.972));
+      if( Arm.armPot.get() < 0.98){
+        Arm.armTRSX1.set(-OI.stick.getY() * 125 * (Arm.armPot.get() - Arm.maxArmHeight));
       } else {
-        Intake.armTRSX1.set(-OI.stick.getY());
+        Arm.armTRSX1.set(-OI.stick.getY());
       }
     } else {
-      Intake.armTRSX1.stopMotor();
+      Arm.armTRSX1.stopMotor();
     }
   }
 

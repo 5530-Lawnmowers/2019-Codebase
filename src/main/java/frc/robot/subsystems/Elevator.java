@@ -28,6 +28,7 @@ public class Elevator extends Subsystem {
   public static DigitalInput elevatorTopSwitch = new DigitalInput(RobotMap.ES1);
   public static DigitalInput elevatorBotSwitch = new DigitalInput(RobotMap.ES2);
 
+  public static double startPosition;
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.

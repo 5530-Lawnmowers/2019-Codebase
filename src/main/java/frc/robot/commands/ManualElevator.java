@@ -15,12 +15,13 @@ import frc.robot.Robot;
 public class ManualElevator extends Command {
 
   double holdValue;
+  private static final double elevatorWeight = 0.75;
 
   public ManualElevator() {
     super("ManualAscendRobot");
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.frontElevator);
+    requires(Robot.elevator);
   }
 
   // Called just before this Command runs the first time
@@ -35,7 +36,7 @@ public class ManualElevator extends Command {
   @Override
   protected void execute() {
     if(OI.buttons[0].get()){
-      Elevator.elevatorSpark1.set(Math.pow(-OI.stick.getY(), 3));
+      Elevator.elevatorSpark1.set(elevatorWeight * -OI.stick.getY());
       holdValue = Elevator.elevatorSpark1.getEncoder().getPosition();
     } else {
       if( Elevator.elevatorSpark2.getEncoder().getPosition() < -5){

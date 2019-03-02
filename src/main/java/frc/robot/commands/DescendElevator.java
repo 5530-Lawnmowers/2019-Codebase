@@ -14,7 +14,7 @@ import frc.robot.Robot;
 
 public class DescendElevator extends Command {
   public DescendElevator() {
-    requires(Robot.frontElevator);
+    requires(Robot.elevator);
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
   }

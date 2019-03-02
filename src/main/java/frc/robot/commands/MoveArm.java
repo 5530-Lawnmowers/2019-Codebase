@@ -7,7 +7,7 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Arm;
 import frc.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -15,16 +15,14 @@ import edu.wpi.first.wpilibj.command.Command;
 import com.ctre.phoenix.motorcontrol.ControlMode;;
 
 public class MoveArm extends Command {
-  String position;
-	boolean flag = false;
-	double counter;
+  	String position;
 	double maxTime = 200;
   /**
    * 
    * @param _position The position to move the armTRSX1 to: Bot, Top
    */
   public MoveArm(String _position) {
-    requires(Robot.intake);
+    requires(Robot.arm);
     position = _position;
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
@@ -39,26 +37,20 @@ public class MoveArm extends Command {
   @Override
   protected void execute() {
 		if (position.equalsIgnoreCase("Top")) {
-			Intake.armTRSX1.set(-15 * (Intake.armPot.get() - .97) - 0.06);
-			// Intake.armTRSX1.set(ControlMode.PercentOutput, .0057*(Intake.armPot.get() - Intake.maxArmHeight) + .16); 
-			if(counter < maxTime) counter ++;
-			else flag = true;
+			Arm.armTRSX1.set(-20 * (Arm.armPot.get() - Arm.maxArmHeight) - 0.06);
 		}else if (position.equalsIgnoreCase("Bot")) {
-			if (Intake.armPot.get() <= Intake.minArmHeight) {
-				Intake.armTRSX1.set(-1);
-			}else {
-				Intake.armTRSX1.stopMotor();
-				flag = true;
-			}
+			Arm.armTRSX1.set(-20 * (Arm.armPot.get() - Arm.minArmHeight) - 0.06);
+		}else if (position.equalsIgnoreCase("Mid")) {
+			Arm.armTRSX1.set(-20 * (Arm.armPot.get() - Arm.midArmHeight) - 0.06);
 		}else System.out.println("Incorrect Parameter");
 	}
 	protected boolean isFinished() {
 		return false;
 	}
 	protected void end() {
-		Intake.armTRSX1.set(0);
+		Arm.armTRSX1.set(0);
 	}
 	protected void interrupted() {
-		Intake.armTRSX1.set(0);
+		Arm.armTRSX1.set(0);
 	}
 }

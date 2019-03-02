@@ -40,9 +40,15 @@ public class OI {
     for(int i=1; i <= 12; i++) {
       buttons[i-1] = new JoystickButton(stick, i);
     }
-    buttons[6].toggleWhenPressed(new MoveArm("top"));
+    buttons[6].toggleWhenPressed(new MoveArm("Bot"));
+    buttons[7].toggleWhenPressed(new MoveArm("Mid"));
     buttons[8].toggleWhenPressed(new DropDownavator());
     buttons[10].toggleWhenPressed(new LiftRobot()); 
+
+    buttons[4].toggleWhenPressed(new AscendElevator("LowHatch"));
+    buttons[2].toggleWhenPressed(new AscendElevator("Bot"));
+    buttons[3].toggleWhenPressed(new AscendElevator("MidRocketBall"));
+
 
     xba.toggleWhenPressed(new PickupBall());
     xbb.toggleWhenPressed(new DispenseBall());

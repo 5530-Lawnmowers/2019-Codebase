@@ -7,33 +7,35 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.command.Subsystem;
+
 import frc.robot.RobotMap;
 import frc.robot.commands.*;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
-import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
+
+
 
 /**
  * Add your docs here.
  */
-public class Intake extends Subsystem {
+public class Arm extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
-  public static int minArmHeight = 0;
-  public static int maxArmHeight = 0;
+  public static final double minArmHeight = 0.984;
+  public static final double midArmHeight = 0.977;
+  public static final double maxArmHeight = 0.971;
 
-  public static WPI_TalonSRX intakeTRSX1 = new WPI_TalonSRX(RobotMap.I1);
-  public static WPI_TalonSRX intakeTRSX2 = new WPI_TalonSRX(RobotMap.I2);
-
-  public static DigitalInput intakeSwitch = new DigitalInput(RobotMap.IS);
-
+  public static WPI_TalonSRX armTRSX1 = new WPI_TalonSRX(RobotMap.A);
+  public static AnalogPotentiometer armPot = new AnalogPotentiometer(RobotMap.AP);
 
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
+
+    setDefaultCommand(new ManualArm());
   }
 }

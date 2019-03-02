@@ -24,7 +24,7 @@ public class DropDownavator extends Command {
 
   public DropDownavator() {
     requires(Robot.downavator);
-    requires(Robot.frontElevator);
+    requires(Robot.elevator);
     counter = 0;
   }
 

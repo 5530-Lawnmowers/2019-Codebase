@@ -23,7 +23,7 @@ public class LiftRobot extends Command {
 
   public LiftRobot() {
     requires(Robot.downavator);
-    requires(Robot.frontElevator);
+    requires(Robot.elevator);
     requires(Robot.drivetrain);
   }
 
@@ -47,6 +47,7 @@ public class LiftRobot extends Command {
     System.out.println("Downavator: " + Downavator.downavatorSpark1.get() + "Elevator: " + Elevator.elevatorSpark1.get());
     switch(state){
       case 0:
+        Downavator.downavatorDrive.set(0.15);
         Elevator.elevatorSpark1.set(0.05 * ((Downavator.downavatorSpark1.getEncoder().getPosition() - startDownavatorPosition) - (Elevator.elevatorSpark1.getEncoder().getPosition() - startElevatorPosition)) + .3);
         if (Downavator.downavatorSpark1.getEncoder().getPosition() >= startDownavatorPosition + 28.5) {
           Downavator.downavatorSpark1.set(0.05);
@@ -70,8 +71,8 @@ public class LiftRobot extends Command {
         }
         break;
       case 2:
-      Downavator.downavatorSpark1.set(.05 - (0.05 * (Downavator.downavatorSpark1.getEncoder().getPosition() - (28.5 + startDownavatorPosition))));
-      if( Elevator.elevatorSpark1.getEncoder().getPosition() > (startElevatorPosition - 1)){
+        Downavator.downavatorSpark1.set(.05 - (0.05 * (Downavator.downavatorSpark1.getEncoder().getPosition() - (28.5 + startDownavatorPosition))));
+        if( Elevator.elevatorSpark1.getEncoder().getPosition() > (startElevatorPosition - 1)){
           Elevator.elevatorSpark1.set(-0.3);
         } else {
           Elevator.elevatorSpark1.set(-0.03 - (0.05 * (Elevator.elevatorSpark1.getEncoder().getPosition() - (startElevatorPosition - 1))));
