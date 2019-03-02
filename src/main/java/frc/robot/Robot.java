@@ -22,11 +22,12 @@ public class Robot extends TimedRobot {
   public static OI oi;
 
   // Declare Subsystems
-  public static Elevator elevator = new Elevator();
+  public static Elevator frontElevator = new Elevator();
   public static Downavator downavator = new Downavator();
   public static Drivetrain drivetrain = new Drivetrain();
   public static Intake intake = new Intake();
-  public static Arm arm = new Arm();
+  public static Lights lights = new Lights();
+
 
   // Declare Commands
 
@@ -84,7 +85,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    Elevator.startPosition = Elevator.elevatorSpark1.getEncoder().getPosition();
     //Initializing Stuff
     Drivetrain.backLeftTSRX.configFactoryDefault();
     Drivetrain.backRightTSRX.configFactoryDefault();
@@ -125,6 +125,7 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     Scheduler.getInstance().run();    
 
+    System.out.println(Intake.armPot.get());;
     ShuffleboardHelpers.setWidgetValue("TestingEL", "UpEncoder", Elevator.elevatorSpark2.getEncoder().getPosition());
     ShuffleboardHelpers.setWidgetValue("TestingEL", "DownEncoder", Downavator.downavatorSpark1.getEncoder().getPosition());
     ShuffleboardHelpers.setWidgetValue("TestingIN", "Intake Switch", Intake.intakeSwitch.get());

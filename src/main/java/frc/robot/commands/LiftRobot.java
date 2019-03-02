@@ -44,7 +44,9 @@ public class LiftRobot extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+
     System.out.println("Downavator: " + Downavator.downavatorSpark1.get() + "Elevator: " + Elevator.elevatorSpark1.get());
+    Robot.lights.setLightStage(state);
     switch(state){
       case 0:
         Downavator.downavatorDrive.set(0.15);
