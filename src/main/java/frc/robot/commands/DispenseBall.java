@@ -31,17 +31,21 @@ public class DispenseBall extends Command {
   @Override
   protected void execute() {
     counter ++;
+    
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
+
     return counter >= 40;
+    
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Robot.lights.setInball(false);
     Intake.intakeTRSX1.stopMotor();
     Intake.intakeTRSX2.stopMotor();
   }
