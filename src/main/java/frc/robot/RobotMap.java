@@ -31,7 +31,7 @@ public class RobotMap {
 	public static int E1 = 8; // Elevator #
 	public static int E2 = 9;
 	// Digital Input
-	public static int ES1 = 6; // Elevator Switch #
+	public static int ES1 = 6; // Elevator Switch Bot #
 	public static int ES2 = 2;
 
 	public static int I1 = 9; // Intake #

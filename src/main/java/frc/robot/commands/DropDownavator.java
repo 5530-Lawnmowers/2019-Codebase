@@ -40,7 +40,7 @@ public class DropDownavator extends Command {
   @Override
   protected void execute() {
     if(state == 0){ //drops downavator
-      Downavator.downavatorSpark1.set(.25);
+      Downavator.downavatorSpark1.set(.4);
       if(Downavator.downavatorSpark1.getEncoder().getPosition() >= initialDownavatorPosition + dropDistance) {
         Downavator.downavatorSpark1.stopMotor();
         state = 1;

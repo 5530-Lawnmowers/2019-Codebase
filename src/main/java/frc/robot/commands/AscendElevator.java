@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class AscendElevator extends Command {
   String position;
+  double commandStartPosition;
   public AscendElevator(String _position) {
     position = _position;
     requires(Robot.elevator);
@@ -22,6 +23,7 @@ public class AscendElevator extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    commandStartPosition = Elevator.elevatorSpark1.getEncoder().getPosition();
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -39,13 +41,12 @@ public class AscendElevator extends Command {
         }
         break;
       case "LowHatch":
-
-        if((-0.03 - (0.1 * (Elevator.elevatorSpark1.getEncoder().getPosition() - (Elevator.startPosition - 8)))) < -0.3){
+        if((-0.03 - (0.1 * (Elevator.elevatorSpark1.getEncoder().getPosition() - (Elevator.startPosition - 8.5)))) < -0.3){
           Elevator.elevatorSpark1.set(-0.3);
-        } else if((-0.03 - (0.1 * (Elevator.elevatorSpark1.getEncoder().getPosition() - (Elevator.startPosition - 8)))) > 0.075){
+        } else if((-0.03 - (0.1 * (Elevator.elevatorSpark1.getEncoder().getPosition() - (Elevator.startPosition - 8.5)))) > 0.075){
           Elevator.elevatorSpark1.set(0.075);
         } else {
-          Elevator.elevatorSpark1.set(-0.03 - (0.1 * (Elevator.elevatorSpark1.getEncoder().getPosition() - (Elevator.startPosition - 8))));
+          Elevator.elevatorSpark1.set(-0.03 - (0.1 * (Elevator.elevatorSpark1.getEncoder().getPosition() - (Elevator.startPosition - 8.5))));
         }
         break;
       case "MidHatch":
@@ -84,6 +85,25 @@ public class AscendElevator extends Command {
           Elevator.elevatorSpark1.set(-0.03 - (0.1 * (Elevator.elevatorSpark1.getEncoder().getPosition() - (Elevator.startPosition - 61))));
         }
         break;
+      case "DeliverHatch":
+        if((-0.03 - (0.1 * (Elevator.elevatorSpark1.getEncoder().getPosition() - (Elevator.startPosition - (commandStartPosition - 4))))) < -0.3){
+          Elevator.elevatorSpark1.set(-0.3);
+        } else if((-0.03 - (0.1 * (Elevator.elevatorSpark1.getEncoder().getPosition() - (Elevator.startPosition - (commandStartPosition - 4))))) > 0.075){
+          Elevator.elevatorSpark1.set(0.075);
+        } else {
+          Elevator.elevatorSpark1.set(-0.03 - (0.1 * (Elevator.elevatorSpark1.getEncoder().getPosition() - (Elevator.startPosition - (commandStartPosition - 4)))));
+        }
+        break;
+      case "ShuttleBall":
+        if((-0.03 - (0.1 * (Elevator.elevatorSpark1.getEncoder().getPosition() - (Elevator.startPosition - 30)))) < -0.3){
+          Elevator.elevatorSpark1.set(-0.3);
+        } else if((-0.03 - (0.1 * (Elevator.elevatorSpark1.getEncoder().getPosition() - (Elevator.startPosition - 30)))) > 0.075){
+          Elevator.elevatorSpark1.set(0.075);
+        } else {
+          Elevator.elevatorSpark1.set(-0.03 - (0.1 * (Elevator.elevatorSpark1.getEncoder().getPosition() - (Elevator.startPosition - 30))));
+        }
+        break;
+
     }
 
   }

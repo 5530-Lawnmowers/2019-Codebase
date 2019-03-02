@@ -24,9 +24,9 @@ import edu.wpi.first.wpilibj.AnalogPotentiometer;
 public class Arm extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
-  public static final double minArmHeight = 0.984;
-  public static final double midArmHeight = 0.977;
-  public static final double maxArmHeight = 0.971;
+  public static final double minArmHeight = 0.981;
+  public static final double midArmHeight = 0.972;
+  public static final double maxArmHeight = 0.963;
 
   public static WPI_TalonSRX armTRSX1 = new WPI_TalonSRX(RobotMap.A);
   public static AnalogPotentiometer armPot = new AnalogPotentiometer(RobotMap.AP);

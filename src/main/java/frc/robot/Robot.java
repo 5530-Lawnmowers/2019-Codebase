@@ -123,7 +123,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    Scheduler.getInstance().run();    
+    Scheduler.getInstance().run(); 
 
     ShuffleboardHelpers.setWidgetValue("TestingEL", "UpEncoder", Elevator.elevatorSpark2.getEncoder().getPosition());
     ShuffleboardHelpers.setWidgetValue("TestingEL", "DownEncoder", Downavator.downavatorSpark1.getEncoder().getPosition());

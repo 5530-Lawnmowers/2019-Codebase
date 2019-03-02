@@ -31,13 +31,22 @@ public class ManualArm extends Command {
   @Override
   protected void execute() {
     if( OI.buttons[1].get()){
-      if( Arm.armPot.get() < 0.98){
-        Arm.armTRSX1.set(-OI.stick.getY() * 125 * (Arm.armPot.get() - Arm.maxArmHeight));
-      } else {
-        Arm.armTRSX1.set(-OI.stick.getY());
+      if( Arm.armPot.get() < 0.966 & OI.stick.getY() >= 0){
+        Arm.armTRSX1.set(OI.stick.getY() * 100 * (Arm.armPot.get() - Arm.maxArmHeight));
+      } else if(Arm.armPot.get() > 0.974 & OI.stick.getY() <= 0) {
+        Arm.armTRSX1.set(OI.stick.getY() * 100 * (Arm.minArmHeight - Arm.armPot.get()) + .05);
+      } else if(Arm.armPot.get() > 0.974 & OI.stick.getY() > 0){
+        Arm.armTRSX1.set(OI.stick.getY() + 0.05);
+      } else{
+        Arm.armTRSX1.set(OI.stick.getY());
+
       }
     } else {
-      Arm.armTRSX1.stopMotor();
+      if(Arm.armPot.get() > 0.978){
+        Arm.armTRSX1.set(0.05);
+      } else {
+        Arm.armTRSX1.stopMotor();
+      }
     }
   }
 

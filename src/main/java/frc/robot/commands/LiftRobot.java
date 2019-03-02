@@ -20,6 +20,11 @@ public class LiftRobot extends Command {
   double downavatorVelocity;
   int state;
   int counter;
+  //Stage 1:
+  private final double baseDownavatorSpeed = 0.45;
+  private final double baseElevatorSpeed = 0.6;
+  //Stage 2:
+  private final double driveForwardTimeS2 = 100;
 
   public LiftRobot() {
     requires(Robot.downavator);
@@ -34,8 +39,9 @@ public class LiftRobot extends Command {
     counter = 0;
     Downavator.downavatorSpark2.follow(Downavator.downavatorSpark1);
     Elevator.elevatorSpark2.follow(Elevator.elevatorSpark1);
-    Elevator.elevatorSpark1.set(.3);    
-    Downavator.downavatorSpark1.set(.25);
+    Elevator.elevatorSpark1.set(baseElevatorSpeed);
+    Downavator.downavatorSpark1.set(baseDownavatorSpeed);
+
     
     startDownavatorPosition = Downavator.downavatorSpark1.getEncoder().getPosition(); 
     startElevatorPosition = Elevator.elevatorSpark1.getEncoder().getPosition(); 
@@ -47,8 +53,8 @@ public class LiftRobot extends Command {
     System.out.println("Downavator: " + Downavator.downavatorSpark1.get() + "Elevator: " + Elevator.elevatorSpark1.get());
     switch(state){
       case 0:
-        Downavator.downavatorDrive.set(0.15);
-        Elevator.elevatorSpark1.set(0.05 * ((Downavator.downavatorSpark1.getEncoder().getPosition() - startDownavatorPosition) - (Elevator.elevatorSpark1.getEncoder().getPosition() - startElevatorPosition)) + .3);
+        Downavator.downavatorDrive.set(.15);
+        Elevator.elevatorSpark1.set(0.07 * ((Downavator.downavatorSpark1.getEncoder().getPosition() - startDownavatorPosition) - (Elevator.elevatorSpark1.getEncoder().getPosition() - startElevatorPosition)) + baseElevatorSpeed);
         if (Downavator.downavatorSpark1.getEncoder().getPosition() >= startDownavatorPosition + 28.5) {
           Downavator.downavatorSpark1.set(0.05);
         }
@@ -65,7 +71,7 @@ public class LiftRobot extends Command {
         counter ++;
         Elevator.elevatorSpark1.set(0.0875 - (0.05 * (Elevator.elevatorSpark1.getEncoder().getPosition() - (29.5 + startElevatorPosition))));
         Downavator.downavatorSpark1.set(.05 - (0.05 * (Downavator.downavatorSpark1.getEncoder().getPosition() - (28.5 + startDownavatorPosition))));
-        if(counter == 100){
+        if(counter >= driveForwardTimeS2){
           Downavator.downavatorDrive.stopMotor();
           state = 2;
         }

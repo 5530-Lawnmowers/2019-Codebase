@@ -16,13 +16,13 @@ public class AlignHatch extends Command {
 
   private final double kp = .02;
   private final double kd = 0;
+  private final double ky = 0; 
   private double previousError;
 
   public AlignHatch() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(Robot.drivetrain);
-    requires(Robot.elevator);
   }
 
   // Called just before this Command runs the first time
@@ -35,9 +35,11 @@ public class AlignHatch extends Command {
   @Override
   protected void execute() {
     double error = LimelightHelpers.getLimelightValue("tx");
-    double errorVelocity = error - previousError;
-    Drivetrain.frontRightTSRX.set(.35 - kp*error - kd*errorVelocity);
-    Drivetrain.frontLeftTSRX.set(.35 + kp*error + kd*errorVelocity);
+    double distance = LimelightHelpers.getLimelightValue("tx");
+    double errorVelocity = Math.abs(error - previousError);
+    System.out.println(.35 + kp*error + Math.signum(error)*kd*errorVelocity - ky*distance);
+    Drivetrain.frontRightTSRX.set(.35 - kp*error + Math.signum(error)*kd*errorVelocity - ky*distance);
+    Drivetrain.frontLeftTSRX.set(.35 + kp*error - Math.signum(error)*kd*errorVelocity - ky*distance);
     previousError = error;
   }
 
