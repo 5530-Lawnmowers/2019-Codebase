@@ -22,9 +22,10 @@ public class Robot extends TimedRobot {
   public static OI oi;
 
   // Declare Subsystems
-  public static Elevator frontElevator = new Elevator();
+  public static Elevator elevator = new Elevator();
   public static Downavator downavator = new Downavator();
   public static Drivetrain drivetrain = new Drivetrain();
+  public static Arm arm = new Arm();
   public static Intake intake = new Intake();
   public static Lights lights = new Lights();
 
@@ -42,13 +43,12 @@ public class Robot extends TimedRobot {
     ShuffleboardHelpers.createComplexWidget("TestingDT", "BL Talon", Drivetrain.backLeftTSRX);
     ShuffleboardHelpers.createComplexWidget("TestingIN", "Intake 1", Intake.intakeTRSX1);
     ShuffleboardHelpers.createComplexWidget("TestingIN", "Intake 2", Intake.intakeTRSX2);
-    ShuffleboardHelpers.createComplexWidget("TestingLL", "PIDController1", LimelightHelpers.limelightPIDController1);
-    ShuffleboardHelpers.createComplexWidget("TestingLL", "PIDController2", LimelightHelpers.limelightPIDController2);
     ShuffleboardHelpers.createSimpleWidget("TestingIN", "Intake Switch", false);
     ShuffleboardHelpers.createSimpleWidget("TestingEL", "UpEncoder", 0);
     ShuffleboardHelpers.createSimpleWidget("TestingEL", "DownEncoder", 0);
     ShuffleboardHelpers.createSimpleWidget("TestingEL", "Elevator", 0);
     ShuffleboardHelpers.createSimpleWidget("TestingEL", "Downavator", 0);
+    ShuffleboardHelpers.createComplexWidget("TestingArm", "Arm Talon", Arm.armTRSX1);
 
     
   
@@ -73,19 +73,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
-
-
-  }
-
-
-  @Override
-  public void autonomousPeriodic() {
-    Scheduler.getInstance().run();
-  }
-
-  @Override
-  public void teleopInit() {
-    //Initializing Stuff
     Drivetrain.backLeftTSRX.configFactoryDefault();
     Drivetrain.backRightTSRX.configFactoryDefault();
     Drivetrain.frontLeftTSRX.configFactoryDefault();
@@ -122,10 +109,21 @@ public class Robot extends TimedRobot {
 
 
   @Override
+  public void autonomousPeriodic() {
+    Scheduler.getInstance().run();
+  }
+
+  @Override
+  public void teleopInit() {
+    //Initializing Stuff
+    
+  }
+
+
+  @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run(); 
 
-    System.out.println(Intake.armPot.get());;
     ShuffleboardHelpers.setWidgetValue("TestingEL", "UpEncoder", Elevator.elevatorSpark2.getEncoder().getPosition());
     ShuffleboardHelpers.setWidgetValue("TestingEL", "DownEncoder", Downavator.downavatorSpark1.getEncoder().getPosition());
     ShuffleboardHelpers.setWidgetValue("TestingIN", "Intake Switch", Intake.intakeSwitch.get());

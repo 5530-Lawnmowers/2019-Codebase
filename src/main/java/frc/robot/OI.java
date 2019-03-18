@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
+import edu.wpi.first.wpilibj.Joystick.AxisType;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -35,16 +36,20 @@ public class OI {
   JoystickButton xbrb = new JoystickButton(XBController, 6);
   JoystickButton xby  = new JoystickButton(XBController, 4);
   JoystickButton xbx = new JoystickButton(XBController, 3);
+  JoystickButton xbstart = new JoystickButton(XBController, 8);
+  JoystickButton xbback = new JoystickButton(XBController, 7);
+  public static JoystickButton xblb = new JoystickButton(XBController, 5);
 
   public static Button[] buttons = new Button[12];
+  
 
   OI() {
     for(int i=1; i <= 12; i++) {
       buttons[i-1] = new JoystickButton(stick, i);
     }
     //Climb
+    buttons[7].toggleWhenPressed(new AscendElevator("HighHatch"));
     buttons[6].toggleWhenPressed(new DropDownavator());
-    buttons[7].toggleWhenPressed(new LiftRobot()); 
     //Hatch
     buttons[2].toggleWhenPressed(new AscendElevator("LowHatch"));
     buttons[4].toggleWhenPressed(new AscendElevator("Bot"));
@@ -64,6 +69,8 @@ public class OI {
     xbrb.toggleWhenPressed(new AlignHatch());
     xbx.toggleWhenPressed(new MoveArm("Bot"));
     xby.toggleWhenPressed(new MoveArm("Top"));
+    xbback.toggleWhenPressed(new Level2Climb());
+    xbstart.toggleWhenPressed(new LiftRobot());
 
 }
 

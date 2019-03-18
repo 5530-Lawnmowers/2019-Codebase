@@ -14,7 +14,7 @@ import frc.robot.subsystems.Drivetrain;
 
 public class AlignHatch extends Command {
 
-  private final double kp = .02;
+  private final double kp = .01;
   private final double kd = 0;
   private final double ky = 0; 
   private double previousError;

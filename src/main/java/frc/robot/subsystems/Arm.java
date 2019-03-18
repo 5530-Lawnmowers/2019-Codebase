@@ -26,7 +26,7 @@ public class Arm extends Subsystem {
   // here. Call these from Commands.
   public static final double minArmHeight = 0.981;
   public static final double midArmHeight = 0.972;
-  public static final double maxArmHeight = 0.963;
+  public static final double maxArmHeight = 0.964;
 
   public static WPI_TalonSRX armTRSX1 = new WPI_TalonSRX(RobotMap.A);
   public static AnalogPotentiometer armPot = new AnalogPotentiometer(RobotMap.AP);
@@ -36,6 +36,6 @@ public class Arm extends Subsystem {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
 
-    setDefaultCommand(new ManualArm());
+    // setDefaultCommand(new ManualArm());
   }
 }

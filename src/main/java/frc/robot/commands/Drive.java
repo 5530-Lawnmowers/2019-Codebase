@@ -15,6 +15,7 @@ import frc.robot.RobotMap;
 import frc.robot.subsystems.Downavator;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.OI;
+import edu.wpi.first.wpilibj.Joystick.AxisType;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -23,8 +24,8 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 public class Drive extends Command {
   public static double OutputOldR;
 	public static double OutputOldL;
-	private static final double driveWeight = 0.85;
-	private static final double turnWeight = 0.85;
+	private static double driveWeight = 0.85;
+	private static double turnWeight = 0.85;
 	
 	public Drive() {
 		super("Drive");
@@ -89,9 +90,9 @@ public class Drive extends Command {
 			//speed of left side = amount Accelerator is pushed down minus
 			//amount Deccelerator is pushed down - lateral input from left Joystick
 			if(rTrigger >= lTrigger){
-				return driveWeight * (rTrigger - lTrigger - turnWeight * lStick);
+				return driveWeight * limit(rTrigger - lTrigger - lStick);
 			}
-			return driveWeight * (rTrigger - lTrigger + turnWeight * lStick);
+			return driveWeight * limit(rTrigger - lTrigger + lStick);
 		}
 		
 		//Calculates left speed based on Controller output
@@ -99,9 +100,9 @@ public class Drive extends Command {
 			//speed of left side = amount Accelerator is pushed down minus
 			//amount Deccelerator is pushed down + lateral input from left Joystick
 			if(rTrigger >= lTrigger){
-				return driveWeight * (rTrigger - lTrigger + turnWeight * lStick);
+				return driveWeight * limit(rTrigger - lTrigger + lStick);
 			}
-			return driveWeight * (rTrigger - lTrigger - turnWeight * lStick);
+			return driveWeight * limit(rTrigger - lTrigger - lStick);
 		
 		}
 		//Sets the speed for both sides using XBController methods
@@ -125,6 +126,13 @@ public class Drive extends Command {
 	}
 	//Whenever this command is called, setspeeds is called
 	protected void execute() {
+		if(OI.xblb.get()){
+			driveWeight = 0.25 * (OI.stick.getThrottle() + 1);
+			turnWeight = 0.5;
+		} else {
+			driveWeight = 0.85;
+			turnWeight = 0.85;
+		}
 		setSpeeds(getStickHorizontal('l'), getTriggerValue('r'), getTriggerValue('l'));
 		//Drivetrain.frontLeftTSRX.set(.1);
 		//Drivetrain.frontRightTSRX.set(.1);

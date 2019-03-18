@@ -24,7 +24,6 @@ public class PickupBall extends Command {
   protected void initialize() {
     Intake.intakeTRSX1.set(.6);
     Intake.intakeTRSX2.set(.6);
-    Robot.lights.setInball();
   }
 
   // Called repeatedly when this Command is scheduled to run
