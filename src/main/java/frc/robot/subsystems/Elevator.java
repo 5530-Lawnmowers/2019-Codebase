@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 public class Elevator extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
+  public static final double ENCODER_PER_INCH = 1024; //TBD. Change as need be
 
   public static CANSparkMax elevatorSpark1 = new CANSparkMax(RobotMap.E1, CANSparkMaxLowLevel.MotorType.kBrushless);
   public static CANSparkMax elevatorSpark2 = new CANSparkMax(RobotMap.E2, CANSparkMaxLowLevel.MotorType.kBrushless);
@@ -34,5 +35,22 @@ public class Elevator extends Subsystem {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
     setDefaultCommand(new ManualElevator());
+  }
+
+  /**
+   * Gets the height of the elevator in inches
+   * @return the height in inches of elevator
+   */
+  public double getInches() {
+    return elevatorSpark1.getEncoder().getPosition() * ENCODER_PER_INCH;
+  }
+
+  /**
+   * Converts height in inches to encoder units
+   * @param inches the height in inches
+   * @return the corresponding encoder value
+   */
+  public double convertToEncoder(double inches) {
+    return inches / ENCODER_PER_INCH;
   }
 }
