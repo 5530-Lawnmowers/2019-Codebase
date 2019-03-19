@@ -32,9 +32,9 @@ public class ManualArm extends Command {
   protected void execute() {
     if( OI.buttons[1].get()){
       if( Arm.armPot.get() < 0.966 & OI.stick.getY() >= 0){
-        Arm.armTRSX1.set(OI.stick.getY() * 100 * (Arm.armPot.get() - Arm.maxArmHeight));
+        Arm.armTRSX1.set(OI.stick.getY() * 100 * (Arm.armPot.get() - Arm.MAX_ARM_HEIGHT));
       } else if(Arm.armPot.get() > 0.974 & OI.stick.getY() <= 0) {
-        Arm.armTRSX1.set(OI.stick.getY() * 100 * (Arm.minArmHeight - Arm.armPot.get()) + .05);
+        Arm.armTRSX1.set(OI.stick.getY() * 100 * (Arm.MIN_ARM_HEIGHT - Arm.armPot.get()) + .05);
       } else if(Arm.armPot.get() > 0.974 & OI.stick.getY() > 0){
         Arm.armTRSX1.set(OI.stick.getY() + 0.05);
       } else{

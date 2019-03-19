@@ -24,9 +24,9 @@ import edu.wpi.first.wpilibj.AnalogPotentiometer;
 public class Arm extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
-  public static final double minArmHeight = 0.981;
-  public static final double midArmHeight = 0.972;
-  public static final double maxArmHeight = 0.964;
+  public static final double MIN_ARM_HEIGHT = 0.981;
+  public static final double MID_ARM_HEIGHT = 0.972;
+  public static final double MAX_ARM_HEIGHT = 0.964;
   public static final double HORIZONTAL_POSITION = 0.979; //TBD. Should be potentiameter at horizontal
   public static final double VERTICAL_POSITION = 0.950;   //TBD, Should be potentiameter at vertical
   public static final double ARM_LENGTH = 20;             //TBD, placeholder

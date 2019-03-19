@@ -20,7 +20,7 @@ public class DropDownavator extends Command {
   private double intitialElevatorPosition;
   private double counter;
   private int state;
-  private final double dropDistance = 3; 
+  private final double DROP_DISTANCE = 3; 
 
   public DropDownavator() {
     requires(Robot.downavator);
@@ -41,13 +41,13 @@ public class DropDownavator extends Command {
   protected void execute() {
     if(state == 0){ //drops downavator
       Downavator.downavatorSpark1.set(.4);
-      if(Downavator.downavatorSpark1.getEncoder().getPosition() >= initialDownavatorPosition + dropDistance) {
+      if(Downavator.downavatorSpark1.getEncoder().getPosition() >= initialDownavatorPosition + DROP_DISTANCE) {
         Downavator.downavatorSpark1.stopMotor();
         state = 1;
       }
     } else if(state == 1) { // drops elevator
       Elevator.elevatorSpark1.set(.1);
-      if(Elevator.elevatorSpark1.getEncoder().getPosition() >= intitialElevatorPosition + dropDistance - 1) {
+      if(Elevator.elevatorSpark1.getEncoder().getPosition() >= intitialElevatorPosition + DROP_DISTANCE - 1) {
         Elevator.elevatorSpark1.stopMotor();
         state = 2;
       }

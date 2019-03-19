@@ -15,7 +15,7 @@ import frc.robot.Robot;
 public class ManualElevator extends Command {
 
   double holdValue;
-  private static final double elevatorWeight = 0.75;
+  private static final double ELEVATOR_WEIGHT = 0.75;
 
   public ManualElevator() {
     super("ManualAscendRobot");
@@ -36,7 +36,7 @@ public class ManualElevator extends Command {
   @Override
   protected void execute() {
     if(OI.buttons[0].get()){
-      Elevator.elevatorSpark1.set(elevatorWeight * -OI.stick.getY());
+      Elevator.elevatorSpark1.set(ELEVATOR_WEIGHT * -OI.stick.getY());
       holdValue = Elevator.elevatorSpark1.getEncoder().getPosition();
     } else {
       if( Elevator.elevatorSpark2.getEncoder().getPosition() < -5){

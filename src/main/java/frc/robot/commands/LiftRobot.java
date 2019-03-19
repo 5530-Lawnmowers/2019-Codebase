@@ -21,13 +21,13 @@ public class LiftRobot extends Command {
   int state;
   int counter;
 
-  private static final double kDownavatorHeight = 29;
-  private static final double kElevatorHeight = 30;
+  private static final double k_DOWNAVATOR_HEIGHT = 29;
+  private static final double k_ELEVATOR_HEIGHT = 30;
   //Stage 1:
-  private final double baseDownavatorSpeed = 0.45;
-  private final double baseElevatorSpeed = 0.6;
+  private final double BASE_DOWNAVATOR_SPEED = 0.45;
+  private final double BASE_ELEVATOR_SPEED = 0.6;
   //Stage 2:
-  private final double driveForwardTimeS2 = 120;
+  private final double DRIVE_FORWARD_TIME_S2 = 120;
 
   public LiftRobot() {
     requires(Robot.downavator);
@@ -42,8 +42,8 @@ public class LiftRobot extends Command {
     counter = 0;
     Downavator.downavatorSpark2.follow(Downavator.downavatorSpark1);
     Elevator.elevatorSpark2.follow(Elevator.elevatorSpark1);
-    Elevator.elevatorSpark1.set(baseElevatorSpeed);
-    Downavator.downavatorSpark1.set(baseDownavatorSpeed);
+    Elevator.elevatorSpark1.set(BASE_ELEVATOR_SPEED);
+    Downavator.downavatorSpark1.set(BASE_DOWNAVATOR_SPEED);
 
     
     startDownavatorPosition = Downavator.downavatorSpark1.getEncoder().getPosition(); 
@@ -59,14 +59,14 @@ public class LiftRobot extends Command {
     switch(state){
       case 0:
         Downavator.downavatorDrive.set(.15);
-        Elevator.elevatorSpark1.set(0.07 * ((Downavator.downavatorSpark1.getEncoder().getPosition() - startDownavatorPosition) - (Elevator.elevatorSpark1.getEncoder().getPosition() - startElevatorPosition)) + baseElevatorSpeed);
-        if (Downavator.downavatorSpark1.getEncoder().getPosition() >= startDownavatorPosition + kDownavatorHeight) {
+        Elevator.elevatorSpark1.set(0.07 * ((Downavator.downavatorSpark1.getEncoder().getPosition() - startDownavatorPosition) - (Elevator.elevatorSpark1.getEncoder().getPosition() - startElevatorPosition)) + BASE_ELEVATOR_SPEED);
+        if (Downavator.downavatorSpark1.getEncoder().getPosition() >= startDownavatorPosition + k_DOWNAVATOR_HEIGHT) {
           Downavator.downavatorSpark1.set(0.05);
         }
-        if (Elevator.elevatorSpark1.getEncoder().getPosition() >= startElevatorPosition + kElevatorHeight){
+        if (Elevator.elevatorSpark1.getEncoder().getPosition() >= startElevatorPosition + k_ELEVATOR_HEIGHT){
           Elevator.elevatorSpark1.set(0.0875);
         }
-        if ((Downavator.downavatorSpark1.getEncoder().getPosition() >= startDownavatorPosition + kDownavatorHeight) && (Elevator.elevatorSpark1.getEncoder().getPosition() >= startElevatorPosition + kElevatorHeight)) {
+        if ((Downavator.downavatorSpark1.getEncoder().getPosition() >= startDownavatorPosition + k_DOWNAVATOR_HEIGHT) && (Elevator.elevatorSpark1.getEncoder().getPosition() >= startElevatorPosition + k_ELEVATOR_HEIGHT)) {
           
           Downavator.downavatorDrive.set(.7);
           state = 1;
@@ -74,15 +74,15 @@ public class LiftRobot extends Command {
         break;
       case 1:
         counter ++;
-        Elevator.elevatorSpark1.set(0.0875 - (0.05 * (Elevator.elevatorSpark1.getEncoder().getPosition() - (kElevatorHeight + startElevatorPosition))));
-        Downavator.downavatorSpark1.set(.05 - (0.05 * (Downavator.downavatorSpark1.getEncoder().getPosition() - (kDownavatorHeight + startDownavatorPosition))));
-        if(counter >= driveForwardTimeS2){
+        Elevator.elevatorSpark1.set(0.0875 - (0.05 * (Elevator.elevatorSpark1.getEncoder().getPosition() - (k_ELEVATOR_HEIGHT + startElevatorPosition))));
+        Downavator.downavatorSpark1.set(.05 - (0.05 * (Downavator.downavatorSpark1.getEncoder().getPosition() - (k_DOWNAVATOR_HEIGHT + startDownavatorPosition))));
+        if(counter >= DRIVE_FORWARD_TIME_S2){
           Downavator.downavatorDrive.stopMotor();
           state = 2;
         }
         break;
       case 2:
-        Downavator.downavatorSpark1.set(.05 - (0.05 * (Downavator.downavatorSpark1.getEncoder().getPosition() - (kDownavatorHeight + startDownavatorPosition))));
+        Downavator.downavatorSpark1.set(.05 - (0.05 * (Downavator.downavatorSpark1.getEncoder().getPosition() - (k_DOWNAVATOR_HEIGHT + startDownavatorPosition))));
         if( Elevator.elevatorSpark1.getEncoder().getPosition() > (startElevatorPosition - 1)){
           Elevator.elevatorSpark1.set(-0.3);
         } else {
@@ -96,7 +96,7 @@ public class LiftRobot extends Command {
         Downavator.downavatorDrive.set(0.5);
         Drivetrain.frontLeftTSRX.set(0.3);
         Drivetrain.frontRightTSRX.set(0.3);
-        Downavator.downavatorSpark1.set(.07 - (0.05 * (Downavator.downavatorSpark1.getEncoder().getPosition() - (kDownavatorHeight + startDownavatorPosition))));
+        Downavator.downavatorSpark1.set(.07 - (0.05 * (Downavator.downavatorSpark1.getEncoder().getPosition() - (k_DOWNAVATOR_HEIGHT + startDownavatorPosition))));
         counter ++;
         if (counter >= 100){
           Downavator.downavatorDrive.stopMotor();

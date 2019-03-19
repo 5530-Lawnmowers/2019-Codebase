@@ -37,15 +37,15 @@ public class MoveArm extends Command {
   @Override
   protected void execute() {
 		if (position.equalsIgnoreCase("Top")) {
-			Arm.armTRSX1.set(55 * (Arm.armPot.get() - Arm.maxArmHeight) + 0.03);
+			Arm.armTRSX1.set(55 * (Arm.armPot.get() - Arm.MAX_ARM_HEIGHT) + 0.03);
 		}else if (position.equalsIgnoreCase("Bot")) {
 			Arm.armTRSX1.set(-.4);
 		}else if (position.equalsIgnoreCase("Mid")) {
-			Arm.armTRSX1.set(20 * (Arm.armPot.get() - Arm.midArmHeight));
+			Arm.armTRSX1.set(20 * (Arm.armPot.get() - Arm.MID_ARM_HEIGHT));
 		}else System.out.println("Incorrect Parameter");
 	}
 	protected boolean isFinished() {
-		if(position.equalsIgnoreCase("Bot") && Arm.armPot.get() >= Arm.minArmHeight){
+		if(position.equalsIgnoreCase("Bot") && Arm.armPot.get() >= Arm.MIN_ARM_HEIGHT){
 			System.out.println("Arm ended");
 			return true;
 		}

@@ -27,8 +27,8 @@ public class MPHelper{
 	private int _loopTimeout = -1;
 	private boolean _bStart = false;
 	private SetValueMotionProfile _setValue = SetValueMotionProfile.Disable;
-	private static final int kMinPointsInTalon = 5;
-	private static final int kNumLoopsTimeout = 10;
+	private static final int k_MIN_POINTS_IN_TALON = 5;
+	private static final int k_NUM_LOOPS_TIMEOUT = 10;
 	
 	class PeriodicRunnable implements java.lang.Runnable {
 	    public void run() {  
@@ -76,7 +76,7 @@ public class MPHelper{
     		if (Drivetrain.frontRightTSRX.getControlMode() != ControlMode.MotionProfile || Drivetrain.frontRightTSRX.getControlMode() != ControlMode.MotionProfile) {
     			System.out.println("NO PASS");
     			_state = 0;
-    			_loopTimeout = kNumLoopsTimeout;
+    			_loopTimeout = k_NUM_LOOPS_TIMEOUT;
     		} else {
     			switch(_state ) {
     			case 0:
@@ -92,17 +92,17 @@ public class MPHelper{
     				break;
     			case 1:
     				//Checking if we have enough points in the talon to start 
-    				if (_status.btmBufferCnt > kMinPointsInTalon) {
+    				if (_status.btmBufferCnt > k_MIN_POINTS_IN_TALON) {
     					_setValue = SetValueMotionProfile.Enable;
     					_state = 2;
-    					_loopTimeout = kNumLoopsTimeout;
+    					_loopTimeout = k_NUM_LOOPS_TIMEOUT;
     					System.out.println("STATE 1");
     				}
     				break;
     			case 2:
     				//Checking to make sure there are still enough points in the talon buffer
     				if (_status.isUnderrun == false) {
-    					_loopTimeout = kNumLoopsTimeout;
+    					_loopTimeout = k_NUM_LOOPS_TIMEOUT;
     				}
     				//Checking if the motion profile is done
     				if (_status.activePointValid && _status.isLast) {
