@@ -39,7 +39,7 @@ public class DeliverHatchArm extends Command {
     double error = degreeSetpoint - Arm.getDegrees();
     double finalError = FINAL_ANGLE - Arm.getDegrees();
 
-    Arm.armTRSX1.set(SET_POINT_WEIGHT/(FINAL_ERROR_WEIGHT * finalError) * error );
+    Arm.armTRSX1.set((SET_POINT_WEIGHT/(FINAL_ERROR_WEIGHT * finalError)) * error);
   }
 
   // Make this return true when this Command no longer needs to run execute()
