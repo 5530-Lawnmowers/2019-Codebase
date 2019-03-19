@@ -41,7 +41,7 @@ public class Elevator extends Subsystem {
    * Gets the height of the elevator in inches
    * @return the height in inches of elevator
    */
-  public double getInches() {
+  public static double getInches() {
     return elevatorSpark1.getEncoder().getPosition() * ENCODER_PER_INCH;
   }
 
@@ -50,7 +50,7 @@ public class Elevator extends Subsystem {
    * @param inches the height in inches
    * @return the corresponding encoder value
    */
-  public double convertToEncoder(double inches) {
+  public static double convertToEncoder(double inches) {
     return inches / ENCODER_PER_INCH;
   }
 }
