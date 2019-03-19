@@ -47,14 +47,14 @@ public class Arm extends Subsystem {
    * @param degrees the angle in degrees of the position
    * @return the potentiometer reading of the position
    *  */
-  public double convertToPotentiometer(double degrees) {
+  public static double convertToPotentiometer(double degrees) {
     return ((VERTICAL_POSITION - HORIZONTAL_POSITION)/90.0) * degrees + HORIZONTAL_POSITION;
   }
   /**
    * Gets the current arm position in degrees. 0 degrees is horizontal
    * @return the arm position in degrees
    */
-  public double getDegrees() {
+  public static double getDegrees() {
     return (90.0/(VERTICAL_POSITION - HORIZONTAL_POSITION)) * (armPot.get() - HORIZONTAL_POSITION);
   }
 }

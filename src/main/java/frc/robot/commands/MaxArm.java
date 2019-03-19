@@ -26,13 +26,13 @@ public class MaxArm extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Arm.armTRSX1.set(55 * (Arm.armPot.get() - Arm.convertToPotentiometer(90)) + 0.03);
+    Arm.armTRSX1.set(55 * (Arm.armPot.get() - Arm.VERTICAL_POSITION) + 0.03);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if(Arm.armPot.get() <= Arm.convertToPotentiometer(90)) return true;
+    if(Arm.armPot.get() <= Arm.VERTICAL_POSITION) return true;
     return false;
   }
 
