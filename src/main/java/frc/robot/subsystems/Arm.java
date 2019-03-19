@@ -26,9 +26,10 @@ public class Arm extends Subsystem {
   // here. Call these from Commands.
   public static final double MIN_ARM_HEIGHT = 0.981;
   public static final double MID_ARM_HEIGHT = 0.972;
-  public static final double MAX_ARM_HEIGHT = 0.964;
-  public static final double HORIZONTAL_POSITION = 0.979; //TBD. Should be potentiameter at horizontal
-  public static final double VERTICAL_POSITION = 0.950;   //TBD, Should be potentiameter at vertical
+  public static final double TARGET_HOLD_HEIGHT = 0.964;
+  public static final double CALIBRATION_POSITION_TOP = 0.984;  //Change as need be
+  public static final double CALIBRATION_POSITION_LOW = 0.968;  //Change as need be
+  public static final double CALIBRATION_ANGLE = 63.0;          //Change as need be
   public static final double ARM_LENGTH = 20;             //TBD, placeholder
 
   public static WPI_TalonSRX armTRSX1 = new WPI_TalonSRX(RobotMap.A);
@@ -48,13 +49,13 @@ public class Arm extends Subsystem {
    * @return the potentiometer reading of the position
    *  */
   public static double convertToPotentiometer(double degrees) {
-    return ((VERTICAL_POSITION - HORIZONTAL_POSITION)/90.0) * degrees + HORIZONTAL_POSITION;
+    return ((CALIBRATION_POSITION_LOW - CALIBRATION_POSITION_TOP)/CALIBRATION_ANGLE) * degrees + CALIBRATION_POSITION_TOP;
   }
   /**
    * Gets the current arm position in degrees. 0 degrees is horizontal
    * @return the arm position in degrees
    */
   public static double getDegrees() {
-    return (90.0/(VERTICAL_POSITION - HORIZONTAL_POSITION)) * (armPot.get() - HORIZONTAL_POSITION);
+    return (CALIBRATION_ANGLE/(CALIBRATION_POSITION_LOW - CALIBRATION_POSITION_TOP)) * (armPot.get() - CALIBRATION_POSITION_TOP);
   }
 }
