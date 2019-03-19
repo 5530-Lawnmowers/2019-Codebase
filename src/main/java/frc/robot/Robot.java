@@ -116,7 +116,37 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     //Initializing Stuff
-    
+    Drivetrain.backLeftTSRX.configFactoryDefault();
+    Drivetrain.backRightTSRX.configFactoryDefault();
+    Drivetrain.frontLeftTSRX.configFactoryDefault();
+    Drivetrain.frontRightTSRX.configFactoryDefault();
+    Drivetrain.frontRightTSRX.setNeutralMode(NeutralMode.Brake);
+    Drivetrain.frontLeftTSRX.setNeutralMode(NeutralMode.Brake);
+    Drivetrain.backRightTSRX.setNeutralMode(NeutralMode.Brake);
+    Drivetrain.backLeftTSRX.setNeutralMode(NeutralMode.Brake);
+    Drivetrain.pigeon.configFactoryDefault();
+
+    Elevator.elevatorSpark2.follow(Elevator.elevatorSpark1);
+    Downavator.downavatorSpark2.follow(Downavator.downavatorSpark1);
+
+    Elevator.elevatorSpark1.setIdleMode(IdleMode.kBrake);
+    Elevator.elevatorSpark2.setIdleMode(IdleMode.kBrake);
+
+    Downavator.downavatorSpark1.setIdleMode(IdleMode.kBrake);
+    Downavator.downavatorSpark2.setIdleMode(IdleMode.kBrake);
+
+    Drivetrain.frontLeftTSRX.setNeutralMode(NeutralMode.Brake);
+    Drivetrain.frontRightTSRX.setNeutralMode(NeutralMode.Brake);
+    Drivetrain.backLeftTSRX.setNeutralMode(NeutralMode.Brake);
+    Drivetrain.backRightTSRX.setNeutralMode(NeutralMode.Brake);
+    Drivetrain.frontRightTSRX.setInverted(true);
+    Drivetrain.backRightTSRX.setInverted(true);
+    Drivetrain.backLeftTSRX.setInverted(true);
+    Intake.intakeTRSX2.setInverted(true);
+    Drivetrain.backRightTSRX.follow(Drivetrain.frontRightTSRX);
+    Drivetrain.backLeftTSRX.follow(Drivetrain.frontLeftTSRX);
+    Drivetrain.frontRightTSRX.configRemoteFeedbackFilter(Drivetrain.pigeon.getDeviceID(), RemoteSensorSource.GadgeteerPigeon_Yaw, 0);
+    Drivetrain.frontLeftTSRX.configRemoteFeedbackFilter(Drivetrain.pigeon.getDeviceID(), RemoteSensorSource.GadgeteerPigeon_Yaw, 0);
   }
 
 
