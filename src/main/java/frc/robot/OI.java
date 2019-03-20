@@ -71,6 +71,7 @@ public class OI {
     xby.toggleWhenPressed(new MoveArm("Top"));
     xbback.toggleWhenPressed(new Level2Climb());
     xbstart.toggleWhenPressed(new LiftRobot());
+    xblb.toggleWhenPressed(new AlignRocketSide());
 
 }
 
