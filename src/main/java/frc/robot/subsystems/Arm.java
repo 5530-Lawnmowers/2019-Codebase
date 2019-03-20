@@ -30,7 +30,7 @@ public class Arm extends Subsystem {
   public static final double CALIBRATION_POSITION_TOP = 0.984;  //Change as need be
   public static final double CALIBRATION_POSITION_LOW = 0.968;  //Change as need be
   public static final double CALIBRATION_ANGLE = 63.0;          //Change as need be
-  public static final double ARM_LENGTH = 20;             //TBD, placeholder
+  public static final double ARM_LENGTH = 24;             //TBD, placeholder
 
   public static WPI_TalonSRX armTRSX1 = new WPI_TalonSRX(RobotMap.A);
   public static AnalogPotentiometer armPot = new AnalogPotentiometer(RobotMap.AP);
@@ -49,13 +49,13 @@ public class Arm extends Subsystem {
    * @return the potentiometer reading of the position
    *  */
   public static double convertToPotentiometer(double degrees) {
-    return ((CALIBRATION_POSITION_LOW - CALIBRATION_POSITION_TOP)/CALIBRATION_ANGLE) * degrees + CALIBRATION_POSITION_TOP;
+    return CALIBRATION_POSITION_TOP - ((CALIBRATION_POSITION_LOW - CALIBRATION_POSITION_TOP)/CALIBRATION_ANGLE) * degrees;
   }
   /**
    * Gets the current arm position in degrees. 0 degrees is horizontal
    * @return the arm position in degrees
    */
   public static double getDegrees() {
-    return (CALIBRATION_ANGLE/(CALIBRATION_POSITION_LOW - CALIBRATION_POSITION_TOP)) * (armPot.get() - CALIBRATION_POSITION_TOP);
+    return (CALIBRATION_ANGLE/(CALIBRATION_POSITION_TOP - CALIBRATION_POSITION_LOW)) * (CALIBRATION_POSITION_TOP - armPot.get());
   }
 }

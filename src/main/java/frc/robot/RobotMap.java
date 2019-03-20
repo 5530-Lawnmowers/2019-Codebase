@@ -39,7 +39,7 @@ public class RobotMap {
 	public static int A = 11; // Arm
 	public static int AP = 0; //Arm potentiameter
 	// Digital Input
-	public static int IS = 7; // Intake Switch 
+	public static int IS = 5; // Intake Switch 
 
 	//IR Sensors
 	public static int IRL = 4; //IR left

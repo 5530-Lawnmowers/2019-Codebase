@@ -13,7 +13,7 @@ import frc.robot.subsystems.Elevator;
 
 public class DeliverHatchElevator extends Command {
 
-  private static final double ELEVATOR_SPEED = 0;
+  private static final double ELEVATOR_SPEED = .25;
 
   double commandStartPosition;
 
@@ -26,19 +26,23 @@ public class DeliverHatchElevator extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    commandStartPosition = Elevator.elevatorSpark1.getEncoder().getPosition();
+    commandStartPosition = Elevator.getInches();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Elevator.elevatorSpark1.set(ELEVATOR_SPEED);
+    if(Elevator.getInches() < (commandStartPosition + 15)){
+      Elevator.elevatorSpark1.set(ELEVATOR_SPEED);
+     } else {
+      Elevator.elevatorSpark1.set(-0.03 - (0.1 * (Elevator.getInches() - (commandStartPosition + 15))));
+     }
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if(Elevator.getInches() > (commandStartPosition + 6)) return true;
+
     return false;
   }
 

@@ -30,6 +30,7 @@ public class OI {
   // Button button = new JoystickButton(stick, buttonNumber);
 
   public static Joystick stick = new Joystick(0);
+  public static Joystick stick2 = new Joystick(2);
   public static XboxController XBController = new XboxController(1);
   JoystickButton xba = new JoystickButton(XBController, 1);
   JoystickButton xbb = new JoystickButton(XBController, 2);
@@ -41,32 +42,48 @@ public class OI {
   public static JoystickButton xblb = new JoystickButton(XBController, 5);
 
   public static Button[] buttons = new Button[12];
+  public static Button[] buttons2 = new Button[12];
   
 
   OI() {
     for(int i=1; i <= 12; i++) {
       buttons[i-1] = new JoystickButton(stick, i);
+      buttons2[i-1] = new JoystickButton(stick2, i);
     }
     //Climb
-    buttons[7].toggleWhenPressed(new AscendElevator("HighHatch"));
-    buttons[6].toggleWhenPressed(new DropDownavator());
-    //Hatch
-    buttons[2].toggleWhenPressed(new AscendElevator("LowHatch"));
-    buttons[4].toggleWhenPressed(new AscendElevator("Bot"));
-    buttons[5].toggleWhenPressed(new DeliverHatch());
-    buttons[3].toggleWhenPressed(new AscendElevator("MidHatch"));
-    //Cargo
-    buttons[10].toggleWhenPressed(new AscendElevator("ShuttleBall"));
-    buttons[11].toggleWhenPressed(new AscendElevator("LowRocketBall"));
-    buttons[8].toggleWhenPressed(new AscendElevator("MidRocketBall"));
-    buttons[9].toggleWhenPressed(new AscendElevator("HighRocketBall"));
+    // buttons[7].toggleWhenPressed(new AscendElevator("HighHatch"));
+    // buttons[6].toggleWhenPressed(new DropDownavator());
+    // //Hatch
+    // buttons[2].toggleWhenPressed(new AscendElevator("LowHatch"));
+    // buttons[4].toggleWhenPressed(new AscendElevator("Bot"));
+    // buttons[5].toggleWhenPressed(new DeliverHatch());
+    // buttons[3].toggleWhenPressed(new AscendElevator("MidHatch"));
+    // //Cargo
+    // buttons[10].toggleWhenPressed(new AscendElevator("ShuttleBall"));
+    // buttons[11].toggleWhenPressed(new AscendElevator("LowRocketBall"));
+    // buttons[8].toggleWhenPressed(new AscendElevator("MidRocketBall"));
+    // buttons[9].toggleWhenPressed(new AscendElevator("HighRocketBall"));
     //Interrupts
     buttons[0].toggleWhenPressed(new InterruptElevator());
     buttons[1].toggleWhenPressed(new InterruptArm());
 
+    buttons2[10].toggleWhenPressed(new AscendElevator("Bot"));
+    buttons2[11].toggleWhenPressed(new AscendElevator("ShuttleBall"));
+    buttons2[8].toggleWhenPressed(new AscendElevator("LowRocketBall"));
+    buttons2[9].toggleWhenPressed(new AscendElevator("MidRocketBall"));
+    buttons2[6].toggleWhenPressed(new AscendElevator("HighRocketBall"));
+
+    buttons[6].toggleWhenPressed(new AscendElevator("PickupBall"));
+    buttons[7].toggleWhenPressed(new AscendElevator("LowHatch"));
+    buttons[8].toggleWhenPressed(new AscendElevator("MidHatch"));
+    buttons[9].toggleWhenPressed(new AscendElevator("HighHatch"));
+    buttons[10].toggleWhenPressed(new AscendElevator("DeliverHatch"));
+    buttons[11].toggleWhenPressed(new DeliverHatch());
+    buttons[1].toggleWhenPressed(new DropDownavator());
+
     xba.toggleWhenPressed(new PickupBall());
     xbb.toggleWhenPressed(new DispenseBall());
-    xbrb.toggleWhenPressed(new AlignHatch());
+    xbrb.toggleWhenPressed(new AlignHatchGroup());
     xbx.toggleWhenPressed(new MoveArm("Bot"));
     xby.toggleWhenPressed(new MoveArm("Top"));
     xbback.toggleWhenPressed(new Level2Climb());

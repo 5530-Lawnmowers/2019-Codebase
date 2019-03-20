@@ -21,7 +21,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 public class Elevator extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
-  private static final double ENCODER_PER_INCH = 1024; //TBD. Change as need be
+  private static final double ENCODER_PER_INCH = 0.9143; //TBD. Change as need be
 
   public static CANSparkMax elevatorSpark1 = new CANSparkMax(RobotMap.E1, CANSparkMaxLowLevel.MotorType.kBrushless);
   public static CANSparkMax elevatorSpark2 = new CANSparkMax(RobotMap.E2, CANSparkMaxLowLevel.MotorType.kBrushless);

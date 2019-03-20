@@ -28,8 +28,6 @@ public class Drivetrain extends Subsystem {
 
   public static PigeonIMU pigeon = new PigeonIMU(15);
   
-  public static DigitalInput infraredLeft = new DigitalInput(RobotMap.IRL);
-  public static DigitalInput infraredRight = new DigitalInput(RobotMap.IRR);
 
   
 	

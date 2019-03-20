@@ -10,14 +10,17 @@ package frc.robot.commands;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+import frc.robot.OI;
 import frc.robot.helpers.LimelightHelpers;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Intake;
 
 public class AlignHatch extends Command {
 
   private final double kp = .01;
   private final double kd = 0;
   private final double ky = 0; 
+  boolean enableAutoPick = false;
   private double previousError;
 
   public AlignHatch() {
@@ -29,6 +32,11 @@ public class AlignHatch extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    if(OI.stick.getThrottle() > 0){
+      enableAutoPick = true;
+    } else {
+      enableAutoPick = false;
+    }
     previousError = LimelightHelpers.getLimelightValue("tx");
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(0); //1 is center
   }
@@ -48,7 +56,7 @@ public class AlignHatch extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return enableAutoPick && !Intake.intakeSwitch.get();
   }
 
   // Called once after isFinished returns true

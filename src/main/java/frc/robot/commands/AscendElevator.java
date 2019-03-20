@@ -27,6 +27,8 @@ public class AscendElevator extends Command {
   private static final double k_SHUTTLE_BALL_POSITION = 32;
   private static final double k_MAX_ELEVATOR_UP_SPEED = .4;
   private static final double k_MAX_ELEVATOR_DOWN_SPEED = .15;
+  private static final double k_PICKUP_HATCH_POSITION = 3;
+  boolean isDone = false;
 
   double kDeliverDistanceAdjusted;
 
@@ -40,6 +42,7 @@ public class AscendElevator extends Command {
   @Override
   protected void initialize() {
     commandStartPosition = Elevator.elevatorSpark1.getEncoder().getPosition();
+    isDone = false;
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -112,7 +115,7 @@ public class AscendElevator extends Command {
           Elevator.elevatorSpark1.set(-k_MAX_ELEVATOR_UP_SPEED);
         } else if((-0.03 - (0.1 * (Elevator.elevatorSpark1.getEncoder().getPosition() - (commandStartPosition + kDeliverDistanceAdjusted)))) > k_MAX_ELEVATOR_DOWN_SPEED){
           Elevator.elevatorSpark1.set(k_MAX_ELEVATOR_DOWN_SPEED);
-        } else {
+        } else{
           Elevator.elevatorSpark1.set(-0.03 - (0.1 * (Elevator.elevatorSpark1.getEncoder().getPosition() - (commandStartPosition + kDeliverDistanceAdjusted))));
         }
         break;
@@ -134,6 +137,15 @@ public class AscendElevator extends Command {
           Elevator.elevatorSpark1.set(-0.03 - (0.1 * (Elevator.elevatorSpark1.getEncoder().getPosition() - (Elevator.startPosition - k_HIGH_HATCH_POSITION))));
         }
         break;
+      case "PickupHatch":
+        if((-0.03 - (0.1 * (Elevator.elevatorSpark1.getEncoder().getPosition() - (Elevator.startPosition - k_PICKUP_HATCH_POSITION)))) < -k_MAX_ELEVATOR_UP_SPEED){
+          Elevator.elevatorSpark1.set(-k_MAX_ELEVATOR_UP_SPEED);
+        } else if((-0.03 - (0.1 * (Elevator.elevatorSpark1.getEncoder().getPosition() - (Elevator.startPosition - k_PICKUP_HATCH_POSITION)))) > k_MAX_ELEVATOR_DOWN_SPEED){
+          Elevator.elevatorSpark1.set(k_MAX_ELEVATOR_DOWN_SPEED);
+        } else {
+          Elevator.elevatorSpark1.set(-0.03 - (0.1 * (Elevator.elevatorSpark1.getEncoder().getPosition() - (Elevator.startPosition - k_PICKUP_HATCH_POSITION))));
+        }
+        break;
     }
 
   }
@@ -141,7 +153,7 @@ public class AscendElevator extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return isDone;
   }
 
   // Called once after isFinished returns true

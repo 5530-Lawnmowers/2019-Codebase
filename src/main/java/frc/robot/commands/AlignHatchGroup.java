@@ -9,13 +9,13 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class DeliverHatch extends CommandGroup {
+public class AlignHatchGroup extends CommandGroup {
   /**
    * Add your docs here.
    */
-  public DeliverHatch() {
-    addParallel(new MoveArm("Top"));
-    addParallel(new DeliverHatchElevator());
+  public AlignHatchGroup() {
+    addSequential(new AlignHatch());
+    addSequential(new AscendElevator("LowHatch"));
     // Add Commands here:
     // e.g. addSequential(new Command1());
     // addSequential(new Command2());
