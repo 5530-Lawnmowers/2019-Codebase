@@ -53,7 +53,7 @@ public class OI {
     //Hatch
     buttons[2].toggleWhenPressed(new AscendElevator("LowHatch"));
     buttons[4].toggleWhenPressed(new AscendElevator("Bot"));
-    buttons[5].toggleWhenPressed(new AscendElevator("DeliverHatch"));
+    buttons[5].toggleWhenPressed(new DeliverHatch());
     buttons[3].toggleWhenPressed(new AscendElevator("MidHatch"));
     //Cargo
     buttons[10].toggleWhenPressed(new AscendElevator("ShuttleBall"));

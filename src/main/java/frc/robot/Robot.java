@@ -50,6 +50,8 @@ public class Robot extends TimedRobot {
     ShuffleboardHelpers.createSimpleWidget("TestingEL", "Downavator", 0);
     ShuffleboardHelpers.createComplexWidget("TestingArm", "Arm Talon", Arm.armTRSX1);
 
+
+
     
   
     CameraServer.getInstance().startAutomaticCapture();
@@ -153,6 +155,9 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run(); 
+
+    System.out.println("Encoder Value:" + Elevator.elevatorSpark1.getEncoder().getPosition());
+    System.out.println("Potentiometer Value:" + Arm.armPot.get());
 
     ShuffleboardHelpers.setWidgetValue("TestingEL", "UpEncoder", Elevator.elevatorSpark2.getEncoder().getPosition());
     ShuffleboardHelpers.setWidgetValue("TestingEL", "DownEncoder", Downavator.downavatorSpark1.getEncoder().getPosition());
