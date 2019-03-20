@@ -32,9 +32,9 @@ public class AlignRocketSide extends Command {
   protected void initialize() {
     previousError = LimelightHelpers.getLimelightValue("tx");
     if(OI.stick.getThrottle()> 0) { //Up is left, down is right
-      NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(2); //2 is left
+      NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(1); //2 is left
     } else {
-      NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(3); //3 is right
+      NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(2); //3 is right
 
     }
   }

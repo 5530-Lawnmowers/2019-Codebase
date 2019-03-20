@@ -30,7 +30,7 @@ public class AlignHatch extends Command {
   @Override
   protected void initialize() {
     previousError = LimelightHelpers.getLimelightValue("tx");
-    NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(1); //1 is center
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(0); //1 is center
   }
 
   // Called repeatedly when this Command is scheduled to run
