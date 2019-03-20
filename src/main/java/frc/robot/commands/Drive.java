@@ -126,7 +126,7 @@ public class Drive extends Command {
 	}
 	//Whenever this command is called, setspeeds is called
 	protected void execute() {
-		if(OI.xblb.get()){
+		if(false){
 			driveWeight = 0.25 * (OI.stick.getThrottle() + 1);
 			turnWeight = 0.5;
 		} else {

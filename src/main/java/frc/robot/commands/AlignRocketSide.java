@@ -9,18 +9,19 @@ package frc.robot.commands;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.OI;
 import frc.robot.Robot;
 import frc.robot.helpers.LimelightHelpers;
 import frc.robot.subsystems.Drivetrain;
 
-public class AlignHatch extends Command {
+public class AlignRocketSide extends Command {
 
   private final double kp = .01;
   private final double kd = 0;
   private final double ky = 0; 
   private double previousError;
 
-  public AlignHatch() {
+  public AlignRocketSide() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(Robot.drivetrain);
@@ -30,7 +31,12 @@ public class AlignHatch extends Command {
   @Override
   protected void initialize() {
     previousError = LimelightHelpers.getLimelightValue("tx");
-    NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(0); //1 is center
+    if(OI.stick.getThrottle()> 0) { //Up is left, down is right
+      NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(1); //2 is left
+    } else {
+      NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(2); //3 is right
+
+    }
   }
 
   // Called repeatedly when this Command is scheduled to run
