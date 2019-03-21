@@ -73,7 +73,7 @@ public class OI {
     buttons2[9].toggleWhenPressed(new AscendElevator("MidRocketBall"));
     buttons2[6].toggleWhenPressed(new AscendElevator("HighRocketBall"));
 
-    buttons[6].toggleWhenPressed(new AscendElevator("PickupBall"));
+    buttons[6].toggleWhenPressed(new AscendElevator("PickupHatch"));
     buttons[7].toggleWhenPressed(new AscendElevator("LowHatch"));
     buttons[8].toggleWhenPressed(new AscendElevator("MidHatch"));
     buttons[9].toggleWhenPressed(new AscendElevator("HighHatch"));
