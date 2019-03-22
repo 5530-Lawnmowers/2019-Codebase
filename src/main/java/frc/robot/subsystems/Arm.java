@@ -40,7 +40,7 @@ public class Arm extends Subsystem {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
 
-    // setDefaultCommand(new ManualArm());
+    setDefaultCommand(new ManualArm());
   }
 
   /**

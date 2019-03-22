@@ -63,23 +63,22 @@ public class OI {
     // buttons[11].toggleWhenPressed(new AscendElevator("LowRocketBall"));
     // buttons[8].toggleWhenPressed(new AscendElevator("MidRocketBall"));
     // buttons[9].toggleWhenPressed(new AscendElevator("HighRocketBall"));
-    //Interrupts
-    buttons[0].toggleWhenPressed(new InterruptElevator());
-    buttons[1].toggleWhenPressed(new InterruptArm());
 
     buttons2[10].toggleWhenPressed(new AscendElevator("Bot"));
     buttons2[11].toggleWhenPressed(new AscendElevator("ShuttleBall"));
     buttons2[8].toggleWhenPressed(new AscendElevator("LowRocketBall"));
     buttons2[9].toggleWhenPressed(new AscendElevator("MidRocketBall"));
     buttons2[6].toggleWhenPressed(new AscendElevator("HighRocketBall"));
+    buttons2[1].toggleWhenPressed(new DropDownavator());
+    buttons2[0].toggleWhenPressed(new InterruptArm());
 
+    buttons[0].toggleWhenPressed(new InterruptElevator());
     buttons[6].toggleWhenPressed(new AscendElevator("PickupHatch"));
     buttons[7].toggleWhenPressed(new AscendElevator("LowHatch"));
     buttons[8].toggleWhenPressed(new AscendElevator("MidHatch"));
     buttons[9].toggleWhenPressed(new AscendElevator("HighHatch"));
     buttons[10].toggleWhenPressed(new AscendElevator("DeliverHatch"));
     buttons[11].toggleWhenPressed(new DeliverHatch());
-    buttons[1].toggleWhenPressed(new DropDownavator());
 
     xba.toggleWhenPressed(new PickupBall());
     xbb.toggleWhenPressed(new DispenseBall());

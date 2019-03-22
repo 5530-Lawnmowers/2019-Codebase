@@ -14,6 +14,7 @@ public class AlignHatchGroup extends CommandGroup {
    * Add your docs here.
    */
   public AlignHatchGroup() {
+    addParallel(new AscendElevator("Hold"));
     addSequential(new AlignHatch());
     addSequential(new AscendElevator("LowHatch"));
     // Add Commands here:

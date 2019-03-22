@@ -146,6 +146,9 @@ public class AscendElevator extends Command {
           Elevator.elevatorSpark1.set(-0.03 - (0.1 * (Elevator.elevatorSpark1.getEncoder().getPosition() - (Elevator.startPosition - k_PICKUP_HATCH_POSITION))));
         }
         break;
+      case "Hold":
+        Elevator.elevatorSpark1.set(-0.03 - (0.1 * (Elevator.elevatorSpark1.getEncoder().getPosition() - commandStartPosition)));
+        break;
     }
 
   }
