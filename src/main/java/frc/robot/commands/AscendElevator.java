@@ -27,7 +27,7 @@ public class AscendElevator extends Command {
   private static final double k_SHUTTLE_BALL_POSITION = 32;
   private static final double k_MAX_ELEVATOR_UP_SPEED = .4;
   private static final double k_MAX_ELEVATOR_DOWN_SPEED = .15;
-  private static final double k_PICKUP_HATCH_POSITION = 3;
+  private static final double k_PICKUP_HATCH_POSITION = 4;
   boolean isDone = false;
 
   double kDeliverDistanceAdjusted;

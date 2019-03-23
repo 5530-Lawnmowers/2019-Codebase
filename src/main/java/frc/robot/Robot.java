@@ -159,7 +159,7 @@ public class Robot extends TimedRobot {
 
     ShuffleboardHelpers.setWidgetValue("TestingEL", "UpEncoder", Elevator.elevatorSpark2.getEncoder().getPosition());
     ShuffleboardHelpers.setWidgetValue("TestingEL", "DownEncoder", Downavator.downavatorSpark1.getEncoder().getPosition());
-    ShuffleboardHelpers.setWidgetValue("TestingIN", "Intake Switch", Intake.intakeSwitch.get());
+    ShuffleboardHelpers.setWidgetValue("TestingIN", "Intake Switch", Intake.hatchSwitch.get());
     ShuffleboardHelpers.setWidgetValue("TestingEL", "Downavator", Downavator.downavatorSpark1.get());
     ShuffleboardHelpers.setWidgetValue("TestingEL", "Elevator", Elevator.elevatorSpark1.get());
   }

@@ -45,10 +45,7 @@ public class MoveArm extends Command {
 		}else System.out.println("Incorrect Parameter");
 	}
 	protected boolean isFinished() {
-		if(position.equalsIgnoreCase("Bot") && Arm.armPot.get() >= Arm.MIN_ARM_HEIGHT){
-			System.out.println("Arm ended");
-			return true;
-		}
+		if(position.equalsIgnoreCase("Bot") && Arm.armPot.get() >= Arm.MIN_ARM_HEIGHT) return true;
 		return false;
 	}
 	protected void end() {

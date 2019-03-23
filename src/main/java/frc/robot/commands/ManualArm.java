@@ -30,19 +30,8 @@ public class ManualArm extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if( OI.buttons[1].get()){
-      if( Arm.armPot.get() < 0.966 & OI.stick.getY() >= 0){
-        Arm.armTRSX1.set(OI.stick.getY() * 100 * (Arm.armPot.get() - Arm.TARGET_HOLD_HEIGHT));
-      } else{
-        Arm.armTRSX1.set(OI.stick.getY());
-
-      }
-    } else {
-      if(Arm.armPot.get() > 0.978){
-        Arm.armTRSX1.set(0.05);
-      } else {
-        Arm.armTRSX1.stopMotor();
-      }
+    if( OI.buttons2[0].get()){
+      Arm.armTRSX1.set(OI.stick2.getY());
     }
   }
 
