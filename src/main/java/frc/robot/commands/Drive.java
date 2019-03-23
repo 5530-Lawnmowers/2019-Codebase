@@ -89,21 +89,22 @@ public class Drive extends Command {
 		public double XBControllerR(double lStick, double rTrigger, double lTrigger) {
 			//speed of left side = amount Accelerator is pushed down minus
 			//amount Deccelerator is pushed down - lateral input from left Joystick
-			if(rTrigger >= lTrigger){
-				return driveWeight * limit(rTrigger - lTrigger - lStick);
-			}
-			return driveWeight * limit(rTrigger - lTrigger + lStick);
+			// if(rTrigger >= lTrigger){
+			// }
+			// return driveWeight * limit(rTrigger - lTrigger + lStick);
+			return driveWeight * limit(rTrigger - lTrigger - lStick);
+
 		}
 		
 		//Calculates left speed based on Controller output
 		public double XBControllerL(double lStick, double rTrigger, double lTrigger){
 			//speed of left side = amount Accelerator is pushed down minus
 			//amount Deccelerator is pushed down + lateral input from left Joystick
-			if(rTrigger >= lTrigger){
-				return driveWeight * limit(rTrigger - lTrigger + lStick);
-			}
-			return driveWeight * limit(rTrigger - lTrigger - lStick);
-		
+			// if(rTrigger >= lTrigger){
+			// }
+			// return driveWeight * limit(rTrigger - lTrigger - lStick);
+			return driveWeight * limit(rTrigger - lTrigger + lStick);
+			
 		}
 		//Sets the speed for both sides using XBController methods
 		public void setSpeeds(double lStick, double rTrigger, double lTrigger){

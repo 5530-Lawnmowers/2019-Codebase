@@ -21,8 +21,8 @@ public class Level2Climb extends Command {
   int state;
   int counter;
   //Stage 1:
-  private final double BASE_DOWNAVATOR_SPEED = 0.45;
-  private final double k_BASE_ELEVATOR_SPEED = 0.6;
+  private final double BASE_DOWNAVATOR_SPEED = 0.375;
+  private final double k_BASE_ELEVATOR_SPEED = 0.5;
   private static final double k_CLIMB_HEIGHT = 10;
   //Stage 2:
   private final double DRIVE_FORWARD_TIME_S2 = 120;

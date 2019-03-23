@@ -17,7 +17,7 @@ import frc.robot.subsystems.Intake;
 
 public class AlignHatch extends Command {
 
-  private final double kp = .01;
+  private final double kp = .02;
   private final double kd = 0;
   private final double ky = 0; 
   boolean enableAutoPick = false;
@@ -49,7 +49,7 @@ public class AlignHatch extends Command {
     double errorVelocity = Math.abs(error - previousError);
     System.out.println(.35 + kp*error + Math.signum(error)*kd*errorVelocity - ky*distance);
     Drivetrain.frontRightTSRX.set(.35 - kp*error + Math.signum(error)*kd*errorVelocity - ky*distance);
-    Drivetrain.frontLeftTSRX.set(.35 + kp*error - Math.signum(error)*kd*errorVelocity - ky*distance);
+    Drivetrain.frontLeftTSRX.set(.40 + kp*error - Math.signum(error)*kd*errorVelocity - ky*distance);
     previousError = error;
   }
 

@@ -60,7 +60,7 @@ public class LiftRobot extends Command {
     switch(state){
       case 0:
         Downavator.downavatorDrive.set(.15);
-			  Arm.armTRSX1.set(-.4);
+			  Arm.armTRSX1.set(-.5);
         Elevator.elevatorSpark1.set(0.07 * ((Downavator.downavatorSpark1.getEncoder().getPosition() - startDownavatorPosition) - (Elevator.elevatorSpark1.getEncoder().getPosition() - startElevatorPosition)) + BASE_ELEVATOR_SPEED);
         if (Downavator.downavatorSpark1.getEncoder().getPosition() >= startDownavatorPosition + k_DOWNAVATOR_HEIGHT) {
           Downavator.downavatorSpark1.set(0.05);
