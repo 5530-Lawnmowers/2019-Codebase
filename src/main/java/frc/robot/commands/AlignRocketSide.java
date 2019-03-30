@@ -45,7 +45,6 @@ public class AlignRocketSide extends Command {
     double error = LimelightHelpers.getLimelightValue("tx");
     double distance = LimelightHelpers.getLimelightValue("tx");
     double errorVelocity = Math.abs(error - previousError);
-    System.out.println(.35 + kp*error + Math.signum(error)*kd*errorVelocity - ky*distance);
     Drivetrain.frontRightTSRX.set(.35 - kp*error + Math.signum(error)*kd*errorVelocity - ky*distance);
     Drivetrain.frontLeftTSRX.set(.35 + kp*error - Math.signum(error)*kd*errorVelocity - ky*distance);
     previousError = error;

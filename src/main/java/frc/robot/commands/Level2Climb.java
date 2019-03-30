@@ -52,7 +52,6 @@ public class Level2Climb extends Command {
   @Override
   protected void execute() {
 
-    System.out.println("Downavator: " + Downavator.downavatorSpark1.get() + "Elevator: " + Elevator.elevatorSpark1.get());
     Robot.lights.setLightStage(state);
     switch(state){
       case 0:
@@ -140,7 +139,6 @@ public class Level2Climb extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    System.out.println("FINISHED LIFT");
     Elevator.elevatorSpark1.stopMotor();
     Downavator.downavatorSpark1.stopMotor();
     Downavator.downavatorDrive.stopMotor();

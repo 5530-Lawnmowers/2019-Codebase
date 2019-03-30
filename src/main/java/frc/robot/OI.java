@@ -68,7 +68,7 @@ public class OI {
     buttons2[11].toggleWhenPressed(new AscendElevator("ShuttleBall"));
     buttons2[8].toggleWhenPressed(new AscendElevator("LowRocketBall"));
     buttons2[9].toggleWhenPressed(new AscendElevator("MidRocketBall"));
-    buttons2[6].toggleWhenPressed(new AscendElevator("HighRocketBall"));
+    buttons2[6].toggleWhenPressed(new HighRocketBall());
     buttons2[1].toggleWhenPressed(new DropDownavator());
     buttons2[0].toggleWhenPressed(new InterruptArm());
 
@@ -87,7 +87,6 @@ public class OI {
     xby.toggleWhenPressed(new MoveArm("Top"));
     xbback.toggleWhenPressed(new Level2Climb());
     xbstart.toggleWhenPressed(new LiftRobot());
-    xblb.toggleWhenPressed(new AlignRocketSide());
 
 }
 

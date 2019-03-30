@@ -25,7 +25,7 @@ public class Arm extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
   public static final double MIN_ARM_HEIGHT = 0.981;
-  public static final double MID_ARM_HEIGHT = 0.972;
+  public static final double MID_ARM_HEIGHT = 0.976;
   public static final double TARGET_HOLD_HEIGHT = 0.964;
   public static final double CALIBRATION_POSITION_TOP = 0.984;  //Change as need be
   public static final double CALIBRATION_POSITION_LOW = 0.968;  //Change as need be

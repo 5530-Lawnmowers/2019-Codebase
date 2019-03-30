@@ -127,12 +127,12 @@ public class Drive extends Command {
 	}
 	//Whenever this command is called, setspeeds is called
 	protected void execute() {
-		if(false){
-			driveWeight = 0.25 * (OI.stick.getThrottle() + 1);
-			turnWeight = 0.5;
+		if(OI.xblb.get()){
+			driveWeight = 0.25 * (OI.stick2.getThrottle() + 1);
+			turnWeight = 0.25 * (OI.stick.getThrottle() + 1);
 		} else {
-			driveWeight = 0.85;
-			turnWeight = 0.85;
+			driveWeight = 0.9;
+			turnWeight = 0.9;
 		}
 		setSpeeds(getStickHorizontal('l'), getTriggerValue('r'), getTriggerValue('l'));
 		//Drivetrain.frontLeftTSRX.set(.1);

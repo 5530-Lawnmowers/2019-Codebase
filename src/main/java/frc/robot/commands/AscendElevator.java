@@ -16,17 +16,20 @@ public class AscendElevator extends Command {
   String position;
   double commandStartPosition;
 
-  private static final double k_LOW_HATCH_POSITION = 8.5;
-  private static final double k_MID_HATCH_POSITION = 33;
-  private static final double k_HIGH_HATCH_POSITION = 56;
-  private static final double k_LOW_ROCKET_BALL_POSITION = 22;
-  private static final double k_MID_ROCKET_BALL_POSITION = 44;
-  private static final double k_HIGH_ROCKET_BALL_POSITION = 61;
+  //All set points are 1 higher than were we actually want 
+  //to be to account for not reaching setpoint
+  private static final double k_LOW_HATCH_POSITION = 9.5;
+  private static final double k_MID_HATCH_POSITION = 34;
+  private static final double k_HIGH_HATCH_POSITION = 57;
+  private static final double k_LOW_ROCKET_BALL_POSITION = 23;
+  private static final double k_MID_ROCKET_BALL_POSITION = 45;
+  private static final double k_HIGH_ROCKET_BALL_POSITION = 62;
   private static final double k_DELIVER_DISTANCE = 3;
   private static final double k_HIGH_DELIVER_DISTANCE = 2;
-  private static final double k_SHUTTLE_BALL_POSITION = 32;
-  private static final double k_MAX_ELEVATOR_UP_SPEED = .4;
-  private static final double k_MAX_ELEVATOR_DOWN_SPEED = .15;
+  private static final double k_SHUTTLE_BALL_POSITION = 33;
+  private static final double k_MAX_ELEVATOR_UP_SPEED = .7;
+  private static final double k_ELEVATOR_SPEED_WEIGHT = 0.05;
+  private static final double k_MAX_ELEVATOR_DOWN_SPEED = .25;
   private static final double k_PICKUP_HATCH_POSITION = 4;
   boolean isDone = false;
 
@@ -50,59 +53,58 @@ public class AscendElevator extends Command {
   protected void execute() {
     switch(position){
       case "Bot":
-        if((-0.03 - (0.1 * (Elevator.elevatorSpark1.getEncoder().getPosition() - Elevator.startPosition))) < -k_MAX_ELEVATOR_UP_SPEED){
-          System.out.println("Running Max");
+        if((-0.03 - (k_ELEVATOR_SPEED_WEIGHT * (Elevator.elevatorSpark1.getEncoder().getPosition() - Elevator.startPosition))) < -k_MAX_ELEVATOR_UP_SPEED){
           Elevator.elevatorSpark1.set(-k_MAX_ELEVATOR_UP_SPEED);
-        } else if((-0.03 - (0.1 * (Elevator.elevatorSpark1.getEncoder().getPosition() - Elevator.startPosition))) > k_MAX_ELEVATOR_DOWN_SPEED){
+        } else if((-0.03 - (k_ELEVATOR_SPEED_WEIGHT * (Elevator.elevatorSpark1.getEncoder().getPosition() - Elevator.startPosition))) > k_MAX_ELEVATOR_DOWN_SPEED){
           Elevator.elevatorSpark1.set(k_MAX_ELEVATOR_DOWN_SPEED);
         } else {
           System.out.println("Not Running Max");
-          Elevator.elevatorSpark1.set(-0.03 - (0.1 * (Elevator.elevatorSpark1.getEncoder().getPosition() - Elevator.startPosition)));
+          Elevator.elevatorSpark1.set(-0.03 - (k_ELEVATOR_SPEED_WEIGHT * (Elevator.elevatorSpark1.getEncoder().getPosition() - Elevator.startPosition)));
         }
         break;
       case "LowHatch":
-        if((-0.03 - (0.1 * (Elevator.elevatorSpark1.getEncoder().getPosition() - (Elevator.startPosition - k_LOW_HATCH_POSITION)))) < -k_MAX_ELEVATOR_UP_SPEED){
+        if((-0.03 - (k_ELEVATOR_SPEED_WEIGHT * (Elevator.elevatorSpark1.getEncoder().getPosition() - (Elevator.startPosition - k_LOW_HATCH_POSITION)))) < -k_MAX_ELEVATOR_UP_SPEED){
           Elevator.elevatorSpark1.set(-k_MAX_ELEVATOR_UP_SPEED);
-        } else if((-0.03 - (0.1 * (Elevator.elevatorSpark1.getEncoder().getPosition() - (Elevator.startPosition - k_LOW_HATCH_POSITION)))) > k_MAX_ELEVATOR_DOWN_SPEED){
+        } else if((-0.03 - (k_ELEVATOR_SPEED_WEIGHT * (Elevator.elevatorSpark1.getEncoder().getPosition() - (Elevator.startPosition - k_LOW_HATCH_POSITION)))) > k_MAX_ELEVATOR_DOWN_SPEED){
           Elevator.elevatorSpark1.set(k_MAX_ELEVATOR_DOWN_SPEED);
         } else {
-          Elevator.elevatorSpark1.set(-0.03 - (0.1 * (Elevator.elevatorSpark1.getEncoder().getPosition() - (Elevator.startPosition - k_LOW_HATCH_POSITION))));
+          Elevator.elevatorSpark1.set(-0.03 - (k_ELEVATOR_SPEED_WEIGHT * (Elevator.elevatorSpark1.getEncoder().getPosition() - (Elevator.startPosition - k_LOW_HATCH_POSITION))));
         }
         break;
       case "MidHatch":
-        if((-0.03 - (0.1 * (Elevator.elevatorSpark1.getEncoder().getPosition() - (Elevator.startPosition - k_MID_HATCH_POSITION)))) < -k_MAX_ELEVATOR_UP_SPEED){
+        if((-0.03 - (k_ELEVATOR_SPEED_WEIGHT * (Elevator.elevatorSpark1.getEncoder().getPosition() - (Elevator.startPosition - k_MID_HATCH_POSITION)))) < -k_MAX_ELEVATOR_UP_SPEED){
           Elevator.elevatorSpark1.set(-k_MAX_ELEVATOR_UP_SPEED);
-        } else if((-0.03 - (0.1 * (Elevator.elevatorSpark1.getEncoder().getPosition() - (Elevator.startPosition - k_MID_HATCH_POSITION)))) > k_MAX_ELEVATOR_DOWN_SPEED){
+        } else if((-0.03 - (k_ELEVATOR_SPEED_WEIGHT * (Elevator.elevatorSpark1.getEncoder().getPosition() - (Elevator.startPosition - k_MID_HATCH_POSITION)))) > k_MAX_ELEVATOR_DOWN_SPEED){
           Elevator.elevatorSpark1.set(k_MAX_ELEVATOR_DOWN_SPEED);
         } else {
-          Elevator.elevatorSpark1.set(-0.03 - (0.1 * (Elevator.elevatorSpark1.getEncoder().getPosition() - (Elevator.startPosition - k_MID_HATCH_POSITION))));
+          Elevator.elevatorSpark1.set(-0.03 - (k_ELEVATOR_SPEED_WEIGHT * (Elevator.elevatorSpark1.getEncoder().getPosition() - (Elevator.startPosition - k_MID_HATCH_POSITION))));
         }
         break;
       case "LowRocketBall":
-        if((-0.03 - (0.1 * (Elevator.elevatorSpark1.getEncoder().getPosition() - (Elevator.startPosition - k_LOW_ROCKET_BALL_POSITION)))) < -k_MAX_ELEVATOR_UP_SPEED){
+        if((-0.03 - (k_ELEVATOR_SPEED_WEIGHT * (Elevator.elevatorSpark1.getEncoder().getPosition() - (Elevator.startPosition - k_LOW_ROCKET_BALL_POSITION)))) < -k_MAX_ELEVATOR_UP_SPEED){
           Elevator.elevatorSpark1.set(-k_MAX_ELEVATOR_UP_SPEED);
-        } else if((-0.03 - (0.1 * (Elevator.elevatorSpark1.getEncoder().getPosition() - (Elevator.startPosition - k_LOW_ROCKET_BALL_POSITION)))) > k_MAX_ELEVATOR_DOWN_SPEED){
+        } else if((-0.03 - (k_ELEVATOR_SPEED_WEIGHT * (Elevator.elevatorSpark1.getEncoder().getPosition() - (Elevator.startPosition - k_LOW_ROCKET_BALL_POSITION)))) > k_MAX_ELEVATOR_DOWN_SPEED){
           Elevator.elevatorSpark1.set(k_MAX_ELEVATOR_DOWN_SPEED);
         } else {
-          Elevator.elevatorSpark1.set(-0.03 - (0.1 * (Elevator.elevatorSpark1.getEncoder().getPosition() - (Elevator.startPosition - k_LOW_ROCKET_BALL_POSITION))));
+          Elevator.elevatorSpark1.set(-0.03 - (k_ELEVATOR_SPEED_WEIGHT * (Elevator.elevatorSpark1.getEncoder().getPosition() - (Elevator.startPosition - k_LOW_ROCKET_BALL_POSITION))));
         }
         break;
       case "MidRocketBall":
-        if((-0.03 - (0.1 * (Elevator.elevatorSpark1.getEncoder().getPosition() - (Elevator.startPosition - k_MID_ROCKET_BALL_POSITION)))) < -k_MAX_ELEVATOR_UP_SPEED){
+        if((-0.03 - (k_ELEVATOR_SPEED_WEIGHT * (Elevator.elevatorSpark1.getEncoder().getPosition() - (Elevator.startPosition - k_MID_ROCKET_BALL_POSITION)))) < -k_MAX_ELEVATOR_UP_SPEED){
           Elevator.elevatorSpark1.set(-k_MAX_ELEVATOR_UP_SPEED);
-        } else if((-0.03 - (0.1 * (Elevator.elevatorSpark1.getEncoder().getPosition() - (Elevator.startPosition - k_MID_ROCKET_BALL_POSITION)))) > k_MAX_ELEVATOR_DOWN_SPEED){
+        } else if((-0.03 - (k_ELEVATOR_SPEED_WEIGHT * (Elevator.elevatorSpark1.getEncoder().getPosition() - (Elevator.startPosition - k_MID_ROCKET_BALL_POSITION)))) > k_MAX_ELEVATOR_DOWN_SPEED){
           Elevator.elevatorSpark1.set(k_MAX_ELEVATOR_DOWN_SPEED);
         } else {
-          Elevator.elevatorSpark1.set(-0.03 - (0.1 * (Elevator.elevatorSpark1.getEncoder().getPosition() - (Elevator.startPosition - k_MID_ROCKET_BALL_POSITION))));
+          Elevator.elevatorSpark1.set(-0.03 - (k_ELEVATOR_SPEED_WEIGHT * (Elevator.elevatorSpark1.getEncoder().getPosition() - (Elevator.startPosition - k_MID_ROCKET_BALL_POSITION))));
         }
         break;
       case "HighRocketBall":
-        if((-0.03 - (0.1 * (Elevator.elevatorSpark1.getEncoder().getPosition() - (Elevator.startPosition - k_HIGH_ROCKET_BALL_POSITION)))) < -k_MAX_ELEVATOR_UP_SPEED){
+        if((-0.03 - (k_ELEVATOR_SPEED_WEIGHT * (Elevator.elevatorSpark1.getEncoder().getPosition() - (Elevator.startPosition - k_HIGH_ROCKET_BALL_POSITION)))) < -k_MAX_ELEVATOR_UP_SPEED){
           Elevator.elevatorSpark1.set(-k_MAX_ELEVATOR_UP_SPEED);
-        } else if((-0.03 - (0.1 * (Elevator.elevatorSpark1.getEncoder().getPosition() - (Elevator.startPosition - k_HIGH_ROCKET_BALL_POSITION)))) > k_MAX_ELEVATOR_DOWN_SPEED){
+        } else if((-0.03 - (k_ELEVATOR_SPEED_WEIGHT * (Elevator.elevatorSpark1.getEncoder().getPosition() - (Elevator.startPosition - k_HIGH_ROCKET_BALL_POSITION)))) > k_MAX_ELEVATOR_DOWN_SPEED){
           Elevator.elevatorSpark1.set(k_MAX_ELEVATOR_DOWN_SPEED);
         } else {
-          Elevator.elevatorSpark1.set(-0.03 - (0.1 * (Elevator.elevatorSpark1.getEncoder().getPosition() - (Elevator.startPosition - k_HIGH_ROCKET_BALL_POSITION))));
+          Elevator.elevatorSpark1.set(-0.03 - (k_ELEVATOR_SPEED_WEIGHT * (Elevator.elevatorSpark1.getEncoder().getPosition() - (Elevator.startPosition - k_HIGH_ROCKET_BALL_POSITION))));
         }
         break;
       case "DeliverHatch":
@@ -111,43 +113,43 @@ public class AscendElevator extends Command {
         } else {
           kDeliverDistanceAdjusted = k_DELIVER_DISTANCE;
         }
-        if((-0.03 - (0.1 * (Elevator.elevatorSpark1.getEncoder().getPosition() - (commandStartPosition + kDeliverDistanceAdjusted)))) < -k_MAX_ELEVATOR_UP_SPEED){
+        if((-0.03 - (k_ELEVATOR_SPEED_WEIGHT * (Elevator.elevatorSpark1.getEncoder().getPosition() - (commandStartPosition + kDeliverDistanceAdjusted)))) < -k_MAX_ELEVATOR_UP_SPEED){
           Elevator.elevatorSpark1.set(-k_MAX_ELEVATOR_UP_SPEED);
-        } else if((-0.03 - (0.1 * (Elevator.elevatorSpark1.getEncoder().getPosition() - (commandStartPosition + kDeliverDistanceAdjusted)))) > k_MAX_ELEVATOR_DOWN_SPEED){
+        } else if((-0.03 - (k_ELEVATOR_SPEED_WEIGHT * (Elevator.elevatorSpark1.getEncoder().getPosition() - (commandStartPosition + kDeliverDistanceAdjusted)))) > k_MAX_ELEVATOR_DOWN_SPEED){
           Elevator.elevatorSpark1.set(k_MAX_ELEVATOR_DOWN_SPEED);
         } else{
-          Elevator.elevatorSpark1.set(-0.03 - (0.1 * (Elevator.elevatorSpark1.getEncoder().getPosition() - (commandStartPosition + kDeliverDistanceAdjusted))));
+          Elevator.elevatorSpark1.set(-0.03 - (k_ELEVATOR_SPEED_WEIGHT * (Elevator.elevatorSpark1.getEncoder().getPosition() - (commandStartPosition + kDeliverDistanceAdjusted))));
         }
         break;
       case "ShuttleBall":
-        if((-0.03 - (0.1 * (Elevator.elevatorSpark1.getEncoder().getPosition() - (Elevator.startPosition - k_SHUTTLE_BALL_POSITION)))) < -k_MAX_ELEVATOR_UP_SPEED){
+        if((-0.03 - (k_ELEVATOR_SPEED_WEIGHT * (Elevator.elevatorSpark1.getEncoder().getPosition() - (Elevator.startPosition - k_SHUTTLE_BALL_POSITION)))) < -k_MAX_ELEVATOR_UP_SPEED){
           Elevator.elevatorSpark1.set(-k_MAX_ELEVATOR_UP_SPEED);
-        } else if((-0.03 - (0.1 * (Elevator.elevatorSpark1.getEncoder().getPosition() - (Elevator.startPosition - k_SHUTTLE_BALL_POSITION)))) > k_MAX_ELEVATOR_DOWN_SPEED){
+        } else if((-0.03 - (k_ELEVATOR_SPEED_WEIGHT * (Elevator.elevatorSpark1.getEncoder().getPosition() - (Elevator.startPosition - k_SHUTTLE_BALL_POSITION)))) > k_MAX_ELEVATOR_DOWN_SPEED){
           Elevator.elevatorSpark1.set(k_MAX_ELEVATOR_DOWN_SPEED);
         } else {
-          Elevator.elevatorSpark1.set(-0.03 - (0.1 * (Elevator.elevatorSpark1.getEncoder().getPosition() - (Elevator.startPosition - k_SHUTTLE_BALL_POSITION))));
+          Elevator.elevatorSpark1.set(-0.03 - (k_ELEVATOR_SPEED_WEIGHT * (Elevator.elevatorSpark1.getEncoder().getPosition() - (Elevator.startPosition - k_SHUTTLE_BALL_POSITION))));
         }
         break;
       case "HighHatch":
-        if((-0.03 - (0.1 * (Elevator.elevatorSpark1.getEncoder().getPosition() - (Elevator.startPosition - k_HIGH_HATCH_POSITION)))) < -k_MAX_ELEVATOR_UP_SPEED){
+        if((-0.03 - (k_ELEVATOR_SPEED_WEIGHT * (Elevator.elevatorSpark1.getEncoder().getPosition() - (Elevator.startPosition - k_HIGH_HATCH_POSITION)))) < -k_MAX_ELEVATOR_UP_SPEED){
           Elevator.elevatorSpark1.set(-k_MAX_ELEVATOR_UP_SPEED);
-        } else if((-0.03 - (0.1 * (Elevator.elevatorSpark1.getEncoder().getPosition() - (Elevator.startPosition - k_HIGH_HATCH_POSITION)))) > k_MAX_ELEVATOR_DOWN_SPEED){
+        } else if((-0.03 - (k_ELEVATOR_SPEED_WEIGHT * (Elevator.elevatorSpark1.getEncoder().getPosition() - (Elevator.startPosition - k_HIGH_HATCH_POSITION)))) > k_MAX_ELEVATOR_DOWN_SPEED){
           Elevator.elevatorSpark1.set(k_MAX_ELEVATOR_DOWN_SPEED);
         } else {
-          Elevator.elevatorSpark1.set(-0.03 - (0.1 * (Elevator.elevatorSpark1.getEncoder().getPosition() - (Elevator.startPosition - k_HIGH_HATCH_POSITION))));
+          Elevator.elevatorSpark1.set(-0.03 - (k_ELEVATOR_SPEED_WEIGHT * (Elevator.elevatorSpark1.getEncoder().getPosition() - (Elevator.startPosition - k_HIGH_HATCH_POSITION))));
         }
         break;
       case "PickupHatch":
-        if((-0.03 - (0.1 * (Elevator.elevatorSpark1.getEncoder().getPosition() - (Elevator.startPosition - k_PICKUP_HATCH_POSITION)))) < -k_MAX_ELEVATOR_UP_SPEED){
+        if((-0.03 - (k_ELEVATOR_SPEED_WEIGHT * (Elevator.elevatorSpark1.getEncoder().getPosition() - (Elevator.startPosition - k_PICKUP_HATCH_POSITION)))) < -k_MAX_ELEVATOR_UP_SPEED){
           Elevator.elevatorSpark1.set(-k_MAX_ELEVATOR_UP_SPEED);
-        } else if((-0.03 - (0.1 * (Elevator.elevatorSpark1.getEncoder().getPosition() - (Elevator.startPosition - k_PICKUP_HATCH_POSITION)))) > k_MAX_ELEVATOR_DOWN_SPEED){
+        } else if((-0.03 - (k_ELEVATOR_SPEED_WEIGHT * (Elevator.elevatorSpark1.getEncoder().getPosition() - (Elevator.startPosition - k_PICKUP_HATCH_POSITION)))) > k_MAX_ELEVATOR_DOWN_SPEED){
           Elevator.elevatorSpark1.set(k_MAX_ELEVATOR_DOWN_SPEED);
         } else {
-          Elevator.elevatorSpark1.set(-0.03 - (0.1 * (Elevator.elevatorSpark1.getEncoder().getPosition() - (Elevator.startPosition - k_PICKUP_HATCH_POSITION))));
+          Elevator.elevatorSpark1.set(-0.03 - (k_ELEVATOR_SPEED_WEIGHT * (Elevator.elevatorSpark1.getEncoder().getPosition() - (Elevator.startPosition - k_PICKUP_HATCH_POSITION))));
         }
         break;
       case "Hold":
-        Elevator.elevatorSpark1.set(-0.03 - (0.1 * (Elevator.elevatorSpark1.getEncoder().getPosition() - commandStartPosition)));
+        Elevator.elevatorSpark1.set(-0.03 - (k_ELEVATOR_SPEED_WEIGHT * (Elevator.elevatorSpark1.getEncoder().getPosition() - commandStartPosition)));
         break;
     }
 
@@ -162,7 +164,6 @@ public class AscendElevator extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    System.out.println("Ended");
     Elevator.elevatorSpark1.stopMotor();
   }
 
@@ -170,7 +171,6 @@ public class AscendElevator extends Command {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    System.out.println("Interrupted");
     Elevator.elevatorSpark1.stopMotor();
   }
 }
