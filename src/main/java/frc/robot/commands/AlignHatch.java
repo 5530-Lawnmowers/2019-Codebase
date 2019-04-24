@@ -19,7 +19,7 @@ public class AlignHatch extends Command {
 
   private final double kp = .02;
   private final double kd = 0;
-  private final double ky = 0; 
+  private final double ky = 0.1; 
   boolean enableAutoPick = false;
   private double previousError;
 
@@ -45,11 +45,10 @@ public class AlignHatch extends Command {
   @Override
   protected void execute() {
     double error = LimelightHelpers.getLimelightValue("tx");
-    double distance = LimelightHelpers.getLimelightValue("tx");
+    double distance = 6.45 - LimelightHelpers.getLimelightValue("ta");
     double errorVelocity = Math.abs(error - previousError);
-    System.out.println(.35 + kp*error + Math.signum(error)*kd*errorVelocity - ky*distance);
-    Drivetrain.frontRightTSRX.set(.35 - kp*error + Math.signum(error)*kd*errorVelocity - ky*distance);
-    Drivetrain.frontLeftTSRX.set(.40 + kp*error - Math.signum(error)*kd*errorVelocity - ky*distance);
+    Drivetrain.frontRightTSRX.set(-kp*error + ky*distance + .05);
+    Drivetrain.frontLeftTSRX.set(kp*error + ky*distance + .05);
     previousError = error;
   }
 

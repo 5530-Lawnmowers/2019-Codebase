@@ -123,7 +123,7 @@ public class Drive extends Command {
 		}
 	
 	protected void initialize() {
-		Drivetrain.frontRightTSRX.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+		// Drivetrain.frontRightTSRX.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
 	}
 	//Whenever this command is called, setspeeds is called
 	protected void execute() {
@@ -142,7 +142,7 @@ public class Drive extends Command {
 	}
 	protected boolean isFinished() {
 		
-		return true; // maybe true?
+		return false; // maybe true?
 	}
 	protected void end() {
 		
